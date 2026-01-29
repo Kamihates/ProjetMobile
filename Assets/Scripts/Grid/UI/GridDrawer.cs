@@ -5,10 +5,23 @@ public class GridDrawer : MonoBehaviour
 {
     [Header("Nombre de colonnes")] [SerializeField] private int _column;
     [Header("Nombre de Lignes")] [SerializeField] private int _row;
-
-
     [Header("Origine de la grille")] [SerializeField] private Transform _gridOrigin;
-    [Header("Taille d'une cellule")] [SerializeField] private float _scale;
+    [Header("Taille d'une cellule")] [SerializeField] private float _cellSize;
+
+
+
+
+    public int Column { get => _column; }
+    public Transform Origin { get => _gridOrigin; }
+    public int Row { get => _row; }
+    public float CellSize { get => _cellSize; }
+
+
+
+
+
+    public static GridDrawer Instance;
+    private void Awake() { Instance = this; }
 
     void DrawGrid()
     {
@@ -19,7 +32,7 @@ public class GridDrawer : MonoBehaviour
             for (int column = 0; column < _column; column++)
             {
                 // position
-                float slotWidth = _scale;
+                float slotWidth = _cellSize;
 
                 float posX = _gridOrigin.position.x + (slotWidth * column);
                 float posY = _gridOrigin.position.y - (slotWidth * row);
