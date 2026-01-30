@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class DominoPiece : MonoBehaviour
 {
-
-    [SerializeField] private int _pieceUniqueId;
+    private int _pieceUniqueId;
     public int PieceUniqueId { get => _pieceUniqueId; }
 
 
     private int _currentRotation = 0;
 
-    
-    //List<RegionPlacement> _dominoRegion;
+    List<RegionData> _dominoRegion;
 
     public void Rotate()
     {
-        // if ()
-
-
         switch (_currentRotation) 
         {
             case 0:
@@ -43,11 +38,29 @@ public class DominoPiece : MonoBehaviour
         }
     }
 
-
     public void Init(int _UniqueId, int rotation, List<RegionData> dominoRegions)
     {
         _pieceUniqueId = _UniqueId;
         _currentRotation = rotation;
+        _dominoRegion = dominoRegions;
+
+        UpdateVisual();
+    }
+
+    private void UpdateVisual()
+    {   
+        // région 1 
+        for (int r = 0; r < _dominoRegion.Count; r++)
+        {
+            if (transform.GetChild(r).TryGetComponent<RegionPiece>(out RegionPiece region))
+            {
+                region.Init(_dominoRegion[r]);
+
+                region.gameObject.SetActive(true);
+            }
+    
+        }
+        
     }
 
 

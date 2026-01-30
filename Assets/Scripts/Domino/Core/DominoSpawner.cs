@@ -15,9 +15,9 @@ public class DominoSpawner : MonoBehaviour
     [SerializeField] private int _currentDominoId;
     public int CurrentDominoId => _currentDominoId;
 
-    private Action<List<RegionData>> OnDominoSpawn; 
+    public Action<List<RegionData>> OnDominoSpawn; 
 
-    private void Start()
+    private void Awake()
     {
         OnDominoSpawn += SpawnDomino;
     }
@@ -40,7 +40,7 @@ public class DominoSpawner : MonoBehaviour
         // rotation aléatoire
         int rotation = UnityEngine.Random.Range(0, 4);
 
-
+        Debug.Log("spaxn du domino");
         // création 
 
         GameObject dominoGO = Instantiate(dominoPrefab.gameObject, spawnPoint.position, Quaternion.identity);

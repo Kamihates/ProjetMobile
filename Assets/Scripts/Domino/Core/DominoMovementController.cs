@@ -53,11 +53,18 @@ public class DominoMovementController : MonoBehaviour
         // on bouge à droite
         if (mousePos.x > _currentDomino.transform.position.x)
         {
-            newPos = new Vector2
-            (
-                Mathf.Clamp(mousePos.x, _currentDomino.transform.position.x, _currentDomino.transform.position.x + GridManager.Instance.CellSize),
-                _currentDomino.transform.position.y
-            );
+            // ca c'est plus proche du point de doite que la position on le met a droite
+            if ( Mathf.Abs(mousePos.x - (_currentDomino.transform.position.x + GridManager.Instance.CellSize)) < Mathf.Abs(mousePos.x - _currentDomino.transform.position.x))
+            {
+                _currentDomino.transform.position = new Vector2(_currentDomino.transform.position.x + GridManager.Instance.CellSize, _currentDomino.transform.position.y);
+            }
+
+
+            //newPos = new Vector2
+            //(
+            //    Mathf.Clamp(mousePos.x, _currentDomino.transform.position.x, _currentDomino.transform.position.x + GridManager.Instance.CellSize),
+            //    _currentDomino.transform.position.y
+            //);
         }
         // on bouge à gauche
         else
@@ -71,9 +78,10 @@ public class DominoMovementController : MonoBehaviour
         }
 
         // si ca depasse de la grille
+        // pas fait
 
-        if (Vector2.Distance(newPos, _currentDomino.transform.position) > 0.001f)
-            _currentDomino.transform.position = newPos;
+        //if (Vector2.Distance(newPos, _currentDomino.transform.position) > 0.001f)
+         //   _currentDomino.transform.position = newPos;
 
 
     }
@@ -90,14 +98,16 @@ public class DominoMovementController : MonoBehaviour
 
         if (hit.collider != null)
         {
-            if (hit.collider.gameObject.TryGetComponent(out DominoPiece domino))
+            DominoPiece domino = hit.collider.gameObject.GetComponentInParent<DominoPiece>();
+            if (domino != null)
             {
                 if (_spawner == null)
                     return;
 
+                Debug.Log(domino.PieceUniqueId + " / " + _spawner.CurrentDominoId);
                 if (domino.PieceUniqueId == _spawner.CurrentDominoId)
                 {
-                    _currentDomino = hit.collider.gameObject;
+                    _currentDomino = domino.gameObject;
                     _isDragged = true;
                 }
                 return;

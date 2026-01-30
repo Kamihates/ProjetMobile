@@ -15,7 +15,7 @@ public class DeckManager : MonoBehaviour
     private List<List<RegionData>> discard = new();
     private List<List<RegionData>> dominoInHand = new();
 
-    public Action<List<RegionData>> OnSpawnDomino;
+    [SerializeField] private DominoSpawner dominoSpawner;
     
 
     private void Start()
@@ -59,9 +59,8 @@ public class DeckManager : MonoBehaviour
             FillHandFromDeck();
         }
 
+        dominoSpawner.OnDominoSpawn?.Invoke(dominoInHand[0]);
         dominoInHand.RemoveAt(0);
-
-        OnSpawnDomino?.Invoke(dominoInHand[0]);
     }
 
 }
