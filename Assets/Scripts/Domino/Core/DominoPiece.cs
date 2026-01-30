@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -23,9 +24,6 @@ public class DominoPiece : MonoBehaviour
             case 0:
                 // on trourne vers la droite
                 _currentRotation = 1;
-
-
-
                 break;
             case 1:
                 // on trourne vers le bas
@@ -46,7 +44,7 @@ public class DominoPiece : MonoBehaviour
     }
 
 
-    public void Init(int _UniqueId, int rotation)
+    public void Init(int _UniqueId, int rotation, List<RegionData> dominoRegions)
     {
         _pieceUniqueId = _UniqueId;
         _currentRotation = rotation;

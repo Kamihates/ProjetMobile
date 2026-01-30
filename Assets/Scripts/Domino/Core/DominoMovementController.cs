@@ -42,25 +42,20 @@ public class DominoMovementController : MonoBehaviour
         }
     }
 
-    void Rotate(int step)
-    {
-    }
-
-
 
     void MoveOnX()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 newPos = _currentDomino.transform.position;
 
-        if (GridDrawer.Instance == null) return;
+        if (GridManager.Instance == null) return;
 
         // on bouge à droite
         if (mousePos.x > _currentDomino.transform.position.x)
         {
             newPos = new Vector2
             (
-                Mathf.Clamp(mousePos.x, _currentDomino.transform.position.x, _currentDomino.transform.position.x + GridDrawer.Instance.CellSize),
+                Mathf.Clamp(mousePos.x, _currentDomino.transform.position.x, _currentDomino.transform.position.x + GridManager.Instance.CellSize),
                 _currentDomino.transform.position.y
             );
         }
@@ -69,7 +64,7 @@ public class DominoMovementController : MonoBehaviour
         {
             newPos = new Vector2
             (
-                Mathf.Clamp(mousePos.x, _currentDomino.transform.position.x - GridDrawer.Instance.CellSize, _currentDomino.transform.position.x),
+                Mathf.Clamp(mousePos.x, _currentDomino.transform.position.x - GridManager.Instance.CellSize, _currentDomino.transform.position.x),
                 _currentDomino.transform.position.y
             );
 

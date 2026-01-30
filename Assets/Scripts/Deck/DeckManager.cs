@@ -11,16 +11,14 @@ public class DeckManager : MonoBehaviour
     [BoxGroup("Deck"), SerializeField, Min(1)] private int initialDominoInHandSize = 3;
     [BoxGroup("Deck"), SerializeField, Min(2)] private int deckSize = 10;
 
-    private List<DominoCombination> deck = new();
-    private List<DominoCombination> dominoInHand = new();
+    private List<List<RegionData>> deck = new();
+    private List<List<RegionData>> discard = new();
+    private List<List<RegionData>> dominoInHand = new();
 
-    [ReadOnly, SerializeField, Foldout("Debug")]
-    private DominoCombination currentDomino;
-
-    public Action<DominoCombination> OnSpawnDomino;
+    public Action<List<RegionData>> OnSpawnDomino;
     
 
-    private void Awake()
+    private void Start()
     {
         if (dominoData.allDominos.Count == 0)
             dominoData.GenerateAllCombinations();
@@ -30,16 +28,16 @@ public class DeckManager : MonoBehaviour
         SpawnNextDomino();
     }
 
+
     private void GeneratePlayerDeck()
     {
         deck.Clear();
-        var pool = new List<DominoCombination>(dominoData.allDominos);
 
-        for (int i = 0; i < deckSize && pool.Count > 0; i++)
+        for (int i = 0; i < deckSize && dominoData.allDominos.Count > 0; i++)
         {
-            int rnd = UnityEngine.Random.Range(0, pool.Count);
-            deck.Add(pool[rnd]);
-            pool.RemoveAt(rnd);
+            int rnd = UnityEngine.Random.Range(0, dominoData.allDominos.Count);
+            deck.Add(dominoData.allDominos[rnd]);
+            dominoData.allDominos.RemoveAt(rnd);
         }
     }
 
@@ -61,17 +59,9 @@ public class DeckManager : MonoBehaviour
             FillHandFromDeck();
         }
 
-        currentDomino = dominoInHand[0];
         dominoInHand.RemoveAt(0);
 
-        OnSpawnDomino?.Invoke(currentDomino);
+        OnSpawnDomino?.Invoke(dominoInHand[0]);
     }
 
-    [Button("Place Current Domino")] //Fonction temporaire pour tester le placement du domino
-    public void PlaceCurrentDomino()
-    {
-        if (currentDomino == null) return;
-        deck.Add(currentDomino);
-        SpawnNextDomino();
-    }
 }

@@ -1,4 +1,7 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class DominoSpawner : MonoBehaviour
 {
@@ -12,13 +15,41 @@ public class DominoSpawner : MonoBehaviour
     [SerializeField] private int _currentDominoId;
     public int CurrentDominoId => _currentDominoId;
 
+    private Action<List<RegionData>> OnDominoSpawn; 
 
-    public Domino SpawnDomino(DominoCombination dominoCombination)
+    private void Start()
     {
+        OnDominoSpawn += SpawnDomino;
+    }
+
+    private void OnDestroy()
+    {
+        OnDominoSpawn -= SpawnDomino;
+    }
+
+
+    // temp !! 
+
+    int _currentPieceID = 0;
+
+    // temps !!
+
+    public void SpawnDomino(List<RegionData> dominoCombination)
+    {
+
+        // rotation aléatoire
+        int rotation = UnityEngine.Random.Range(0, 4);
+
+
+        // création 
+
         GameObject dominoGO = Instantiate(dominoPrefab.gameObject, spawnPoint.position, Quaternion.identity);
-        Domino dominoInstance = dominoGO.GetComponent<Domino>();
-        dominoInstance.Init(dominoCombination, dominoData); 
-        return dominoInstance;
+
+        DominoPiece dominoInstance = dominoGO.GetComponent<DominoPiece>();
+
+        dominoInstance.Init(_currentPieceID++, rotation, dominoCombination);  
+
+        _currentDominoId = dominoInstance.PieceUniqueId;
     }
     
 }

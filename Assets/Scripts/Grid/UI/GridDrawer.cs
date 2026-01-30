@@ -3,39 +3,21 @@ using UnityEngine;
 
 public class GridDrawer : MonoBehaviour
 {
-    [Header("Nombre de colonnes")] [SerializeField] private int _column;
-    [Header("Nombre de Lignes")] [SerializeField] private int _row;
-    [Header("Origine de la grille")] [SerializeField] private Transform _gridOrigin;
-    [Header("Taille d'une cellule")] [SerializeField] private float _cellSize;
+    
 
-
-
-
-    public int Column { get => _column; }
-    public Transform Origin { get => _gridOrigin; }
-    public int Row { get => _row; }
-    public float CellSize { get => _cellSize; }
-
-
-
-
-
-    public static GridDrawer Instance;
-    private void Awake() { Instance = this; }
-
-    void DrawGrid()
+    public void DrawGrid(int Row, int Column, float CellSize, Transform GridOrigin)
     {
         // Pour chaque ligne 
-        for (int row =  0; row < _row; row++)
+        for (int row =  0; row < Row; row++)
         {
             // Pour chaque Colonne
-            for (int column = 0; column < _column; column++)
+            for (int column = 0; column < Column; column++)
             {
                 // position
-                float slotWidth = _cellSize;
+                float slotWidth = CellSize;
 
-                float posX = _gridOrigin.position.x + (slotWidth * column);
-                float posY = _gridOrigin.position.y - (slotWidth * row);
+                float posX = GridOrigin.position.x + (slotWidth * column);
+                float posY = GridOrigin.position.y - (slotWidth * row);
 
                 // Visuel (debug pour le moment)
                 Gizmos.color = Color.blue;
@@ -53,8 +35,4 @@ public class GridDrawer : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        DrawGrid();
-    }
 }

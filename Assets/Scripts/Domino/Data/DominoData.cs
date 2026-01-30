@@ -5,27 +5,31 @@ using NaughtyAttributes;
 [CreateAssetMenu(fileName = "New Domino Data", menuName = "Domino/Domino Data")]
 public class DominoData : ScriptableObject
 {
-    [BoxGroup("Sprites"), ShowAssetPreview]
-    [SerializeField] private Sprite[] dominoSprites;
-
     [BoxGroup("All dominos combinations")]
-    [ReadOnly] public List<DominoCombination> allDominos = new();
+    [ReadOnly] public List<List<RegionData>> allDominos = new();
+
+    [SerializeField] private RegionDatabase regionDatabase;
+
+    private List<RegionData> dominoRegion = new List<RegionData>();
 
     [Button("Generate All Combinations")]
     public void GenerateAllCombinations()
     {
         allDominos.Clear();
 
-        for (int left = 0; left < dominoSprites.Length; left++)
+        for (int i = 0; i < regionDatabase.AllRegionsData.Count; i++)
         {
-            for (int right = left; right < dominoSprites.Length; right++)
+            for(int j = 0; j < regionDatabase.AllRegionsData.Count; j++)
             {
-                allDominos.Add(new DominoCombination(left, right));
+                dominoRegion.Clear();
+
+                dominoRegion.Add(regionDatabase.AllRegionsData[i]);
+                dominoRegion.Add(regionDatabase.AllRegionsData[j]);
+
+                allDominos.Add(dominoRegion);
             }
         }
 
         Debug.Log($"Generated {allDominos.Count} domino combinations");
     }
-
-    public Sprite GetSprite(int index) => dominoSprites[index];
 }

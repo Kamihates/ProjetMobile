@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 136a1387e649d7c49938240465113b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoMovementController
-  _spawner: {fileID: 954746999}
+  _spawner: {fileID: 0}
 --- !u!114 &93427303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,8 +282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 477c1c4cabae5f34d9bdace5ab8d4998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoPiece
-  _horizontal: {fileID: 0}
-  _vertical: {fileID: 0}
   _pieceUniqueId: 0
 --- !u!61 &199195149
 BoxCollider2D:
@@ -596,10 +594,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f03e7d5289ea5624abd6a76968e1667f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridDrawer
-  _column: 8
-  _row: 10
-  _gridOrigin: {fileID: 751515612}
-  _cellSize: 0.6
 --- !u!1 &954746997
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,9 +635,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 954746997}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f66527e37f7b5e48b3335b69ced9075, type: 3}
+  m_Script: {fileID: 11500000, guid: 13e1fd66d377ccf49aaa488d0279dc2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoSpawner
+  dominoPrefab: {fileID: 0}
+  spawnPoint: {fileID: 0}
+  dominoData: {fileID: 0}
   _currentDominoId: 0
 --- !u!1 &1584956571
 GameObject:
