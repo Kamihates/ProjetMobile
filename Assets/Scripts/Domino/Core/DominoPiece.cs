@@ -1,33 +1,52 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DominoPiece : MonoBehaviour
 {
-    private int _currentRotation = 0;
-
-    [SerializeField] private Sprite _horizontal;
-    [SerializeField] private Sprite _vertical;
 
     [SerializeField] private int _pieceUniqueId;
     public int PieceUniqueId { get => _pieceUniqueId; }
 
-    //private DominoData data; 
 
+    private int _currentRotation = 0;
+
+    
+    //List<RegionPlacement> _dominoRegion;
 
     public void Rotate()
     {
-        Vector3 TempScale = transform.localScale;
-
-        float temp = TempScale.x;
-        TempScale.x = TempScale.y;
-        TempScale.y = temp;
-
-        transform.localScale = TempScale;
+        // if ()
 
 
+        switch (_currentRotation) 
+        {
+            case 0:
+                // on trourne vers la droite
+                _currentRotation = 1;
+
+
+
+                break;
+            case 1:
+                // on trourne vers le bas
+                _currentRotation = 2;
+                break;
+            case 2:
+                // on trourne vers la gauche
+                _currentRotation = 3;
+                break;
+            case 3:
+                // on trourne vers le haut
+                _currentRotation = 0;
+                break;
+            default:
+                break;
+
+        }
     }
 
 
-    public void Init(int _UniqueId, /*DominoData data,*/ int rotation)
+    public void Init(int _UniqueId, int rotation)
     {
         _pieceUniqueId = _UniqueId;
         _currentRotation = rotation;
