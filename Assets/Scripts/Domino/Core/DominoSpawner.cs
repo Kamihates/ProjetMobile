@@ -8,6 +8,11 @@ public class DominoSpawner : MonoBehaviour
     [Header("Base Data")]
     [SerializeField] private DominoData dominoData; 
 
+
+    [SerializeField] private int _currentDominoId;
+    public int CurrentDominoId => _currentDominoId;
+
+
     public Domino SpawnDomino(DominoCombination dominoCombination)
     {
         GameObject dominoGO = Instantiate(dominoPrefab.gameObject, spawnPoint.position, Quaternion.identity);
@@ -15,4 +20,5 @@ public class DominoSpawner : MonoBehaviour
         dominoInstance.Init(dominoCombination, dominoData); 
         return dominoInstance;
     }
+    
 }
