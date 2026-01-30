@@ -346,8 +346,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13e1fd66d377ccf49aaa488d0279dc2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoSpawner
-  dominoPrefab: {fileID: -1449834370119603970, guid: 73bbd8c349c0a604985ae9ab466315d7, type: 3}
+  dominoPrefab: {fileID: 1819317131152328505, guid: 73bbd8c349c0a604985ae9ab466315d7, type: 3}
   spawnPoint: {fileID: 2046483322}
+  dominoData: {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
 --- !u!1 &1673054421
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,19 +457,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed95074d42077f94aaa198811a191f4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeckManager
-  deck:
-  - {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
-  - {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
-  - {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
-  - {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
-  - {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
-  - {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
-  - {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
-  - {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
-  - {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
-  - {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
+  dominoData: {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
   initialDominoInHandSize: 3
-  currentDomino: {fileID: 0}
+  deckSize: 10
+  currentDomino:
+    leftIndex: 0
+    rightIndex: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
