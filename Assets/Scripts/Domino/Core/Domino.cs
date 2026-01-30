@@ -1,23 +1,29 @@
+using System;
 using UnityEngine;
+
+[Serializable]
+public class DominoCombination
+{
+    public int leftIndex;
+    public int rightIndex;
+
+    public DominoCombination(int left, int right)
+    {
+        leftIndex = left;
+        rightIndex = right;
+    }
+}
 
 public class Domino : MonoBehaviour
 {
-    public SpriteRenderer leftRenderer;
-    public SpriteRenderer rightRenderer;
+    [SerializeField] private SpriteRenderer leftRenderer;
+    [SerializeField] private SpriteRenderer rightRenderer;
 
-    public Sprite LeftFace { get; private set; }
-    public Sprite RightFace { get; private set; }
-    public DominoData DominoData { get; private set; }
-
-    public void Init(DominoData dominoData)
+    public void Init(DominoCombination dominoCombination, DominoData dominoData)
     {
-        DominoData = dominoData;
-
-        LeftFace = dominoData.GetRandomSprite();
-        RightFace = dominoData.GetRandomSprite();
-
-        // Assign aux enfants
-        if (leftRenderer != null) leftRenderer.sprite = LeftFace;
-        if (rightRenderer != null) rightRenderer.sprite = RightFace;
+        if (leftRenderer != null)
+            leftRenderer.sprite = dominoData.GetSprite(dominoCombination.leftIndex);
+        if (rightRenderer != null)
+            rightRenderer.sprite = dominoData.GetSprite(dominoCombination.rightIndex);
     }
 }

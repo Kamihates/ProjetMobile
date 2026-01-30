@@ -1,61 +1,64 @@
+using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using NaughtyAttributes;
+using UnityEngine.XR;
 
 public class DeckManager : MonoBehaviour
 {
-    [Header("Deck"), SerializeField]
-    private List<DominoData> deck = new();
+    [SerializeField] private DominoData dominoData;
 
-    [Header("Queue"), SerializeField, Min(1)]
-    private int initialDominoInHandSize = 3;
+    [BoxGroup("Deck"), SerializeField, Min(1)] private int initialDominoInHandSize = 3;
+    [BoxGroup("Deck"), SerializeField, Min(2)] private int deckSize = 10;
 
-    private List<DominoData> dominoInHand = new();
+    private List<DominoCombination> deck = new();
+    private List<DominoCombination> dominoInHand = new();
 
     [ReadOnly, SerializeField, Foldout("Debug")]
-    private DominoData currentDomino;
+    private DominoCombination currentDomino;
 
-    public Action<DominoData> OnSpawnDomino;
-
-    public DominoData CurrentDomino
-    {
-        get => currentDomino;
-        private set => currentDomino = value;
-    }
+    public Action<DominoCombination> OnSpawnDomino;
+    
 
     private void Awake()
     {
-        InitDominoInHand();
+        if (dominoData.allDominos.Count == 0)
+            dominoData.GenerateAllCombinations();
+
+        GeneratePlayerDeck();
+        FillHandFromDeck();
         SpawnNextDomino();
     }
 
-    private void InitDominoInHand()
+    private void GeneratePlayerDeck()
     {
-        dominoInHand.Clear();
-        for (int i = 0; i < initialDominoInHandSize; i++)
+        deck.Clear();
+        var pool = new List<DominoCombination>(dominoData.allDominos);
+
+        for (int i = 0; i < deckSize && pool.Count > 0; i++)
         {
-            dominoInHand.Add(GetRandomDomino());
+            int rnd = UnityEngine.Random.Range(0, pool.Count);
+            deck.Add(pool[rnd]);
+            pool.RemoveAt(rnd);
         }
     }
 
-    private DominoData GetRandomDomino()
+    private void FillHandFromDeck()
     {
-        if (deck.Count == 0)
-        {
-            Debug.LogError("Deck vide");
-            return null;
-        }
+        dominoInHand.Clear();
 
-        int domino = UnityEngine.Random.Range(0, deck.Count);
-        return deck[domino];
+        for (int i = 0; i < initialDominoInHandSize && deck.Count > 0; i++)
+        {
+            dominoInHand.Add(deck[0]);
+            deck.RemoveAt(0);
+        }
     }
 
     public void SpawnNextDomino()
     {
         if (dominoInHand.Count == 0)
         {
-            RefillLDominoInHand();
+            FillHandFromDeck();
         }
 
         currentDomino = dominoInHand[0];
@@ -67,28 +70,8 @@ public class DeckManager : MonoBehaviour
     [Button("Place Current Domino")] //Fonction temporaire pour tester le placement du domino
     public void PlaceCurrentDomino()
     {
-        if (currentDomino == null)
-        {
-            Debug.LogWarning("Aucun currentDomino à placer");
-            return;
-        }
-
-        Debug.Log($"currentDomino placé : {currentDomino.name}");
-
+        if (currentDomino == null) return;
+        deck.Add(currentDomino);
         SpawnNextDomino();
-    }
-
-    public void DiscardDominoInHand()
-    {
-        dominoInHand.Clear();
-        RefillLDominoInHand();
-    }
-
-    public void RefillLDominoInHand()
-    {
-        for (int i = 0; i < initialDominoInHandSize; i++)
-        {
-            dominoInHand.Add(GetRandomDomino());
-        }
     }
 }

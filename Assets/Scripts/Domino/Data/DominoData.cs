@@ -1,19 +1,31 @@
-/// <summary>
-/// Définis les données d'un domino
-/// </summary>
-
+using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
-[CreateAssetMenu(fileName = "New Domino Data", menuName = "Domino/DominoData")]
+[CreateAssetMenu(fileName = "New Domino Data", menuName = "Domino/Domino Data")]
 public class DominoData : ScriptableObject
 {
-    [BoxGroup("Sprites"), ShowAssetPreview] [InfoBox("Tout les sprites possibles pour les faces du domino", EInfoBoxType.Normal)]
+    [BoxGroup("Sprites"), ShowAssetPreview]
     [SerializeField] private Sprite[] dominoSprites;
 
-    public Sprite GetRandomSprite() => dominoSprites[Random.Range(0, dominoSprites.Length)];
+    [BoxGroup("All dominos combinations")]
+    [ReadOnly] public List<DominoCombination> allDominos = new();
 
-    #region Getter
-    public Sprite[] DominoSprites => dominoSprites;
-    #endregion
+    [Button("Generate All Combinations")]
+    public void GenerateAllCombinations()
+    {
+        allDominos.Clear();
+
+        for (int left = 0; left < dominoSprites.Length; left++)
+        {
+            for (int right = left; right < dominoSprites.Length; right++)
+            {
+                allDominos.Add(new DominoCombination(left, right));
+            }
+        }
+
+        Debug.Log($"Generated {allDominos.Count} domino combinations");
+    }
+
+    public Sprite GetSprite(int index) => dominoSprites[index];
 }

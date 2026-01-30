@@ -9,13 +9,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         deckManager.OnSpawnDomino += HandleNextDomino;
-
         deckManager.SpawnNextDomino();
     }
 
-    private void HandleNextDomino(DominoData dominoData)
+    private void HandleNextDomino(DominoCombination dominoData)
     {
-        Domino domino = dominoSpawner.SpawnDomino(dominoData);
+        dominoSpawner.SpawnDomino(dominoData);
     }
 
     private void OnDestroy()

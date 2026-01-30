@@ -2,14 +2,17 @@ using UnityEngine;
 
 public class DominoSpawner : MonoBehaviour
 {
-    [Header("Prefab"), SerializeField] private Domino dominoPrefab;
+    [Header("Prefab"), SerializeField] private GameObject dominoPrefab;
     [Header("Spawn"), SerializeField] private Transform spawnPoint;
 
-    public Domino SpawnDomino(DominoData dominoData)
+    [Header("Base Data")]
+    [SerializeField] private DominoData dominoData; 
+
+    public Domino SpawnDomino(DominoCombination dominoCombination)
     {
-        GameObject domino = Instantiate(dominoPrefab.gameObject, spawnPoint.position, Quaternion.identity);
-        Domino dominoInstance = domino.GetComponent<Domino>();
-        dominoInstance.Init(dominoData);
+        GameObject dominoGO = Instantiate(dominoPrefab.gameObject, spawnPoint.position, Quaternion.identity);
+        Domino dominoInstance = dominoGO.GetComponent<Domino>();
+        dominoInstance.Init(dominoCombination, dominoData); 
         return dominoInstance;
     }
 }
