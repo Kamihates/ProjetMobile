@@ -10,7 +10,7 @@ public class DominoData : ScriptableObject
 
     [SerializeField] private RegionDatabase regionDatabase;
 
-    private List<RegionData> dominoRegion = new List<RegionData>();
+     
 
     [Button("Generate All Combinations")]
     public void GenerateAllCombinations()
@@ -21,12 +21,11 @@ public class DominoData : ScriptableObject
         {
             for(int j = 0; j < regionDatabase.AllRegionsData.Count; j++)
             {
-                dominoRegion.Clear();
-
-                dominoRegion.Add(regionDatabase.AllRegionsData[i]);
-                dominoRegion.Add(regionDatabase.AllRegionsData[j]);
-
-                allDominos.Add(dominoRegion);
+                allDominos.Add(new List<RegionData>
+                {
+                    regionDatabase.AllRegionsData[i],
+                    regionDatabase.AllRegionsData[j]
+                });
             }
         }
 

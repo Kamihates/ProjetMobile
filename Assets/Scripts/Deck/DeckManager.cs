@@ -31,14 +31,23 @@ public class DeckManager : MonoBehaviour
 
     private void GeneratePlayerDeck()
     {
-        deck.Clear();
+        Debug.Log("AllDominos count: " + dominoData.allDominos.Count);
+        for (int i = 0; i < dominoData.allDominos.Count; i++)
+            Debug.Log(i + " => " + dominoData.allDominos[i][0].Type + " | " + dominoData.allDominos[i][1].Type);
 
+
+
+        deck.Clear();
         for (int i = 0; i < deckSize && dominoData.allDominos.Count > 0; i++)
         {
             int rnd = UnityEngine.Random.Range(0, dominoData.allDominos.Count);
             deck.Add(dominoData.allDominos[rnd]);
             dominoData.allDominos.RemoveAt(rnd);
+
+            
         }
+
+
     }
 
     private void FillHandFromDeck()
@@ -57,6 +66,12 @@ public class DeckManager : MonoBehaviour
         if (dominoInHand.Count == 0)
         {
             FillHandFromDeck();
+        }
+
+        if (dominoInHand.Count == 0)
+        {
+            Debug.Log("Deck vide");
+            return;
         }
 
         dominoSpawner.OnDominoSpawn?.Invoke(dominoInHand[0]);
