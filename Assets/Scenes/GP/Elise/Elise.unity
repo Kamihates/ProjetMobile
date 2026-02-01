@@ -163,8 +163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 136a1387e649d7c49938240465113b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoMovementController
-  holdTime: 0.5
-  _dragDistance: 0
+  _holdTime: 0.2
+  _dragDistance: 0.5
+  _fallingSpeed: 0.2
+  dominoPlacement: {fileID: 2058347780}
 --- !u!1 &199195145
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,6 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 477c1c4cabae5f34d9bdace5ab8d4998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoPiece
+  visualController: {fileID: 0}
 --- !u!61 &199195149
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -760,6 +763,12 @@ MonoBehaviour:
   dominoMvtController: {fileID: 93427302}
   deckManager: {fileID: 1081684069}
   RotationRandom: 0
+  FallPerCase: 0
+  FallingStepStoppingTime: 1
+  autre: Pour modifier des infos ceoncernant le domino -> allez voir sur l'objet
+    DominoMouvementController
+  autre1: Pour modifier des infos ceoncernant le domino -> allez voir sur l'objet
+    DominoMouvementController
 --- !u!4 &1480473143
 Transform:
   m_ObjectHideFlags: 0
