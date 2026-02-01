@@ -1,8 +1,6 @@
 using NaughtyAttributes;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class DeckManager : MonoBehaviour
 {
@@ -10,12 +8,14 @@ public class DeckManager : MonoBehaviour
 
     [BoxGroup("Deck"), SerializeField, Min(1)] private int initialDominoInHandSize = 3;
     [BoxGroup("Deck"), SerializeField, Min(2)] private int deckSize = 10;
+    [BoxGroup("Deck"), SerializeField] private bool shuffleDeck = true;
 
-    private List<DominoInfos> deck = new();
-    private List<DominoInfos> discard = new();
-    private List<DominoInfos> dominoInHand = new();
+    [BoxGroup("Deck"), SerializeField] private List<DominoInfos> deck = new();
 
-    [SerializeField] private DominoSpawner dominoSpawner;
+    [BoxGroup("Debug"), SerializeField] private List<DominoInfos> discard = new();
+    [BoxGroup("Debug"), SerializeField] private List<DominoInfos> dominoInHand = new();
+
+    [SerializeField, Required] private DominoSpawner dominoSpawner;
     
 
     private void Start()
@@ -23,41 +23,71 @@ public class DeckManager : MonoBehaviour
         if (combiData.allDominos.Count == 0)
             combiData.GenerateAllCombinations();
 
-        GeneratePlayerDeck();
-        FillHandFromDeck();
+        // Si le deck est vide on le genere
+        if (deck.Count == 0)
+        {
+            Debug.Log("Deck not initialized, deck is now generated auto");
+            GeneratePlayerDeck();
+        }
+
+        for (int i = 0; i < initialDominoInHandSize; i++)
+            FillHandFromDeck();
+
         SpawnNextDomino();
     }
 
 
     private void GeneratePlayerDeck()
     {
+        deck.Clear();
+        discard.Clear();
+        dominoInHand.Clear();
+
+        // Copie temporaire de tout les dominos disponibles dans le deck pour ne pas modifier les combinaisons globales
+        List<DominoInfos> dominosInDeck = new List<DominoInfos>(combiData.allDominos); 
+
         Debug.Log("AllDominos count: " + combiData.allDominos.Count);
+
+        for(int i=0; i < deckSize && dominosInDeck.Count > 0; i++)
+        {
+            int randomDominosFromDeck = Random.Range(0, dominosInDeck.Count);
+            deck.Add(dominosInDeck[randomDominosFromDeck]);
+            dominosInDeck.RemoveAt(randomDominosFromDeck);
+        }
+
+        if (shuffleDeck)
+            ShuffleDeck(deck);
+
         for (int i = 0; i < combiData.allDominos.Count; i++)
             Debug.Log(i + " => " + combiData.allDominos[i].Regions[0].Type + " | " + combiData.allDominos[i].Regions[1].Type);
 
 
-        deck.Clear();
-        for (int i = 0; i < deckSize && combiData.allDominos.Count > 0; i++)
-        {
-            int rnd = UnityEngine.Random.Range(0, combiData.allDominos.Count);
-            deck.Add(combiData.allDominos[rnd]);
-            combiData.allDominos.RemoveAt(rnd);
-
-            
-        }
-
-
+        /*        for (int i = 0; i < deckSize && combiData.allDominos.Count > 0; i++)
+                {
+                    int randomDomino = UnityEngine.Random.Range(0, combiData.allDominos.Count);
+                    deck.Add(combiData.allDominos[randomDomino]);
+                    combiData.allDominos.RemoveAt(randomDomino);
+                }*/
     }
 
     private void FillHandFromDeck()
     {
-        dominoInHand.Clear();
+        if (deck.Count == 0)
+            RefillDeck();
 
-        for (int i = 0; i < initialDominoInHandSize && deck.Count > 0; i++)
-        {
-            dominoInHand.Add(deck[0]);
-            deck.RemoveAt(0);
-        }
+        if (deck.Count == 0)
+            return;
+
+        dominoInHand.Add(deck[0]);
+        deck.RemoveAt(0);
+
+        /*        dominoInHand.Clear(); // On retire le clear pour pas perdre les dominos deja en main si le deck est regen
+
+                for (int i = 0; i < initialDominoInHandSize && deck.Count > 0; i++)
+                {
+                    dominoInHand.Add(deck[0]);
+                    deck.RemoveAt(0); // On remove le domino en main de l'index 0 plutot quand le domino est placé sur la grille
+                }*/
     }
 
     public void SpawnNextDomino()
@@ -73,8 +103,39 @@ public class DeckManager : MonoBehaviour
             return;
         }
 
-        dominoSpawner.OnDominoSpawn?.Invoke(dominoInHand[0]);
-        dominoInHand.RemoveAt(0);
+        // on spawn le premier domino de la main
+        FillHandFromDeck();
+
+        DominoInfos currentDomino = dominoInHand[0];
+
+        dominoSpawner.OnDominoSpawn?.Invoke(currentDomino);
+        
+        //dominoSpawner.OnDominoSpawn?.Invoke(dominoInHand[0]);
+
+        //dominoInHand.RemoveAt(0);
+    }
+
+    private void RefillDeck()
+    {
+        if (discard.Count == 0)
+            return;
+
+        deck.AddRange(discard);
+        discard.Clear();
+
+        if (shuffleDeck)
+            ShuffleDeck(deck);
+    }
+
+    private void ShuffleDeck(List<DominoInfos> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int randomDominoFromDeck = Random.Range(i, list.Count);
+            DominoInfos dominoInfos = list[i]; 
+            list[i] = list[randomDominoFromDeck];       
+            list[randomDominoFromDeck] = dominoInfos;          
+        }
     }
 
 }
