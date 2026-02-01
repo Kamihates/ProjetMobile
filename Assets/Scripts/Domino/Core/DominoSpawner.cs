@@ -49,7 +49,7 @@ public class DominoSpawner : MonoBehaviour
         {
             if (TEST_GD.Instance.RotationRandom)
             {
-                // rotation aléatoire
+                // _currentRotation aléatoire
                 rotation = UnityEngine.Random.Range(0, 4);
             }
             
@@ -66,6 +66,8 @@ public class DominoSpawner : MonoBehaviour
 
         _currentDominoId = dominoInstance.PieceUniqueId;
         dominoController.CurrentDomino = dominoInstance;
+
+        dominoController.CanFall = true;
     }
 
     private Vector2 GetSpawnPosition()

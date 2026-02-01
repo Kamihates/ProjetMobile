@@ -6,6 +6,7 @@ public class RegionPiece : MonoBehaviour
     public int PieceUniqueId { get => _dominoUniqueId; }
 
     private RegionData _regionData;
+    public RegionData Region => _regionData;
 
 
     [SerializeField] private SpriteRenderer _terrainRenderer;
@@ -20,8 +21,6 @@ public class RegionPiece : MonoBehaviour
 
         FitSprite(_terrainRenderer);
         FitSprite(_overlayRenderer);
-
-
     }
 
     void FitSprite(SpriteRenderer renderer)

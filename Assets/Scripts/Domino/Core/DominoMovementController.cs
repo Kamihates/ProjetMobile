@@ -12,20 +12,27 @@ public class DominoMovementController : MonoBehaviour
     public DominoPiece CurrentDomino { get => _currentDomino; set => _currentDomino = value; }
     private DominoPiece _currentDomino;
     
-    [BoxGroup("Gestion du drag"), SerializeField]  private float holdTime = 0.2f;
+    [BoxGroup("Gestion du drag"), SerializeField]  private float _holdTime = 0.2f;
     [BoxGroup("Gestion du drag"), SerializeField] private float _dragDistance = 0.2f;
 
 
-    private float _time = 0; // chrono du temps qu'on reste appuyer sur le domino pour detecter un drag
+    private float _draggingChrono = 0; // chrono du temps qu'on reste appuyer sur le domino pour detecter un drag
     private bool _isDragged = false; // est ce que je suis en train de deplacer mon domino ?
     private bool _startDrag = false; // est ce que je suis en train de detecter un drag ?
     private Vector2 _pressStartPos; // position de la souris quand je clique sur le domino pour verifier si j'ai bougé pour detecter un drag plus vite que le timer
 
+    private bool _canFall = false;
+    public bool CanFall { get => _canFall; set => _canFall = value; }
+
+    [SerializeField] private float _fallingSpeed;
+    [SerializeField] private DominoPlacementController dominoPlacement;
+
+
+
+
 
     private void Update()
     {
-
-
         if (Input.GetMouseButtonDown(0))
         {
             // est ce que je clique sur mon domino ? 
@@ -55,7 +62,7 @@ public class DominoMovementController : MonoBehaviour
                 {
                     if (GridManager.Instance.IsInGrid(new List<Vector2> { pos }))
                     {
-                        _currentDomino.Rotate();
+                        _currentDomino.Visual.Rotate();
                     }
 
                 }
@@ -66,7 +73,7 @@ public class DominoMovementController : MonoBehaviour
         // Si je suis en phase de detection de drag
         if (_startDrag)
         {
-            _time += Time.deltaTime;
+            _draggingChrono += Time.deltaTime;
 
             Vector2 currentPos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
             float distance = Vector2.Distance(currentPos, _pressStartPos);
@@ -76,20 +83,20 @@ public class DominoMovementController : MonoBehaviour
             {
                 _startDrag = false;
                 _isDragged = true;
-                _time = 0;
+                _draggingChrono = 0;
             }
 
             // si j'ai relaché ma souris, c'etait un slique simple, je tourne le domino
             if (Input.GetMouseButtonUp(0))
             {
-                _currentDomino.Rotate();
+                _currentDomino.Visual.Rotate();
                 _startDrag = false;
             }
 
             // si le temps de drag est atteint, je commence à drag
-            if (_time >= holdTime)
+            if (_draggingChrono >= _holdTime)
             {
-                _time = 0f;
+                _draggingChrono = 0f;
                 if (_startDrag)
                 {
                     _startDrag = false;
@@ -108,7 +115,7 @@ public class DominoMovementController : MonoBehaviour
         // si je drag mon domino, je le bouge
         if (_isDragged)
         {
-            MoveOnX();
+            _currentDomino.Visual.MoveOnX();
         }
 
 
@@ -127,39 +134,64 @@ public class DominoMovementController : MonoBehaviour
     }
 
 
-    void MoveOnX()
+    private void FixedUpdate()
     {
-
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 center = _currentDomino.GetCenter();
-
-        if (GridManager.Instance == null) return;
-
-        // on bouge à droite
-        if (mousePos.x > center.x + 0.1f)
+        if (_currentDomino != null && _canFall)
         {
-            // ca c'est plus proche du point de doite que la position on le met a droite
-            if ( Mathf.Abs(mousePos.x - (center.x + GridManager.Instance.CellSize)) < Mathf.Abs(mousePos.x - center.x))
+            Vector2 targetPos = dominoPlacement.GetFinalDestination(_currentDomino, new Vector2Int(-1, -1));
+            Fall();
+
+            // si on arrive a destination
+            if ((Vector2.Distance(targetPos, _currentDomino.transform.position) < 0.01f) || _currentDomino.transform.position.y < targetPos.y) // evite un depassement
             {
-                _currentDomino.transform.position = new Vector2(_currentDomino.transform.position.x + GridManager.Instance.CellSize, _currentDomino.transform.position.y);
-                return;
-            }
-        }
-        // on bouge à gauche
-        else
-        {
-            // ca c'est plus proche du point de doite que la position on le met a droite
-            if (Mathf.Abs(mousePos.x - (center.x - GridManager.Instance.CellSize)) < Mathf.Abs(mousePos.x - center.x))
-            {
-                _currentDomino.transform.position = new Vector2(_currentDomino.transform.position.x - GridManager.Instance.CellSize, _currentDomino.transform.position.y);
-                return;
+                _canFall = false;
+                _currentDomino.transform.position = targetPos; // on snap au cas ou
+                GridManager.Instance.OnDominoPlaced?.Invoke(_currentDomino);
             }
 
         }
-
 
 
     }
 
+   
+    private float _fallingStepChrono = 0;
+    private bool _canDoOneStep = true;
+    private void Fall()
+    {
+        // on fait tomber le domino a vitesse constante
+        Vector2 newPos = _currentDomino.transform.position;
+
+        if (TEST_GD.Instance != null)
+        {
+            if (TEST_GD.Instance.FallPerCase)
+            {
+                if (_canDoOneStep)
+                {
+                    newPos.y -= GridManager.Instance.CellSize;
+                    _canDoOneStep = false;
+                }
+                _fallingStepChrono += Time.deltaTime;
+                if (_fallingStepChrono >= TEST_GD.Instance.FallingStepStoppingTime)
+                {
+                    _canDoOneStep = true;
+                    _fallingStepChrono = 0;
+
+                    
+                }
+            }
+            else
+            {
+                newPos.y -= _fallingSpeed * Time.deltaTime;
+            }
+        }
+
+        
+
+
+
+        _currentDomino.transform.position = newPos;
+
+    }
 
 }
