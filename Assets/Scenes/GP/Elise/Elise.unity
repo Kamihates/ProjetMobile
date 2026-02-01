@@ -709,7 +709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed95074d42077f94aaa198811a191f4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeckManager
-  dominoData: {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
+  combiData: {fileID: 11400000, guid: 4398ad35494bbcf4aab6296ee01d56f9, type: 2}
   initialDominoInHandSize: 3
   deckSize: 10
   dominoSpawner: {fileID: 954746999}

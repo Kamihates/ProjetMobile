@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
-[CreateAssetMenu(fileName = "New Domino Data", menuName = "Domino/Domino Data")]
-public class DominoData : ScriptableObject
+[CreateAssetMenu(fileName = "New Domino Data", menuName = "Domino/Domino Combinaison Data")]
+public class CombinaisonData : ScriptableObject
 {
     [BoxGroup("All dominos combinations")]
-    [ReadOnly] public List<List<RegionData>> allDominos = new();
+    [ReadOnly] public List<DominoInfos> allDominos = new();
 
     [SerializeField] private RegionDatabase regionDatabase;
 
@@ -21,10 +21,14 @@ public class DominoData : ScriptableObject
         {
             for(int j = 0; j < regionDatabase.AllRegionsData.Count; j++)
             {
-                allDominos.Add(new List<RegionData>
+                allDominos.Add(new DominoInfos
                 {
-                    regionDatabase.AllRegionsData[i],
-                    regionDatabase.AllRegionsData[j]
+                    Regions = new List<RegionData> 
+                    { 
+                        regionDatabase.AllRegionsData[i],
+                        regionDatabase.AllRegionsData[j]
+                    }
+                    
                 });
             }
         }
@@ -32,3 +36,4 @@ public class DominoData : ScriptableObject
         Debug.Log($"Generated {allDominos.Count} domino combinations");
     }
 }
+

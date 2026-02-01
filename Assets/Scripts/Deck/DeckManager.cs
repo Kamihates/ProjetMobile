@@ -6,22 +6,22 @@ using UnityEngine.XR;
 
 public class DeckManager : MonoBehaviour
 {
-    [SerializeField] private DominoData dominoData;
+    [SerializeField] private CombinaisonData combiData;
 
     [BoxGroup("Deck"), SerializeField, Min(1)] private int initialDominoInHandSize = 3;
     [BoxGroup("Deck"), SerializeField, Min(2)] private int deckSize = 10;
 
-    private List<List<RegionData>> deck = new();
-    private List<List<RegionData>> discard = new();
-    private List<List<RegionData>> dominoInHand = new();
+    private List<DominoInfos> deck = new();
+    private List<DominoInfos> discard = new();
+    private List<DominoInfos> dominoInHand = new();
 
     [SerializeField] private DominoSpawner dominoSpawner;
     
 
     private void Start()
     {
-        if (dominoData.allDominos.Count == 0)
-            dominoData.GenerateAllCombinations();
+        if (combiData.allDominos.Count == 0)
+            combiData.GenerateAllCombinations();
 
         GeneratePlayerDeck();
         FillHandFromDeck();
@@ -31,18 +31,18 @@ public class DeckManager : MonoBehaviour
 
     private void GeneratePlayerDeck()
     {
-        Debug.Log("AllDominos count: " + dominoData.allDominos.Count);
-        for (int i = 0; i < dominoData.allDominos.Count; i++)
-            Debug.Log(i + " => " + dominoData.allDominos[i][0].Type + " | " + dominoData.allDominos[i][1].Type);
+        Debug.Log("AllDominos count: " + combiData.allDominos.Count);
+        for (int i = 0; i < combiData.allDominos.Count; i++)
+            Debug.Log(i + " => " + combiData.allDominos[i].Regions[0].Type + " | " + combiData.allDominos[i].Regions[1].Type);
 
 
 
         deck.Clear();
-        for (int i = 0; i < deckSize && dominoData.allDominos.Count > 0; i++)
+        for (int i = 0; i < deckSize && combiData.allDominos.Count > 0; i++)
         {
-            int rnd = UnityEngine.Random.Range(0, dominoData.allDominos.Count);
-            deck.Add(dominoData.allDominos[rnd]);
-            dominoData.allDominos.RemoveAt(rnd);
+            int rnd = UnityEngine.Random.Range(0, combiData.allDominos.Count);
+            deck.Add(combiData.allDominos[rnd]);
+            combiData.allDominos.RemoveAt(rnd);
 
             
         }

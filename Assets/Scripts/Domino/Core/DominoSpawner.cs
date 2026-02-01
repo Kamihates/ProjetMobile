@@ -11,14 +11,14 @@ public class DominoSpawner : MonoBehaviour
     [Header("Spawn"), SerializeField] private DominoMovementController dominoController;
 
     [Header("Base Data")]
-    [SerializeField] private DominoData dominoData; 
+    [SerializeField] private CombinaisonData dominoData; 
 
 
     [SerializeField] private int _currentDominoId;
     public int CurrentDominoId => _currentDominoId;
 
 
-    public Action<List<RegionData>> OnDominoSpawn; 
+    public Action<DominoInfos> OnDominoSpawn; 
 
     private void Awake()
     {
@@ -37,7 +37,7 @@ public class DominoSpawner : MonoBehaviour
 
     // temps !!
 
-    public void SpawnDomino(List<RegionData> dominoCombination)
+    public void SpawnDomino(DominoInfos dominoCombination)
     {
 
         // on récupere le milieu de la case du milieu de ma grille

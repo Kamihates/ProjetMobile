@@ -11,13 +11,14 @@ public class DominoPiece : MonoBehaviour
     private int _currentRotation = 0;
    
 
-    List<RegionData> _dominoRegion;
+    private DominoInfos _data;
+    public DominoInfos Data => _data;
 
 
     public void RotateVisual()
     {
         // pas besoin de tourner une piece de 1
-        if (_dominoRegion.Count != 2) return;
+        if (_data.Regions.Count != 2) return;
 
         switch (_currentRotation) 
         {
@@ -44,11 +45,11 @@ public class DominoPiece : MonoBehaviour
         }
     }
 
-    public void Init(int _UniqueId, int rotation, List<RegionData> dominoRegions)
+    public void Init(int _UniqueId, int rotation, DominoInfos dominoRegions)
     {
         _pieceUniqueId = _UniqueId;
         _currentRotation = rotation;
-        _dominoRegion = dominoRegions;
+        _data = dominoRegions;
 
         
         UpdateVisual();
@@ -66,18 +67,18 @@ public class DominoPiece : MonoBehaviour
 
     private void UpdateVisual()
     {   
-        for (int r = 0; r < _dominoRegion.Count; r++)
+        for (int r = 0; r < _data.Regions.Count; r++)
         {
             if (transform.GetChild(r).TryGetComponent<RegionPiece>(out RegionPiece region))
             {
                 
-                region.Init(_dominoRegion[r]);
+                region.Init(_data.Regions[r]);
 
                 region.gameObject.SetActive(true);
             }
         }
 
-        if (_dominoRegion.Count > 1 )
+        if (_data.Regions.Count > 1 )
         {
             transform.GetChild(0).localPosition = Vector2.zero;
 
@@ -94,7 +95,7 @@ public class DominoPiece : MonoBehaviour
     {
 
         // pas besoin de tourner une piece de 1
-        if (_dominoRegion.Count != 2) return transform.position;
+        if (_data.Regions.Count != 2) return transform.position;
 
         Vector2 _currentCenter = transform.position;
 
