@@ -12,5 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90b95afb4319d0b4c84882edc5d3482d, type: 3}
   m_Name: Domino Combinaisons
   m_EditorClassIdentifier: Assembly-CSharp::CombinaisonData
-  allDominos: []
+  allDominos:
+  - regions:
+    - RegionID: 0
+      Type: 2
+      RegionTerrain: {fileID: -5137382655486566312, guid: eb73243ec97b70540bffc420de3802fb, type: 3}
+      RegionOverlay: {fileID: 0}
+    - RegionID: 0
+      Type: 2
+      RegionTerrain: {fileID: -5137382655486566312, guid: eb73243ec97b70540bffc420de3802fb, type: 3}
+      RegionOverlay: {fileID: 0}
+  - regions:
+    - RegionID: 0
+      Type: 2
+      RegionTerrain: {fileID: -5137382655486566312, guid: eb73243ec97b70540bffc420de3802fb, type: 3}
+      RegionOverlay: {fileID: 0}
+    - RegionID: 1
+      Type: 1
+      RegionTerrain: {fileID: -1939734046285099071, guid: d3174a283b1839a4ebc8ea7cf7e31af9, type: 3}
+      RegionOverlay: {fileID: 0}
+  - regions:
+    - RegionID: 1
+      Type: 1
+      RegionTerrain: {fileID: -1939734046285099071, guid: d3174a283b1839a4ebc8ea7cf7e31af9, type: 3}
+      RegionOverlay: {fileID: 0}
+    - RegionID: 0
+      Type: 2
+      RegionTerrain: {fileID: -5137382655486566312, guid: eb73243ec97b70540bffc420de3802fb, type: 3}
+      RegionOverlay: {fileID: 0}
+  - regions:
+    - RegionID: 1
+      Type: 1
+      RegionTerrain: {fileID: -1939734046285099071, guid: d3174a283b1839a4ebc8ea7cf7e31af9, type: 3}
+      RegionOverlay: {fileID: 0}
+    - RegionID: 1
+      Type: 1
+      RegionTerrain: {fileID: -1939734046285099071, guid: d3174a283b1839a4ebc8ea7cf7e31af9, type: 3}
+      RegionOverlay: {fileID: 0}
   regionDatabase: {fileID: 11400000, guid: 6676883dfc4adea46bc9d57160660b64, type: 2}
