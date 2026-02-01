@@ -36,7 +36,6 @@ public class DeckManager : MonoBehaviour
             Debug.Log(i + " => " + combiData.allDominos[i].Regions[0].Type + " | " + combiData.allDominos[i].Regions[1].Type);
 
 
-
         deck.Clear();
         for (int i = 0; i < deckSize && combiData.allDominos.Count > 0; i++)
         {

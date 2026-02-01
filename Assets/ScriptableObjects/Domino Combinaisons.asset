@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90b95afb4319d0b4c84882edc5d3482d, type: 3}
   m_Name: Domino Combinaisons
   m_EditorClassIdentifier: Assembly-CSharp::CombinaisonData
+  allDominos: []
   regionDatabase: {fileID: 11400000, guid: 6676883dfc4adea46bc9d57160660b64, type: 2}
