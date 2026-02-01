@@ -131,11 +131,16 @@ public class DeckManager : MonoBehaviour
     {
         for (int i = 0; i < list.Count; i++)
         {
-            int randomDominoFromDeck = Random.Range(i, list.Count);
-            DominoInfos dominoInfos = list[i]; 
-            list[i] = list[randomDominoFromDeck];       
-            list[randomDominoFromDeck] = dominoInfos;          
+            int random = Random.Range(i, list.Count);
+            DominoInfos dominoInfos = list[i]; // on stock temporairement le domino a la position actuelle
+            list[i] = list[random]; // On met le domino aléatoire à la place de celui actuel
+            list[random] = dominoInfos; // Et on met le domino initial à la place du domino aléatoire
         }
     }
+
+    // Lorsqu'on check si un domino est placé
+    // A ce moment là, on retire le domino de la main
+    // Et on le met dans la defausse
+    // Et on spawn le prochain domino SpawnNextDomino()
 
 }
