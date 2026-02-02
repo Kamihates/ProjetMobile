@@ -65,6 +65,7 @@ public class DominoSpawner : MonoBehaviour
         dominoInstance.Init(_currentPieceID++, rotation, dominoCombination);  
 
         _currentDominoId = dominoInstance.PieceUniqueId;
+
         dominoController.CurrentDomino = dominoInstance;
 
         dominoController.CanFall = true;

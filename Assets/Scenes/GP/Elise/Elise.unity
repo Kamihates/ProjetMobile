@@ -167,6 +167,7 @@ MonoBehaviour:
   _dragDistance: 0.5
   _fallingSpeed: 0.2
   dominoPlacement: {fileID: 2058347780}
+  _holdTapTime: 0.2
 --- !u!1 &199195145
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,7 +804,7 @@ MonoBehaviour:
   dominoMvtController: {fileID: 93427302}
   deckManager: {fileID: 1081684069}
   RotationRandom: 0
-  FallPerCase: 0
+  FallPerCase: 1
   FallingStepStoppingTime: 1
   autre: Pour modifier des infos ceoncernant le domino -> allez voir sur l'objet
     DominoMouvementController

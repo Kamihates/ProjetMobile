@@ -136,12 +136,10 @@ public class GridManager : MonoBehaviour
     {
         if (index.y >= _gridData.Count)
         {
-            Debug.LogWarning("l'index dépasse la grille (ROW)");
             return null;
         }
         if (index.x >= _gridData[index.y].Count)
         {
-            Debug.LogWarning("l'index dépasse la grille (COLUMN)");
             return null;
         }
 

@@ -25,14 +25,28 @@ public class DominoMovementController : MonoBehaviour
     public bool CanFall { get => _canFall; set => _canFall = value; }
 
     [SerializeField] private float _fallingSpeed;
+    private float _currentFallingSpeed;
+    private float _currentStepSpeed;
     [SerializeField] private DominoPlacementController dominoPlacement;
 
 
+    private bool _startLongTap = false; // est ce que je suis en train de detecter un drag ?
+    private float _LongTapChrono = 0;
+    [SerializeField] private float _holdTapTime = 0.2f;
 
+
+    private void Start()
+    {
+        _currentFallingSpeed = _fallingSpeed;
+        _currentStepSpeed = TEST_GD.Instance.FallingStepStoppingTime;
+    }
 
 
     private void Update()
     {
+        if (_currentDomino == null) return;
+
+
         if (Input.GetMouseButtonDown(0))
         {
             // est ce que je clique sur mon domino ? 
@@ -62,10 +76,34 @@ public class DominoMovementController : MonoBehaviour
                 {
                     if (GridManager.Instance.IsInGrid(new List<Vector2> { pos }))
                     {
-                        _currentDomino.Visual.Rotate();
+                        // est ce que je maintient ? 
+                        _startLongTap = true;
+                        
                     }
 
                 }
+            }
+        }
+
+        if(_startLongTap)
+        {
+            _LongTapChrono += Time.deltaTime;
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                _currentDomino.Visual.Rotate();
+                _startLongTap = false;
+                _LongTapChrono = 0f;
+
+            }
+
+
+            if (_LongTapChrono >= _holdTapTime)
+            {
+                _currentFallingSpeed *= 4;
+                _currentStepSpeed /= 2;
+                _startLongTap = false;
+                _LongTapChrono = 0f;
             }
         }
 
@@ -110,6 +148,8 @@ public class DominoMovementController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             _isDragged = false;
+            _currentFallingSpeed = _fallingSpeed;
+            _currentStepSpeed = TEST_GD.Instance.FallingStepStoppingTime;
         }
 
         // si je drag mon domino, je le bouge
@@ -146,8 +186,11 @@ public class DominoMovementController : MonoBehaviour
             {
                 _canFall = false;
                 _currentDomino.transform.position = targetPos; // on snap au cas ou
-                GridManager.Instance.OnDominoPlaced?.Invoke(_currentDomino);
+
+                DominoPiece dominoToDiscard = _currentDomino;
+
                 _currentDomino = null;
+                GridManager.Instance.OnDominoPlaced?.Invoke(dominoToDiscard);
             }
 
         }
@@ -173,7 +216,7 @@ public class DominoMovementController : MonoBehaviour
                     _canDoOneStep = false;
                 }
                 _fallingStepChrono += Time.deltaTime;
-                if (_fallingStepChrono >= TEST_GD.Instance.FallingStepStoppingTime)
+                if (_fallingStepChrono >= _currentStepSpeed)
                 {
                     _canDoOneStep = true;
                     _fallingStepChrono = 0;
@@ -183,7 +226,7 @@ public class DominoMovementController : MonoBehaviour
             }
             else
             {
-                newPos.y -= _fallingSpeed * Time.deltaTime;
+                newPos.y -= _currentFallingSpeed * Time.deltaTime;
             }
         }
 

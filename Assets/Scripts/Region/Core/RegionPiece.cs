@@ -41,6 +41,11 @@ public class RegionPiece : MonoBehaviour
 
         transform.localPosition = new Vector3(0, offsetY, 0);
 
+        Destroy(GetComponent<BoxCollider2D>());
+
+        gameObject.AddComponent<BoxCollider2D>();
+        GetComponent<BoxCollider2D>().isTrigger = true;
+
     }
 
 

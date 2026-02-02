@@ -87,8 +87,17 @@ public class DeckManager : MonoBehaviour
         if (deck.Count == 0)
             return;
 
-        dominoInHand.Add(deck[0]);
-        deck.RemoveAt(0);
+        for (int i = 0; i < 3; i++)
+        {
+            if (deck.Count > i)
+            {
+                dominoInHand.Add(deck[0]);
+                deck.RemoveAt(0);
+            }
+            
+        }
+
+        
 
         /*        dominoInHand.Clear(); // On retire le clear pour pas perdre les dominos deja en main si le deck est regen
 
@@ -108,7 +117,7 @@ public class DeckManager : MonoBehaviour
 
         if (dominoInHand.Count == 0)
         {
-            Debug.Log("Deck vide");
+            Debug.Log("main vide");
             return;
         }
 
@@ -147,20 +156,21 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-    // Lorsqu'on check si un domino est placé
-    // On retire le currentDomino
-    // Et on le met dans la defausse
-    // Et on spawn le prochain domino SpawnNextDomino()
 
     private void DiscardDomino(List<DominoInfos> dominoInfos) 
     {
         foreach(DominoInfos domino in dominoInfos)
             discard.Add(domino);
+
+        if (dominoInHand.Count == 0)
+        {
+
+        }
     }
 
     private void HandleNextDomino(DominoPiece dominoPiece)
     {
-        DiscardDomino(new List<DominoInfos> { dominoPiece.Data });
+        DiscardDomino(new List<DominoInfos> {dominoPiece.Data});
         SpawnNextDomino();
     }
 
