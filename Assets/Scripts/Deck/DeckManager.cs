@@ -87,9 +87,9 @@ public class DeckManager : MonoBehaviour
         if (deck.Count == 0)
             return;
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < initialDominoInHandSize; i++)
         {
-            if (deck.Count > i)
+            if (deck.Count >= 1)
             {
                 dominoInHand.Add(deck[0]);
                 deck.RemoveAt(0);
@@ -110,10 +110,10 @@ public class DeckManager : MonoBehaviour
 
     public void SpawnNextDomino()
     {
-        if (dominoInHand.Count == 0)
-        {
-            FillHandFromDeck();
-        }
+        //if (dominoInHand.Count == 0)
+        //{
+        //    FillHandFromDeck();
+        //}
 
         if (dominoInHand.Count == 0)
         {
@@ -164,7 +164,7 @@ public class DeckManager : MonoBehaviour
 
         if (dominoInHand.Count == 0)
         {
-
+            FillHandFromDeck();
         }
     }
 
