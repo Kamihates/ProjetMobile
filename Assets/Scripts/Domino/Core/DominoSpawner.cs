@@ -14,8 +14,8 @@ public class DominoSpawner : MonoBehaviour
     [SerializeField] private CombinaisonData dominoData; 
 
 
-    [SerializeField] private int _currentDominoId;
-    public int CurrentDominoId => _currentDominoId;
+    [SerializeField] private DominoPiece _currentDomino;
+    public DominoPiece CurrentDomino => _currentDomino;
 
 
     public Action<DominoInfos> OnDominoSpawn; 
@@ -64,11 +64,11 @@ public class DominoSpawner : MonoBehaviour
 
         dominoInstance.Init(_currentPieceID++, rotation, dominoCombination);  
 
-        _currentDominoId = dominoInstance.PieceUniqueId;
+        _currentDomino = dominoInstance;
 
         dominoController.CurrentDomino = dominoInstance;
 
-        dominoController.CanFall = true;
+        //dominoController.CanFall = true;
     }
 
     private Vector2 GetSpawnPosition()

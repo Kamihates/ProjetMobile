@@ -1,9 +1,6 @@
-﻿using NaughtyAttributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-
 public class GridManager : MonoBehaviour
 {
     [Header("Nombre de colonnes")][SerializeField] private int _column;
@@ -112,6 +109,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
+
     public Vector2Int GetPositionToGridIndex(Vector2 position)
     {
         Vector2Int index = Vector2Int.zero;
@@ -157,4 +155,9 @@ public class GridManager : MonoBehaviour
         gridDrawer.DrawGrid(_row, _column, _cellSize, _gridOrigin);
     }
 
+
+    public bool CheckIndexValidation(Vector2Int index)
+    {
+        return index.x < _gridData.Count && index.y < _gridData[index.x].Count;
+    }
 }

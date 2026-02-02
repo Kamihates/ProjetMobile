@@ -166,6 +166,7 @@ MonoBehaviour:
   _holdTime: 0.2
   _dragDistance: 0.5
   _fallingSpeed: 0.5
+  _stepSpeed: 1
   dominoPlacement: {fileID: 2058347780}
   _holdTapTime: 0.2
 --- !u!1 &199195145
@@ -274,6 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoPiece
   visualController: {fileID: 0}
+  fallController: {fileID: 0}
 --- !u!61 &199195149
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -683,7 +685,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 0}
   dominoController: {fileID: 93427302}
   dominoData: {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
-  _currentDominoId: 0
+  _currentDomino: {fileID: 0}
 --- !u!1 &1081684068
 GameObject:
   m_ObjectHideFlags: 0

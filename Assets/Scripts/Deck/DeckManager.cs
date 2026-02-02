@@ -1,6 +1,5 @@
 using NaughtyAttributes;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DeckManager : MonoBehaviour
@@ -162,12 +161,10 @@ public class DeckManager : MonoBehaviour
 
     private void HandleNextDomino(DominoPiece dominoPiece)
     {
+        // si le domino qui à été placé n'est pas le domino actuel on ne se charge pas de le discard ou autre car il était déjà sur le terrain
+        if (dominoPiece != dominoSpawner.CurrentDomino) return;
+
         DiscardDomino(new List<DominoInfos> {dominoPiece.Data});
-
-        // temp 
-
-        // temp
-
         SpawnNextDomino();
     }
 

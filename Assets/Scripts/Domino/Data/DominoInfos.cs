@@ -8,6 +8,8 @@ public class DominoInfos
     [SerializeField, NaughtyAttributes.ReadOnly] private List<RegionData> regions = new();
     public List<RegionData> Regions { get => regions; set => regions = value; }
 
+    private bool _isDominoFusion = false;
+    public bool IsDominoFusion { get => _isDominoFusion; }
     
 
 }

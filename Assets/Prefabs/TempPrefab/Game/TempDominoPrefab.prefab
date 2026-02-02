@@ -164,6 +164,7 @@ GameObject:
   - component: {fileID: 1830057241848225951}
   - component: {fileID: 2150986522567306349}
   - component: {fileID: 160608238492101165}
+  - component: {fileID: 1493627199976717798}
   m_Layer: 0
   m_Name: TempDominoPrefab
   m_TagString: Untagged
@@ -203,6 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoPiece
   visualController: {fileID: 160608238492101165}
+  fallController: {fileID: 1493627199976717798}
 --- !u!114 &160608238492101165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +217,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea58ca3e795dd074a8dee9a1c61db463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoPieceVisual
+--- !u!114 &1493627199976717798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819317131152328505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c782526d687c4e748b1e4ca45387374f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DominoFall
+  piece: {fileID: 2150986522567306349}
 --- !u!1 &3339117720595871121
 GameObject:
   m_ObjectHideFlags: 0

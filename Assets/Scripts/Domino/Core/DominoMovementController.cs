@@ -1,15 +1,11 @@
 using NaughtyAttributes;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
-using static UnityEditor.PlayerSettings;
+
 
 public class DominoMovementController : MonoBehaviour
 {
-    public DominoPiece CurrentDomino { get => _currentDomino; set => _currentDomino = value; }
+    public DominoPiece CurrentDomino { get => _currentDomino; set { _currentDomino = value; _currentDomino.FallController.Init(_fallingSpeed, _stepSpeed); } }
     private DominoPiece _currentDomino;
     
     [BoxGroup("Gestion du drag"), SerializeField]  private float _holdTime = 0.2f;
@@ -21,12 +17,10 @@ public class DominoMovementController : MonoBehaviour
     private bool _startDrag = false; // est ce que je suis en train de detecter un drag ?
     private Vector2 _pressStartPos; // position de la souris quand je clique sur le domino pour verifier si j'ai bougé pour detecter un drag plus vite que le timer
 
-    private bool _canFall = false;
-    public bool CanFall { get => _canFall; set => _canFall = value; }
 
-    [SerializeField] private float _fallingSpeed;
-    private float _currentFallingSpeed;
-    private float _currentStepSpeed;
+    [BoxGroup("Vitesse du domino"), SerializeField] private float _fallingSpeed;
+    [BoxGroup("Vitesse du domino"), SerializeField] private float _stepSpeed;
+
     [SerializeField] private DominoPlacementController dominoPlacement;
 
 
@@ -35,16 +29,13 @@ public class DominoMovementController : MonoBehaviour
     [SerializeField] private float _holdTapTime = 0.2f;
 
 
-    private void Start()
-    {
-        _currentFallingSpeed = _fallingSpeed;
-        _currentStepSpeed = TEST_GD.Instance.FallingStepStoppingTime;
-    }
 
 
+    // A RESTRUCTURER pour lisibilité
     private void Update()
     {
         if (_currentDomino == null) return;
+
 
 
         if (Input.GetMouseButtonDown(0))
@@ -78,14 +69,14 @@ public class DominoMovementController : MonoBehaviour
                     {
                         // est ce que je maintient ? 
                         _startLongTap = true;
-                        
+
                     }
 
                 }
             }
         }
 
-        if(_startLongTap)
+        if (_startLongTap)
         {
             _LongTapChrono += Time.deltaTime;
 
@@ -100,8 +91,7 @@ public class DominoMovementController : MonoBehaviour
 
             if (_LongTapChrono >= _holdTapTime)
             {
-                _currentFallingSpeed *= 4;
-                _currentStepSpeed /= 2;
+                _currentDomino.FallController.Init(_fallingSpeed * 4, _stepSpeed / 2);
                 _startLongTap = false;
                 _LongTapChrono = 0f;
             }
@@ -113,7 +103,7 @@ public class DominoMovementController : MonoBehaviour
         {
             _draggingChrono += Time.deltaTime;
 
-            Vector2 currentPos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
+            Vector2 currentPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             float distance = Vector2.Distance(currentPos, _pressStartPos);
 
             // si j'ai bougé ma souris, c'est que j'ai commencé à drag, on peut deplacer
@@ -148,8 +138,7 @@ public class DominoMovementController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             _isDragged = false;
-            _currentFallingSpeed = _fallingSpeed;
-            _currentStepSpeed = TEST_GD.Instance.FallingStepStoppingTime;
+            _currentDomino.FallController.Init(_fallingSpeed, _stepSpeed);
         }
 
         // si je drag mon domino, je le bouge
@@ -157,85 +146,6 @@ public class DominoMovementController : MonoBehaviour
         {
             _currentDomino.Visual.MoveOnX();
         }
-
-
-
-
-
-
-        //if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
-        //{
-        //    Interract();
-        //}
-
-        
-            
-
-    }
-
-
-    private void FixedUpdate()
-    {
-        if (_currentDomino != null && _canFall)
-        {
-            Vector2 targetPos = dominoPlacement.GetFinalDestination(_currentDomino, new Vector2Int(-1, -1));
-            Fall();
-
-            // si on arrive a destination
-            if ((Vector2.Distance(targetPos, _currentDomino.transform.position) < 0.01f) || _currentDomino.transform.position.y < targetPos.y) // evite un depassement
-            {
-                _canFall = false;
-                _currentDomino.transform.position = targetPos; // on snap au cas ou
-
-                DominoPiece dominoToDiscard = _currentDomino;
-
-                _currentDomino = null;
-                GridManager.Instance.OnDominoPlaced?.Invoke(dominoToDiscard);
-            }
-
-        }
-
-
-    }
-
-   
-    private float _fallingStepChrono = 0;
-    private bool _canDoOneStep = true;
-    private void Fall()
-    {
-        // on fait tomber le domino a vitesse constante
-        Vector2 newPos = _currentDomino.transform.position;
-
-        if (TEST_GD.Instance != null)
-        {
-            if (TEST_GD.Instance.FallPerCase)
-            {
-                if (_canDoOneStep)
-                {
-                    newPos.y -= GridManager.Instance.CellSize;
-                    _canDoOneStep = false;
-                }
-                _fallingStepChrono += Time.deltaTime;
-                if (_fallingStepChrono >= _currentStepSpeed)
-                {
-                    _canDoOneStep = true;
-                    _fallingStepChrono = 0;
-
-                    
-                }
-            }
-            else
-            {
-                newPos.y -= _currentFallingSpeed * Time.deltaTime;
-            }
-        }
-
-        
-
-
-
-        _currentDomino.transform.position = newPos;
-
     }
 
 }
