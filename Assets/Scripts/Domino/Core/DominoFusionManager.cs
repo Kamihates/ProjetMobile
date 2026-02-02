@@ -35,11 +35,12 @@ public class DominoFusion : MonoBehaviour
 
     //private List<Vector2Int> GetComboNeighbors(RegionPiece region, int squarePart)
     //{
+    //    V
+
     //    switch (squarePart)
     //    {
     //        case 0:
     //            // carré de 4 BL
-    //            Vector2 
 
 
     //            break;

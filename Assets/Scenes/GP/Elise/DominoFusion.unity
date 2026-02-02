@@ -803,8 +803,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TEST_GD
   dominoMvtController: {fileID: 93427302}
   deckManager: {fileID: 1081684069}
-  RotationRandom: 0
-  FallPerCase: 1
+  RotationRandom: 1
+  FallPerCase: 0
   FallingStepStoppingTime: 1
   autre: Pour modifier des infos ceoncernant le domino -> allez voir sur l'objet
     DominoMouvementController
