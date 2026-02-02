@@ -19,8 +19,9 @@ public class GridManager : MonoBehaviour
     private List<List<RegionPiece>> _gridData = new();
 
     public Action<DominoPiece> OnDominoPlaced;
-   
+    public Action OnDominoExceed; // action quand un domino est placé en haut de la grille
 
+   
     public int Column { get => _column; }
     public Transform Origin { get => _gridOrigin; }
     public int Row { get => _row; }
@@ -33,8 +34,6 @@ public class GridManager : MonoBehaviour
 
     public static GridManager Instance;
     private void Awake() { Instance = this; }
-
-
 
     private void Start()
     {
@@ -86,7 +85,6 @@ public class GridManager : MonoBehaviour
         return true;
     }
 
-
     private void AddDominoDataInGrid(DominoPiece domino)
     {
         foreach (Transform child in domino.transform)
@@ -104,6 +102,11 @@ public class GridManager : MonoBehaviour
                     Vector2Int RegionIndex = GridManager.Instance.GetPositionToGridIndex(RegionPosSimulation);
 
                     _gridData[RegionIndex.y][RegionIndex.x] = region;
+
+                    if (RegionIndex.y == 0)
+                    {
+                        Debug.Log("Arrivé en haut de la grille");
+                    }
                 }
             }
         }

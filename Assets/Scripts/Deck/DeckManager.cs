@@ -110,11 +110,6 @@ public class DeckManager : MonoBehaviour
 
     public void SpawnNextDomino()
     {
-        //if (dominoInHand.Count == 0)
-        //{
-        //    FillHandFromDeck();
-        //}
-
         if (dominoInHand.Count == 0)
         {
             Debug.Log("main vide");
@@ -122,13 +117,10 @@ public class DeckManager : MonoBehaviour
         }
 
         // on spawn le premier domino de la main
-        //FillHandFromDeck();
 
         DominoInfos currentDomino = dominoInHand[0];
 
         dominoSpawner.OnDominoSpawn?.Invoke(currentDomino);
-        
-        //dominoSpawner.OnDominoSpawn?.Invoke(dominoInHand[0]);
 
         dominoInHand.RemoveAt(0);
     }
@@ -151,8 +143,8 @@ public class DeckManager : MonoBehaviour
         {
             int random = Random.Range(i, list.Count);
             DominoInfos dominoInfos = list[i]; // on stock temporairement le domino a la position actuelle
-            list[i] = list[random]; // On met le domino al�atoire � la place de celui actuel
-            list[random] = dominoInfos; // Et on met le domino initial � la place du domino al�atoire
+            list[i] = list[random]; // On met le domino aleatoire a la place de celui actuel
+            list[random] = dominoInfos; // Et on met le domino initial a la place du domino al�atoire
         }
     }
 
@@ -171,6 +163,11 @@ public class DeckManager : MonoBehaviour
     private void HandleNextDomino(DominoPiece dominoPiece)
     {
         DiscardDomino(new List<DominoInfos> {dominoPiece.Data});
+
+        // temp 
+
+        // temp
+
         SpawnNextDomino();
     }
 

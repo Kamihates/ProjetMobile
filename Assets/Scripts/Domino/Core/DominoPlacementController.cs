@@ -21,6 +21,7 @@ public class DominoPlacementController : MonoBehaviour
             if (index.y == 0)
             {
                 Debug.LogWarning("aucun emplacement trouvé");
+                GridManager.Instance.OnDominoExceed?.Invoke();
                 return domino.transform.position;
             }
             else
