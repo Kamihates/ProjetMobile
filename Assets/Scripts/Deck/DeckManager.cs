@@ -104,7 +104,7 @@ public class DeckManager : MonoBehaviour
                 for (int i = 0; i < initialDominoInHandSize && deck.Count > 0; i++)
                 {
                     dominoInHand.Add(deck[0]);
-                    deck.RemoveAt(0); // On remove le domino en main de l'index 0 plutot quand le domino est placé sur la grille
+                    deck.RemoveAt(0); // On remove le domino en main de l'index 0 plutot quand le domino est placï¿½ sur la grille
                 }*/
     }
 
@@ -122,7 +122,7 @@ public class DeckManager : MonoBehaviour
         }
 
         // on spawn le premier domino de la main
-        FillHandFromDeck();
+        //FillHandFromDeck();
 
         DominoInfos currentDomino = dominoInHand[0];
 
@@ -151,8 +151,8 @@ public class DeckManager : MonoBehaviour
         {
             int random = Random.Range(i, list.Count);
             DominoInfos dominoInfos = list[i]; // on stock temporairement le domino a la position actuelle
-            list[i] = list[random]; // On met le domino aléatoire à la place de celui actuel
-            list[random] = dominoInfos; // Et on met le domino initial à la place du domino aléatoire
+            list[i] = list[random]; // On met le domino alï¿½atoire ï¿½ la place de celui actuel
+            list[random] = dominoInfos; // Et on met le domino initial ï¿½ la place du domino alï¿½atoire
         }
     }
 
