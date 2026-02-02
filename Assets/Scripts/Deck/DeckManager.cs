@@ -113,7 +113,7 @@ public class DeckManager : MonoBehaviour
         }
 
         // on spawn le premier domino de la main
-        FillHandFromDeck();
+        //FillHandFromDeck();
 
         DominoInfos currentDomino = dominoInHand[0];
 
@@ -161,6 +161,12 @@ public class DeckManager : MonoBehaviour
     private void HandleNextDomino(DominoPiece dominoPiece)
     {
         DiscardDomino(new List<DominoInfos> { dominoPiece.Data });
+
+        while(dominoInHand.Count < initialDominoInHandSize)
+        {
+            FillHandFromDeck();
+        }
+
         SpawnNextDomino();
     }
 
