@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d3174a283b1839a4ebc8ea7cf7e31af9
+guid: 08ea7bd3903ce9a4bac98b9048f217fe
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1939734046285099071
-    second: PLA_Terre_0
+      213: -6961440097734522467
+    second: PLA_Support_dominos_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PLA_Terre_0
+      name: PLA_Support_dominos_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 506
-        height: 496
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1cf027c792ea415e0800000000000000
-      internalID: -1939734046285099071
+      spriteID: d998f594d1ff36f90800000000000000
+      internalID: -6961440097734522467
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PLA_Terre_0: -1939734046285099071
+      PLA_Support_dominos_0: -6961440097734522467
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
