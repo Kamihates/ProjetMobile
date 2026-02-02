@@ -715,6 +715,46 @@ MonoBehaviour:
   combiData: {fileID: 11400000, guid: 4398ad35494bbcf4aab6296ee01d56f9, type: 2}
   initialDominoInHandSize: 3
   deckSize: 10
+  shuffleDeck: 1
+  deck:
+  - regions:
+    - RegionID: 1
+      Type: 1
+      RegionTerrain: {fileID: 21300000, guid: 0e00e22c2302c4c429576e0e04ff4834, type: 3}
+      RegionOverlay: {fileID: 0}
+    - RegionID: 1
+      Type: 1
+      RegionTerrain: {fileID: 21300000, guid: 0e00e22c2302c4c429576e0e04ff4834, type: 3}
+      RegionOverlay: {fileID: 0}
+  - regions:
+    - RegionID: 0
+      Type: 2
+      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
+      RegionOverlay: {fileID: 0}
+    - RegionID: 0
+      Type: 2
+      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
+      RegionOverlay: {fileID: 0}
+  - regions:
+    - RegionID: 1
+      Type: 1
+      RegionTerrain: {fileID: 21300000, guid: 0e00e22c2302c4c429576e0e04ff4834, type: 3}
+      RegionOverlay: {fileID: 0}
+    - RegionID: 0
+      Type: 2
+      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
+      RegionOverlay: {fileID: 0}
+  - regions:
+    - RegionID: 0
+      Type: 2
+      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
+      RegionOverlay: {fileID: 0}
+    - RegionID: 1
+      Type: 1
+      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
+      RegionOverlay: {fileID: 0}
+  discard: []
+  dominoInHand: []
   dominoSpawner: {fileID: 954746999}
 --- !u!4 &1081684070
 Transform:

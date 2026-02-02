@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DeckManager : MonoBehaviour
@@ -20,6 +21,9 @@ public class DeckManager : MonoBehaviour
 
     private void Start()
     {
+
+        GridManager.Instance.OnDominoPlaced += HandleNextDomino;
+
         if (combiData.allDominos.Count == 0)
             combiData.GenerateAllCombinations();
 
@@ -34,6 +38,11 @@ public class DeckManager : MonoBehaviour
             FillHandFromDeck();
 
         SpawnNextDomino();
+    }
+
+    private void OnDestroy()
+    {
+        GridManager.Instance.OnDominoPlaced -= HandleNextDomino;
     }
 
 
@@ -112,7 +121,7 @@ public class DeckManager : MonoBehaviour
         
         //dominoSpawner.OnDominoSpawn?.Invoke(dominoInHand[0]);
 
-        //dominoInHand.RemoveAt(0);
+        dominoInHand.RemoveAt(0);
     }
 
     private void RefillDeck()
@@ -139,8 +148,21 @@ public class DeckManager : MonoBehaviour
     }
 
     // Lorsqu'on check si un domino est placé
-    // A ce moment là, on retire le domino de la main
+    // On retire le currentDomino
     // Et on le met dans la defausse
     // Et on spawn le prochain domino SpawnNextDomino()
+
+    private void DiscardDomino(List<DominoInfos> dominoInfos) 
+    {
+        foreach(DominoInfos domino in dominoInfos)
+            discard.Add(domino);
+    }
+
+    private void HandleNextDomino(DominoPiece dominoPiece)
+    {
+        DiscardDomino(new List<DominoInfos> { dominoPiece.Data });
+        SpawnNextDomino();
+    }
+
 
 }

@@ -147,6 +147,7 @@ public class DominoMovementController : MonoBehaviour
                 _canFall = false;
                 _currentDomino.transform.position = targetPos; // on snap au cas ou
                 GridManager.Instance.OnDominoPlaced?.Invoke(_currentDomino);
+                _currentDomino = null;
             }
 
         }
