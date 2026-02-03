@@ -13,12 +13,12 @@ public class DominoFusion : MonoBehaviour
     private void Start()
     {
         _gridManager = GridManager.Instance;
-        _gridManager.OnDominoPlaced += CheckForFusion;
+       // _gridManager.OnDominoPlaced += CheckForFusion;
     }
 
     private void OnDestroy()
     {
-        _gridManager.OnDominoPlaced -= CheckForFusion;
+        //_gridManager.OnDominoPlaced -= CheckForFusion;
     }
 
 
@@ -110,7 +110,7 @@ public class DominoFusion : MonoBehaviour
     {
         Vector2Int[] result = new Vector2Int[neighbors.Count];
 
-        for (int i =0; i < neighbors.Count; i++)
+        for (int i = 0; i < neighbors.Count; i++)
         {
             // on passe les index matrice en grille
             if (_gridManager.CheckIndexValidation(neighbors[i]))

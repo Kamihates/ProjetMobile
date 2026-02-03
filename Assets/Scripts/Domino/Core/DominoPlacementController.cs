@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class DominoPlacementController : MonoBehaviour
 {
@@ -10,8 +10,8 @@ public class DominoPlacementController : MonoBehaviour
 
         public Vector2 GetFinalDestination(DominoPiece domino, Vector2Int index)
     {
-        // ETAPE 1 : On converti notre domino en index de la grille pour récupérer la colonne de notre domino
-        if (index.x == -1)
+        // ETAPE 1 : On converti notre domino en index de la grille pour rÃ©cupÃ©rer la colonne de notre domino
+        if (index.x < 0)
         {
             index = GridManager.Instance.GetPositionToGridIndex(domino.transform.position);
             index.y = 0;
@@ -20,16 +20,16 @@ public class DominoPlacementController : MonoBehaviour
         // ETAPE 2 : On verifie si la cellule est bonne
         if (GridManager.Instance.GetRegionAtIndex(index) != null)
         {
-            // placement déjà occupé
+            // placement dÃ©jÃ  occupÃ©
             if (index.y == 0)
             {
-                Debug.LogWarning("aucun emplacement trouvé");
+                Debug.LogWarning("aucun emplacement trouvÃ©");
                 GridManager.Instance.OnDominoExceed?.Invoke();
                 return domino.transform.position;
             }
             else
             {
-                // l'emplacement est pris, on est pas à l'index 1 donc on renvoie la derniere position bonne
+                // l'emplacement est pris, on est pas Ã  l'index 1 donc on renvoie la derniere position bonne
                 index.y--;
                 DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(index));
                 return GridManager.Instance.GetCellPositionAtIndex(index);
@@ -37,7 +37,7 @@ public class DominoPlacementController : MonoBehaviour
            
         }
 
-        // la cellule est pas occupée, on verifie pour les regions
+        // la cellule est pas occupÃ©e, on verifie pour les regions
 
         Vector2 targetCellPos = GridManager.Instance.GetCellPositionAtIndex(index);
 
@@ -55,7 +55,7 @@ public class DominoPlacementController : MonoBehaviour
                     // on verifie qu'elle est dans la grille
                     if (!GridManager.Instance.IsRegionInGrid(RegionPosSimulation))
                     {
-                        // la region dépasse en bas, on renvoie la derniere position trouvé bonne
+                        // la region dÃ©passe en bas, on renvoie la derniere position trouvÃ© bonne
                         index.y--;
                         DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(index));
                         return GridManager.Instance.GetCellPositionAtIndex(index);
@@ -69,12 +69,12 @@ public class DominoPlacementController : MonoBehaviour
                     {
                         if (index.y == 0)
                         {
-                            Debug.LogWarning("aucun emplacement trouvé");
+                            Debug.LogWarning("aucun emplacement trouvÃ©");
                             return domino.transform.position;
                         }
                         else
                         {
-                            // l'emplacement est pris, on est pas à l'index 1 donc on renvoie la derniere position bonne
+                            // l'emplacement est pris, on est pas Ã  l'index 1 donc on renvoie la derniere position bonne
                             index.y--;
                             DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(index));
                             return GridManager.Instance.GetCellPositionAtIndex(index);
