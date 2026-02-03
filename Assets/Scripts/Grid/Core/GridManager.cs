@@ -155,7 +155,11 @@ public class GridManager : MonoBehaviour
         gridDrawer.DrawGrid(_row, _column, _cellSize, _gridOrigin);
     }
 
-
+    /// <summary>
+    /// Check si les index matrices sont bons 
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
     public bool CheckIndexValidation(Vector2Int index)
     {
         return index.x < _gridData.Count && index.y < _gridData[index.x].Count;
