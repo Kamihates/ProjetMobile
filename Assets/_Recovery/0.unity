@@ -682,7 +682,7 @@ MonoBehaviour:
   dominoPrefab: {fileID: 1819317131152328505, guid: 73bbd8c349c0a604985ae9ab466315d7, type: 3}
   spawnPoint: {fileID: 0}
   dominoController: {fileID: 93427302}
-  dominoData: {fileID: 11400000, guid: 4398ad35494bbcf4aab6296ee01d56f9, type: 2}
+  dominoData: {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
   _currentDominoId: 0
 --- !u!1 &1081684068
 GameObject:
@@ -804,7 +804,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TEST_GD
   dominoMvtController: {fileID: 93427302}
   deckManager: {fileID: 1081684069}
-  RotationRandom: 1
+  RotationRandom: 0
   FallPerCase: 1
   FallingStepStoppingTime: 1
   autre: Pour modifier des infos ceoncernant le domino -> allez voir sur l'objet

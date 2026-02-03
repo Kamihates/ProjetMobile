@@ -10,8 +10,6 @@ public class CombinaisonData : ScriptableObject
 
     [SerializeField] private RegionDatabase regionDatabase;
 
-     
-
     [Button("Generate All Combinations")]
     public void GenerateAllCombinations()
     {
