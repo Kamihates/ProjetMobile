@@ -370,7 +370,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &244378987
+--- !u!1 &294957305
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -378,41 +378,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 244378989}
-  - component: {fileID: 244378988}
+  - component: {fileID: 294957306}
   m_Layer: 0
-  m_Name: DominoInHandVisual
+  m_Name: DominoInHandSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &244378988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244378987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35cae879a4d84d8449b3dd7ff8e8e05b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DominoHandVisual
-  deckManager: {fileID: 1081684069}
-  handVisualParent: {fileID: 244378989}
-  spaceWithinDomino: 1.5
-  dominoPrefab: {fileID: 1819317131152328505, guid: 73bbd8c349c0a604985ae9ab466315d7, type: 3}
---- !u!4 &244378989
+--- !u!4 &294957306
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244378987}
+  m_GameObject: {fileID: 294957305}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.4, y: 3.53, z: 0}
+  m_LocalPosition: {x: 0.72, y: 0.84, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -740,6 +723,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1081684070}
   - component: {fileID: 1081684069}
+  - component: {fileID: 1081684071}
   m_Layer: 0
   m_Name: DeckManager
   m_TagString: Untagged
@@ -764,20 +748,44 @@ MonoBehaviour:
   deckSize: 10
   shuffleDeck: 1
   startingDeckData: {fileID: 11400000, guid: 7d5a38cf4230c92478612fa8e0ccea82, type: 2}
-  dominoHandVisual: {fileID: 244378988}
+  dominoHandVisual: {fileID: 1081684071}
   deck:
   - regions:
-    - {fileID: 0}
-    - {fileID: 0}
+    - RegionID: 1
+      Type: 1
+      RegionTerrain: {fileID: 21300000, guid: 0e00e22c2302c4c429576e0e04ff4834, type: 3}
+      RegionOverlay: {fileID: 0}
+    - RegionID: 1
+      Type: 1
+      RegionTerrain: {fileID: 21300000, guid: 0e00e22c2302c4c429576e0e04ff4834, type: 3}
+      RegionOverlay: {fileID: 0}
   - regions:
-    - {fileID: 0}
-    - {fileID: 0}
+    - RegionID: 0
+      Type: 2
+      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
+      RegionOverlay: {fileID: 0}
+    - RegionID: 0
+      Type: 2
+      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
+      RegionOverlay: {fileID: 0}
   - regions:
-    - {fileID: 0}
-    - {fileID: 0}
+    - RegionID: 1
+      Type: 1
+      RegionTerrain: {fileID: 21300000, guid: 0e00e22c2302c4c429576e0e04ff4834, type: 3}
+      RegionOverlay: {fileID: 0}
+    - RegionID: 0
+      Type: 2
+      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
+      RegionOverlay: {fileID: 0}
   - regions:
-    - {fileID: 0}
-    - {fileID: 0}
+    - RegionID: 0
+      Type: 2
+      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
+      RegionOverlay: {fileID: 0}
+    - RegionID: 1
+      Type: 1
+      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
+      RegionOverlay: {fileID: 0}
   discard: []
   dominoInHand: []
   dominoSpawner: {fileID: 954746999}
@@ -796,6 +804,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1081684071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081684068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35cae879a4d84d8449b3dd7ff8e8e05b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DominoHandVisual
+  deckManager: {fileID: 1081684069}
+  handVisualParent: {fileID: 294957306}
+  spaceWithinDomino: 2
+  dominoPrefab: {fileID: 1819317131152328505, guid: 73bbd8c349c0a604985ae9ab466315d7, type: 3}
 --- !u!1 &1480473141
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,4 +963,4 @@ SceneRoots:
   - {fileID: 1584956572}
   - {fileID: 201307352}
   - {fileID: 1081684070}
-  - {fileID: 244378989}
+  - {fileID: 294957306}

@@ -5,8 +5,6 @@ using System;
 
 public class DominoSpawner : MonoBehaviour
 {
-    [Header("Prefab"), SerializeField] private GameObject dominoPrefab;
-    [Header("Spawn"), SerializeField] private Transform spawnPoint;
 
     [Header("Spawn"), SerializeField] private DominoMovementController dominoController;
 
@@ -18,7 +16,7 @@ public class DominoSpawner : MonoBehaviour
     public int CurrentDominoId => _currentDominoId;
 
 
-    public Action<DominoInfos> OnDominoSpawn; 
+    public Action<DominoPiece> OnDominoSpawn; 
 
     private void Awake()
     {
@@ -37,7 +35,7 @@ public class DominoSpawner : MonoBehaviour
 
     // temps !!
 
-    public void SpawnDomino(DominoInfos dominoCombination)
+    public void SpawnDomino(DominoPiece domino)
     {
 
         // on récupere le milieu de la case du milieu de ma grille
@@ -56,18 +54,19 @@ public class DominoSpawner : MonoBehaviour
         }
         
 
-        // création 
+        //// création 
 
-        GameObject dominoGO = Instantiate(dominoPrefab.gameObject, spawnPos, Quaternion.identity);
+        //GameObject dominoGO = Instantiate(dominoPrefab.gameObject, spawnPos, Quaternion.identity);
 
-        DominoPiece dominoInstance = dominoGO.GetComponent<DominoPiece>();
+        //DominoPiece dominoInstance = dominoGO.GetComponent<DominoPiece>();
 
-        dominoInstance.Init(_currentPieceID++, rotation, dominoCombination);  
+        //dominoInstance.Init(_currentPieceID++, rotation, dominoCombination);  
 
-        _currentDominoId = dominoInstance.PieceUniqueId;
+        //_currentDominoId = dominoInstance.PieceUniqueId;
+        
+        domino.transform.position = spawnPos;
 
-        dominoController.CurrentDomino = dominoInstance;
-
+        dominoController.CurrentDomino = domino;
         dominoController.CanFall = true;
     }
 
