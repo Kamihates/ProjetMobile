@@ -5,8 +5,6 @@ using System;
 
 public class DominoSpawner : MonoBehaviour
 {
-    [Header("Prefab"), SerializeField] private GameObject dominoPrefab;
-    [Header("Spawn"), SerializeField] private Transform spawnPoint;
 
     [Header("Spawn"), SerializeField] private DominoMovementController dominoController;
 
@@ -18,7 +16,7 @@ public class DominoSpawner : MonoBehaviour
     public DominoPiece CurrentDomino => _currentDomino;
 
 
-    public Action<DominoInfos> OnDominoSpawn; 
+    public Action<DominoPiece> OnDominoSpawn; 
 
     private void Awake()
     {
@@ -37,10 +35,10 @@ public class DominoSpawner : MonoBehaviour
 
     // temps !!
 
-    public void SpawnDomino(DominoInfos dominoCombination)
+    public void SpawnDomino(DominoPiece domino)
     {
 
-        // on récupere le milieu de la case du milieu de ma grille
+        // on rï¿½cupere le milieu de la case du milieu de ma grille
         Vector2 spawnPos = GetSpawnPosition();
         int rotation = 0;
 
@@ -49,33 +47,34 @@ public class DominoSpawner : MonoBehaviour
         {
             if (TEST_GD.Instance.RotationRandom)
             {
-                // _currentRotation aléatoire
+                // _currentRotation alï¿½atoire
                 rotation = UnityEngine.Random.Range(0, 4);
             }
             
         }
         
 
-        // création 
+        //// crï¿½ation 
 
-        GameObject dominoGO = Instantiate(dominoPrefab.gameObject, spawnPos, Quaternion.identity);
+        //GameObject dominoGO = Instantiate(dominoPrefab.gameObject, spawnPos, Quaternion.identity);
 
-        DominoPiece dominoInstance = dominoGO.GetComponent<DominoPiece>();
+        //DominoPiece dominoInstance = dominoGO.GetComponent<DominoPiece>();
 
-        dominoInstance.Init(_currentPieceID++, rotation, dominoCombination);  
+        //dominoInstance.Init(_currentPieceID++, rotation, dominoCombination);  
 
-        _currentDomino = dominoInstance;
+        //_currentDominoId = dominoInstance.PieceUniqueId;
+        
+        domino.transform.position = spawnPos;
 
-        dominoController.CurrentDomino = dominoInstance;
-
-        //dominoController.CanFall = true;
+        dominoController.CurrentDomino = domino;
+        dominoController.CanFall = true;
     }
 
     private Vector2 GetSpawnPosition()
     {
         if (GridManager.Instance == null) return Vector2.zero;
 
-        // on récupère la cellule du milieu 
+        // on rï¿½cupï¿½re la cellule du milieu 
         int cell = Mathf.CeilToInt(GridManager.Instance.Column / 2);
 
         // on recupere sa position

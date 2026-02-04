@@ -10,16 +10,21 @@ public class DeckManager : MonoBehaviour
     [BoxGroup("Deck"), SerializeField, Min(2)] private int deckSize = 10;
     [BoxGroup("Deck"), SerializeField] private bool shuffleDeck = true;
 
-    [BoxGroup("Deck"), SerializeField] private List<DominoInfos> deck = new();
+    [BoxGroup("Deck"), SerializeField] private DeckStartingData startingDeckData;
+    [BoxGroup("Deck"), SerializeField] private DominoHandVisual dominoHandVisual;
 
-    [BoxGroup("Debug"), SerializeField] private List<DominoInfos> discard = new();
-    [BoxGroup("Debug"), SerializeField] private List<DominoInfos> dominoInHand = new();
+    [BoxGroup("Debug"), SerializeField, ReadOnly] private List<DominoInfos> deck = new();
+    [BoxGroup("Debug"), SerializeField, ReadOnly] private List<DominoInfos> discard = new();
+    [BoxGroup("Debug"), SerializeField, ReadOnly] private List<DominoInfos> dominoInHand = new();
+    public List<DominoInfos> DominoInHand => dominoInHand;
 
     [SerializeField, Required] private DominoSpawner dominoSpawner;
     
 
     private void Start()
     {
+
+        deck = new List<DominoInfos>(startingDeckData.Dominos);
 
         GridManager.Instance.OnDominoPlaced += HandleNextDomino;
 
@@ -32,9 +37,6 @@ public class DeckManager : MonoBehaviour
             Debug.Log("Deck not initialized, deck is now generated auto");
             GeneratePlayerDeck();
         }
-
-        for (int i = 0; i < initialDominoInHandSize; i++)
-            FillHandFromDeck();
 
         SpawnNextDomino();
     }
@@ -86,54 +88,56 @@ public class DeckManager : MonoBehaviour
         if (deck.Count == 0)
             return;
 
-        for (int i = 0; i < initialDominoInHandSize; i++)
-        {
-            if (deck.Count >= 1)
-            {
-                dominoInHand.Add(deck[0]);
-                deck.RemoveAt(0);
-            }
-            
-        }
+        dominoInHand.Add(deck[0]);
+        deck.RemoveAt(0);        
 
-        
+        dominoHandVisual.SpawnDominoHandVisual(dominoInHand.Count - 1);
 
-        /*        dominoInHand.Clear(); // On retire le clear pour pas perdre les dominos deja en main si le deck est regen
 
-                for (int i = 0; i < initialDominoInHandSize && deck.Count > 0; i++)
-                {
-                    dominoInHand.Add(deck[0]);
-                    deck.RemoveAt(0); // On remove le domino en main de l'index 0 plutot quand le domino est plac� sur la grille
-                }*/
     }
 
     public void SpawnNextDomino()
     {
+        while (dominoInHand.Count < initialDominoInHandSize)
+        {
+            FillHandFromDeck();
+        }
+
         if (dominoInHand.Count == 0)
         {
             Debug.Log("main vide");
             return;
         }
+        DominoInfos DominoToSpawn = dominoInHand[0];
 
-        // on spawn le premier domino de la main
+        //dominoSpawner.OnDominoSpawn?.Invoke(currentDomino);
+        //dominoInHand.RemoveAt(0);
 
-        DominoInfos currentDomino = dominoInHand[0];
-
-        dominoSpawner.OnDominoSpawn?.Invoke(currentDomino);
-
-        dominoInHand.RemoveAt(0);
     }
 
     private void RefillDeck()
     {
-        if (discard.Count == 0)
+        // Si le deck a encore des cartes, rien à faire
+        if (deck.Count > 0)
             return;
 
-        deck.AddRange(discard);
-        discard.Clear();
+        // Si discard contient des cartes, on les remet dans le deck
+        if (discard.Count > 0)
+        {
+            deck.AddRange(discard);
+            discard.Clear();
 
-        if (shuffleDeck)
-            ShuffleDeck(deck);
+            if (shuffleDeck)
+                ShuffleDeck(deck);
+        }
+        // Si discard est vide, on rebuild le deck depuis le SO de départ
+        else
+        {
+            deck = new List<DominoInfos>(startingDeckData.Dominos);
+
+            if (shuffleDeck)
+                ShuffleDeck(deck);
+        }
     }
 
     private void ShuffleDeck(List<DominoInfos> list)
@@ -142,8 +146,8 @@ public class DeckManager : MonoBehaviour
         {
             int random = Random.Range(i, list.Count);
             DominoInfos dominoInfos = list[i]; // on stock temporairement le domino a la position actuelle
-            list[i] = list[random]; // On met le domino aleatoire a la place de celui actuel
-            list[random] = dominoInfos; // Et on met le domino initial a la place du domino al�atoire
+            list[i] = list[random]; // On met le domino al�atoire � la place de celui actuel
+            list[random] = dominoInfos; // Et on met le domino initial � la place du domino al�atoire
         }
     }
 
@@ -155,7 +159,7 @@ public class DeckManager : MonoBehaviour
 
         if (dominoInHand.Count == 0)
         {
-            FillHandFromDeck();
+
         }
     }
 
