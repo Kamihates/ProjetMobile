@@ -1,9 +1,11 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.Audio.ProcessorInstance;
 
 public class DominoFusion : MonoBehaviour
 {
@@ -13,39 +15,96 @@ public class DominoFusion : MonoBehaviour
     private void Start()
     {
         _gridManager = GridManager.Instance;
-       // _gridManager.OnDominoPlaced += CheckForFusion;
+        _gridManager.OnDominoPlaced += CheckForFusion;
     }
 
     private void OnDestroy()
     {
-        //_gridManager.OnDominoPlaced -= CheckForFusion;
+        _gridManager.OnDominoPlaced -= CheckForFusion;
     }
 
 
     private void CheckForFusion(DominoPiece piece)
     {
-        // Pour chaque région du domino
-        for (int i = 0; i < piece.transform.childCount; i++)
-        {
-            if (piece.transform.GetChild(i).TryGetComponent(out RegionPiece region))
-            {
-                // si la région à de la data
-                if (region.Region != null)
-                {
-                    // on récupère les carrés de fusion
-                    List<FusionSquare> fusionSquares = GetFusionNeighbors(region);
 
-                    foreach (FusionSquare square in fusionSquares)
+        bool conflitDetected = false;
+
+        List<FusionSquare> fusionSquare1 = GetAllFusionSquare(piece, 0);
+        List<FusionSquare> fusionSquare2 = GetAllFusionSquare(piece, 2);
+
+        // si ya des conflits 
+        conflitDetected =
+            fusionSquare1.SelectMany(fs => fs.Square).GroupBy(vector => vector).Any(index => index.Count() > 1)
+            ||
+            fusionSquare2.SelectMany(fs => fs.Square).GroupBy(vector => vector).Any(index => index.Count() > 1)
+            ;
+
+        if (conflitDetected)
+        {
+            if (fusionSquare1.Count > 1 && fusionSquare2.Count > 1)
+            {
+                // recherche de squares independants
+                foreach (FusionSquare fs in fusionSquare1)
+                {
+                    foreach(FusionSquare fs2 in fusionSquare2)
                     {
-                        if (square.IsFusionDetected)
+                        bool isValid = true;
+                        foreach (Vector2Int index in fs.Square)
                         {
-                            Debug.Log("FUSION DETECTEE");
+                            // FS1 ne va pas avec FS2
+                            if (fs2.Square.Contains(index))
+                            {
+                                isValid = false;
+                                break;
+                            }
+                        }
+
+                        if (isValid)
+                        {
+                            // on renvoie les carrés fs1 et fs2 pour T1 x 2 
+                            Debug.Log("fusion T1 x 2");
                         }
                     }
-
                 }
             }
+            else
+            {
+                // conflit inévitables
+                Debug.Log("Conflits inévitables");
+            }
         }
+        else
+        {
+            // pas de fusion
+            if (fusionSquare1.Count == 0 && fusionSquare2.Count == 0)
+            {
+                Debug.Log("Pas de fusion");
+            }
+            // fusion T1
+            else
+            {
+                Debug.Log("Fusion T1");
+            }
+        }
+    }
+
+    private List<FusionSquare> GetAllFusionSquare(DominoPiece piece, int regionIndex)
+    {
+        if (piece.transform.GetChild(regionIndex).TryGetComponent(out RegionPiece region2))
+        {
+            // si la région à de la data
+            if (region2.Region != null)
+            {
+                // on récupère les carrés de fusion
+                List<FusionSquare> fusionSquares = GetFusionNeighbors(region2);
+
+                fusionSquares.RemoveAll(square => !square.IsFusionDetected);
+
+                return fusionSquares;
+            }
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -57,7 +116,7 @@ public class DominoFusion : MonoBehaviour
     {
         // On transforme notre region en index pour recup les index adjacents
         Vector2 regionPos = region.transform.position;
-        Vector2Int regionIndex = _gridManager.GetPositionToGridIndex(regionPos);
+        Vector2Int regionIndex = _gridManager.GetIndexFromPosition(regionPos);
 
         Vector2Int regionMatriceIndex = new Vector2Int(regionIndex.y, regionIndex.x); // converti index grille en index matrice
 
@@ -108,6 +167,8 @@ public class DominoFusion : MonoBehaviour
     }
     private Vector2Int[] GetFusionSquareIndex(List<Vector2Int> neighbors)
     {
+        Debug.Log("nombre de voisins : " + neighbors.Count);
+
         Vector2Int[] result = new Vector2Int[neighbors.Count];
 
         for (int i = 0; i < neighbors.Count; i++)
@@ -121,6 +182,8 @@ public class DominoFusion : MonoBehaviour
     }
     private bool IsSquareIsSameData(Vector2Int[] square)
     {
+        if (square == null) return false;
+
         RegionData region = _gridManager.GetRegionAtIndex(new Vector2Int(square[0].y, square[0].x));
 
         if (region == null)
@@ -133,13 +196,10 @@ public class DominoFusion : MonoBehaviour
 
         foreach (Vector2Int index in square)
         {
-            
-
-
             // l'id nest pas le meme, il n'y a pas de fusion dans ce carré
             if (_gridManager.GetRegionAtIndex(new Vector2Int(index.y, index.x)) == null)
                 return false;
-            Debug.Log("------ square[" + index + "] = " + _gridManager.GetRegionAtIndex(new Vector2Int(index.y, index.x)).RegionID);
+
             if (_gridManager.GetRegionAtIndex(new Vector2Int(index.y, index.x)).RegionID != regionID)
                 return false;
         }

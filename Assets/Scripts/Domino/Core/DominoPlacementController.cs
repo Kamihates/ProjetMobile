@@ -13,7 +13,7 @@ public class DominoPlacementController : MonoBehaviour
         // ETAPE 1 : On converti notre domino en index de la grille pour récupérer la colonne de notre domino
         if (index.x < 0)
         {
-            index = GridManager.Instance.GetPositionToGridIndex(domino.transform.position);
+            index = GridManager.Instance.GetIndexFromPosition(domino.transform.position);
             index.y = 0;
         }
 
@@ -63,7 +63,7 @@ public class DominoPlacementController : MonoBehaviour
 
                     // on passe la region en index pour verifier si les emplacements sont vides
 
-                    Vector2Int RegionIndex = GridManager.Instance.GetPositionToGridIndex(RegionPosSimulation);
+                    Vector2Int RegionIndex = GridManager.Instance.GetIndexFromPosition(RegionPosSimulation);
 
                     if (GridManager.Instance.GetRegionAtIndex(RegionIndex) != null)
                     {

@@ -98,7 +98,7 @@ public class GridManager : MonoBehaviour
 
                     // on la passe en index pour verifier si les emplacements sont vides
 
-                    Vector2Int RegionIndex = GridManager.Instance.GetPositionToGridIndex(RegionPosSimulation);
+                    Vector2Int RegionIndex = GridManager.Instance.GetIndexFromPosition(RegionPosSimulation);
 
                     _gridData[RegionIndex.y][RegionIndex.x] = region;
 
@@ -112,7 +112,7 @@ public class GridManager : MonoBehaviour
     }
 
 
-    public Vector2Int GetPositionToGridIndex(Vector2 position)
+    public Vector2Int GetIndexFromPosition(Vector2 position)
     {
         Vector2Int index = Vector2Int.zero;
 
@@ -164,6 +164,6 @@ public class GridManager : MonoBehaviour
     /// <returns></returns>
     public bool CheckIndexValidation(Vector2Int index)
     {
-        return index.x < _gridData.Count && index.y < _gridData[index.x].Count;
+        return index.x >= 0 && index.x < _gridData.Count && index.y < _gridData[index.x].Count && index.y >= 0;
     }
 }

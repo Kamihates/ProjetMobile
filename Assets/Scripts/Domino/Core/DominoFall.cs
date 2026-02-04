@@ -30,7 +30,7 @@ public class DominoFall : MonoBehaviour
         if (GameManager.Instance.CurrentDomino.PieceUniqueId != _piece.PieceUniqueId) return;
 
 
-        Vector2Int currentIndex = GridManager.Instance.GetPositionToGridIndex(transform.position);
+        Vector2Int currentIndex = GridManager.Instance.GetIndexFromPosition(transform.position);
 
         Vector2 targetPos = DominoPlacementController.Instance.GetFinalDestination(_piece, currentIndex);
 
