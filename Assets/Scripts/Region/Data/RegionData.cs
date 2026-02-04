@@ -24,6 +24,8 @@ public class RegionData : ScriptableObject
 public enum RegionType
 {
     None,
-    Foret,
-    Ocean
+    Mer,
+    Terre,
+    Urbain,
+    Culture
 }

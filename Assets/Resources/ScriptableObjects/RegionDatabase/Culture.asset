@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4bcfd5daecb4cb45af6c2c038063faa, type: 3}
-  m_Name: Ocean
+  m_Name: Culture
   m_EditorClassIdentifier: Assembly-CSharp::RegionDatabase
   RegionID: 0
-  Type: 2
-  RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
+  Type: 4
+  RegionTerrain: {fileID: -3038682637099569879, guid: 1cc4e96532f024840b712c96216646b5, type: 3}
   RegionOverlay: {fileID: 0}
