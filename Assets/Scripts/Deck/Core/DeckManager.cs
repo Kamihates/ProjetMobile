@@ -97,7 +97,8 @@ public class DeckManager : MonoBehaviour
 
         dominoUID++;
 
-        dominoHandVisual.SpawnDominoHandVisual(dominoUID);
+        int newIndex = dominoUID;
+        dominoHandVisual.SpawnDominoHandVisual(newIndex, dominoInHand.Count - 1);
 
 
     }

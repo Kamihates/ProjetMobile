@@ -38,7 +38,9 @@ public class DominoSpawner : MonoBehaviour
         if (dominoToSpawn != null)
         {
             deckManager.DominoInHand.RemoveAt(0);
+            deckManager.HandVisual.DominoInHandVisual[0].transform.SetParent(null);
             deckManager.HandVisual.DominoInHandVisual.RemoveAt(0);
+            deckManager.HandVisual.UpdateDominoHandVisual();
 
         }
 
