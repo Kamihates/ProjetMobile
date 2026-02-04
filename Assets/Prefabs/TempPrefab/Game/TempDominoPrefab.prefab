@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c782526d687c4e748b1e4ca45387374f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoFall
-  piece: {fileID: 2150986522567306349}
+  _piece: {fileID: 2150986522567306349}
 --- !u!1 &3339117720595871121
 GameObject:
   m_ObjectHideFlags: 0

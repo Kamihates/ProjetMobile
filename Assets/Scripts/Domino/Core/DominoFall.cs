@@ -3,7 +3,7 @@ using UnityEngine;
 public class DominoFall : MonoBehaviour
 {
 
-    [SerializeField] DominoPiece piece;
+    [SerializeField] DominoPiece _piece;
 
     // case par case
     private float _fallingStepChrono = 0; // chrono entre chaque step
@@ -26,10 +26,13 @@ public class DominoFall : MonoBehaviour
     private void FixedUpdate()
     {
         if (DominoPlacementController.Instance == null) { return; }
+        if (GameManager.Instance != null && GameManager.Instance.CurrentDomino == null) return; 
+        if (GameManager.Instance.CurrentDomino.PieceUniqueId != _piece.PieceUniqueId) return;
+
 
         Vector2Int currentIndex = GridManager.Instance.GetPositionToGridIndex(transform.position);
 
-        Vector2 targetPos = DominoPlacementController.Instance.GetFinalDestination(piece, currentIndex);
+        Vector2 targetPos = DominoPlacementController.Instance.GetFinalDestination(_piece, currentIndex);
 
         if (TEST_GD.Instance != null)
         {
@@ -48,7 +51,7 @@ public class DominoFall : MonoBehaviour
         {
             transform.position = targetPos; // on snap au cas ou
 
-            DominoPiece domino = piece;
+            DominoPiece domino = _piece;
             GridManager.Instance.OnDominoPlaced?.Invoke(domino);
             this.enabled = false;
         }

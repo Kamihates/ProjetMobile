@@ -10,65 +10,94 @@ public class DominoSpawner : MonoBehaviour
 
     [Header("Base Data")]
     [SerializeField] private CombinaisonData dominoData; 
+    [SerializeField] private DeckManager deckManager; 
 
 
     [SerializeField] private DominoPiece _currentDomino;
     public DominoPiece CurrentDomino => _currentDomino;
 
 
-    public Action<DominoPiece> OnDominoSpawn; 
+    public Action OnDominoSpawn; 
 
     private void Awake()
     {
-        OnDominoSpawn += SpawnDomino;
+        OnDominoSpawn += SpawnNextDomino;
     }
 
     private void OnDestroy()
     {
-        OnDominoSpawn -= SpawnDomino;
+        OnDominoSpawn -= SpawnNextDomino;
     }
 
-
-    // temp !! 
-
-    int _currentPieceID = 0;
-
-    // temps !!
-
-    public void SpawnDomino(DominoPiece domino)
+    public void SpawnNextDomino()
     {
+       
+
+        DominoPiece dominoToSpawn = deckManager.GetNextDominoInHand();
+        
+        if (dominoToSpawn != null)
+        {
+            deckManager.DominoInHand.RemoveAt(0);
+            deckManager.HandVisual.DominoInHandVisual.RemoveAt(0);
+
+        }
+
 
         // on r�cupere le milieu de la case du milieu de ma grille
         Vector2 spawnPos = GetSpawnPosition();
         int rotation = 0;
 
 
-        if (TEST_GD.Instance !=  null)
+        if (TEST_GD.Instance != null)
         {
             if (TEST_GD.Instance.RotationRandom)
             {
                 // _currentRotation al�atoire
                 rotation = UnityEngine.Random.Range(0, 4);
             }
-            
+
         }
-        
 
-        //// cr�ation 
+        dominoToSpawn.transform.position = spawnPos;
+        GameManager.Instance.CurrentDomino = dominoToSpawn;
 
-        //GameObject dominoGO = Instantiate(dominoPrefab.gameObject, spawnPos, Quaternion.identity);
-
-        //DominoPiece dominoInstance = dominoGO.GetComponent<DominoPiece>();
-
-        //dominoInstance.Init(_currentPieceID++, rotation, dominoCombination);  
-
-        //_currentDominoId = dominoInstance.PieceUniqueId;
-        
-        domino.transform.position = spawnPos;
-
-        dominoController.CurrentDomino = domino;
-        dominoController.CanFall = true;
     }
+
+
+    //public void SpawnDomino()
+    //{
+
+    //    // on r�cupere le milieu de la case du milieu de ma grille
+    //    Vector2 spawnPos = GetSpawnPosition();
+    //    int rotation = 0;
+
+
+    //    if (TEST_GD.Instance !=  null)
+    //    {
+    //        if (TEST_GD.Instance.RotationRandom)
+    //        {
+    //            // _currentRotation al�atoire
+    //            rotation = UnityEngine.Random.Range(0, 4);
+    //        }
+            
+    //    }
+        
+
+    //    //// cr�ation 
+
+    //    //GameObject dominoGO = Instantiate(dominoPrefab.gameObject, spawnPos, Quaternion.identity);
+
+    //    //DominoPiece dominoInstance = dominoGO.GetComponent<DominoPiece>();
+
+    //    //dominoInstance.Init(_currentPieceID++, rotation, dominoCombination);  
+
+    //    //_currentDominoId = dominoInstance.PieceUniqueId;
+        
+    //    domino.transform.position = spawnPos;
+    //    GameManager.Instance.CurrentDomino = domino;
+
+    //    //dominoController.CanFall = true;
+    //}
 
     private Vector2 GetSpawnPosition()
     {

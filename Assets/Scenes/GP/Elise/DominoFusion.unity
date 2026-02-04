@@ -725,10 +725,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13e1fd66d377ccf49aaa488d0279dc2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoSpawner
-  dominoPrefab: {fileID: 1819317131152328505, guid: 73bbd8c349c0a604985ae9ab466315d7, type: 3}
-  spawnPoint: {fileID: 0}
   dominoController: {fileID: 93427302}
-  dominoData: {fileID: 11400000, guid: 4eedf6ddf81cddb45a63b9bc18def76c, type: 2}
+  dominoData: {fileID: 11400000, guid: 4398ad35494bbcf4aab6296ee01d56f9, type: 2}
+  deckManager: {fileID: 1081684069}
   _currentDomino: {fileID: 0}
 --- !u!1 &1081684068
 GameObject:
@@ -763,43 +762,21 @@ MonoBehaviour:
   initialDominoInHandSize: 3
   deckSize: 10
   shuffleDeck: 1
+  startingDeckData: {fileID: 11400000, guid: 7d5a38cf4230c92478612fa8e0ccea82, type: 2}
+  dominoHandVisual: {fileID: 1633267706}
   deck:
   - regions:
-    - RegionID: 1
-      Type: 1
-      RegionTerrain: {fileID: 21300000, guid: 0e00e22c2302c4c429576e0e04ff4834, type: 3}
-      RegionOverlay: {fileID: 0}
-    - RegionID: 1
-      Type: 1
-      RegionTerrain: {fileID: 21300000, guid: 0e00e22c2302c4c429576e0e04ff4834, type: 3}
-      RegionOverlay: {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   - regions:
-    - RegionID: 0
-      Type: 2
-      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
-      RegionOverlay: {fileID: 0}
-    - RegionID: 0
-      Type: 2
-      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
-      RegionOverlay: {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   - regions:
-    - RegionID: 1
-      Type: 1
-      RegionTerrain: {fileID: 21300000, guid: 0e00e22c2302c4c429576e0e04ff4834, type: 3}
-      RegionOverlay: {fileID: 0}
-    - RegionID: 0
-      Type: 2
-      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
-      RegionOverlay: {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   - regions:
-    - RegionID: 0
-      Type: 2
-      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
-      RegionOverlay: {fileID: 0}
-    - RegionID: 1
-      Type: 1
-      RegionTerrain: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
-      RegionOverlay: {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   discard: []
   dominoInHand: []
   dominoSpawner: {fileID: 954746999}
@@ -848,7 +825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TEST_GD
   dominoMvtController: {fileID: 93427302}
-  deckManager: {fileID: 1081684069}
+  spawner: {fileID: 954746999}
   RotationRandom: 1
   FallPerCase: 0
   FallingStepStoppingTime: 1
@@ -866,6 +843,53 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.30054, y: 1.61872, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1504924589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1504924591}
+  - component: {fileID: 1504924590}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1504924590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504924589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4175d95622f5d4989102227dbc38a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  deckManager: {fileID: 1081684069}
+  dominoSpawner: {fileID: 954746999}
+  dominoMouvement: {fileID: 93427302}
+--- !u!4 &1504924591
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504924589}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.47518, y: 2.88308, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -904,6 +928,54 @@ Transform:
   - {fileID: 2058347779}
   - {fileID: 93427301}
   - {fileID: 954746998}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1633267705
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1633267707}
+  - component: {fileID: 1633267706}
+  m_Layer: 0
+  m_Name: Hand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1633267706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633267705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35cae879a4d84d8449b3dd7ff8e8e05b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DominoHandVisual
+  deckManager: {fileID: 1081684069}
+  handVisualParent: {fileID: 1633267707}
+  spaceWithinDomino: 2
+  dominoPrefab: {fileID: 1819317131152328505, guid: 73bbd8c349c0a604985ae9ab466315d7, type: 3}
+--- !u!4 &1633267707
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633267705}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.25, y: 3.46, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2058347778
@@ -962,3 +1034,5 @@ SceneRoots:
   - {fileID: 1584956572}
   - {fileID: 201307352}
   - {fileID: 1081684070}
+  - {fileID: 1633267707}
+  - {fileID: 1504924591}

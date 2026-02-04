@@ -9,7 +9,7 @@ public class TEST_GD : MonoBehaviour
     [BoxGroup("Références de scripts (ne pas retirer)")]
     [SerializeField] private DominoMovementController dominoMvtController;
     [BoxGroup("Références de scripts (ne pas retirer)")]
-    [SerializeField] private DeckManager deckManager;
+    [SerializeField] private DominoSpawner spawner;
 
     [Space(5)]
 
@@ -32,8 +32,8 @@ public class TEST_GD : MonoBehaviour
             {
                 Destroy(dominoMvtController.CurrentDomino.gameObject);
 
-                if (deckManager!=null)
-                    deckManager.SpawnNextDomino();
+                if (spawner != null)
+                    spawner.SpawnNextDomino();
             }
             
         }

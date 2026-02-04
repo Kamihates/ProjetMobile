@@ -10,6 +10,9 @@ public class DominoHandVisual : MonoBehaviour
     [SerializeField, Range(0,5)] private float spaceWithinDomino = 2f;
     [Header("Prefab"), SerializeField] private GameObject dominoPrefab;
 
+    private List<DominoPiece> dominoInHandVisual = new();
+    public List<DominoPiece> DominoInHandVisual => dominoInHandVisual;
+
     public void SpawnDominoHandVisual(int index)
     {
         GameObject dominoGO = Instantiate(dominoPrefab, handVisualParent);
@@ -19,6 +22,7 @@ public class DominoHandVisual : MonoBehaviour
         DominoPiece dominoPiece = dominoGO.GetComponent<DominoPiece>();
         dominoPiece.Init(index, 0, deckManager.DominoInHand[index]);
 
+        dominoInHandVisual.Add(dominoPiece);
 
     }
 }

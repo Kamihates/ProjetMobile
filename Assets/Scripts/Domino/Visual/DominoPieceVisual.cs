@@ -14,6 +14,8 @@ public class DominoPieceVisual : MonoBehaviour
         if (_piece.Data.Regions.Count != 2) return;
 
 
+        
+
         // on test 3 rotations max, si aucune marche on garde l'actuelle
         for (int t = 1; t < 4; t++)
         {
@@ -45,6 +47,17 @@ public class DominoPieceVisual : MonoBehaviour
                 default:
                     break;
 
+            }
+
+            // si la piece est en main, mais en current piece, on peut la tourner 
+            if (GameManager.Instance != null)
+            {
+                if (GameManager.Instance.CurrentDomino == null || GameManager.Instance.CurrentDomino.PieceUniqueId != _piece.PieceUniqueId)
+                {
+                    transform.GetChild(1).localPosition = tagetPos;
+                    _piece.Rotation = targetRotation;
+                    return;
+                }
             }
 
             // on regarde si la rotation ne depace pas de la grille : 

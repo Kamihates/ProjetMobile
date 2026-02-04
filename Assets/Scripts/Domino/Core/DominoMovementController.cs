@@ -5,7 +5,17 @@ using UnityEngine;
 
 public class DominoMovementController : MonoBehaviour
 {
-    public DominoPiece CurrentDomino { get => _currentDomino; set { _currentDomino = value; _currentDomino.FallController.Init(_fallingSpeed, _stepSpeed); } }
+    public DominoPiece CurrentDomino
+    {
+        get => _currentDomino; set
+        {
+            _currentDomino = value;
+            if (value != null)
+            {
+                _currentDomino.FallController.Init(_fallingSpeed, _stepSpeed);
+            }
+        }
+    }
     private DominoPiece _currentDomino;
     
     [BoxGroup("Gestion du drag"), SerializeField]  private float _holdTime = 0.2f;

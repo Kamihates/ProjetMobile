@@ -12,6 +12,7 @@ public class DeckManager : MonoBehaviour
 
     [BoxGroup("Deck"), SerializeField] private DeckStartingData startingDeckData;
     [BoxGroup("Deck"), SerializeField] private DominoHandVisual dominoHandVisual;
+    public DominoHandVisual HandVisual => dominoHandVisual;
 
     [BoxGroup("Debug"), SerializeField, ReadOnly] private List<DominoInfos> deck = new();
     [BoxGroup("Debug"), SerializeField, ReadOnly] private List<DominoInfos> discard = new();
@@ -38,7 +39,8 @@ public class DeckManager : MonoBehaviour
             GeneratePlayerDeck();
         }
 
-        SpawnNextDomino();
+        dominoSpawner.SpawnNextDomino();
+
     }
 
     private void OnDestroy()
@@ -96,7 +98,7 @@ public class DeckManager : MonoBehaviour
 
     }
 
-    public void SpawnNextDomino()
+    public DominoPiece GetNextDominoInHand()
     {
         while (dominoInHand.Count < initialDominoInHandSize)
         {
@@ -106,12 +108,15 @@ public class DeckManager : MonoBehaviour
         if (dominoInHand.Count == 0)
         {
             Debug.Log("main vide");
-            return;
+            return null;
         }
-        DominoInfos DominoToSpawn = dominoInHand[0];
 
-        //dominoSpawner.OnDominoSpawn?.Invoke(currentDomino);
-        //dominoInHand.RemoveAt(0);
+        if (dominoHandVisual.DominoInHandVisual.Count <= 0)
+        {
+            Debug.LogWarning("visuel vide...");
+            return null;
+        }    
+        return dominoHandVisual.DominoInHandVisual[0];
 
     }
 
@@ -166,10 +171,17 @@ public class DeckManager : MonoBehaviour
     private void HandleNextDomino(DominoPiece dominoPiece)
     {
         // si le domino qui à été placé n'est pas le domino actuel on ne se charge pas de le discard ou autre car il était déjà sur le terrain
-        if (dominoPiece != dominoSpawner.CurrentDomino) return;
+        if (GameManager.Instance.CurrentDomino == null)
+        {
+            return;
+        }
+        if (dominoPiece.PieceUniqueId != GameManager.Instance.CurrentDomino.PieceUniqueId) return;
+
+        GameManager.Instance.CurrentDomino = null;
 
         DiscardDomino(new List<DominoInfos> {dominoPiece.Data});
-        SpawnNextDomino();
+        dominoSpawner.SpawnNextDomino();
+
     }
 
 
