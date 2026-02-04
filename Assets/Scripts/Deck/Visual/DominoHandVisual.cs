@@ -30,7 +30,7 @@ public class DominoHandVisual : MonoBehaviour
     {
         for (int i = 0; i < dominoInHandVisual.Count; i++)
         {
-            dominoInHandVisual[i].transform.localPosition = new Vector2(i * spaceWithinDomino * dominoInHandVisual.Count, 0f);
+            dominoInHandVisual[i].transform.localPosition = new Vector2(handVisualParent.position.x - (i * spaceWithinDomino), 0);
         }
     }
 }
