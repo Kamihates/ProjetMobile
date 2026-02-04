@@ -42,13 +42,12 @@ public class DominoCombos : MonoBehaviour
         Vector2Int regionIndex = GridManager.Instance.GetIndexFromPosition(regionPiece.transform.position);
 
 
-        List<Vector2Int> regionToCheck = new List<Vector2Int>();
+        List<Vector2Int> regionToCheck = new List<Vector2Int> { regionIndex };
 
-        regionToCheck.Add(regionIndex);
 
         while(regionToCheck.Count> 0)
         {
-            Vector2Int currentIndex = new Vector2Int(regionToCheck[0].y, regionToCheck[0].x);
+            Vector2Int currentIndex = regionToCheck[0];
             combosOfAdjacentDomino.Add(currentIndex);
 
             Vector2Int[] regionNeighbors  = GetRegionNeighbors(currentIndex);
@@ -59,15 +58,15 @@ public class DominoCombos : MonoBehaviour
                 if (!GridManager.Instance.CheckIndexValidation(neighbor))
                     continue;
 
-                RegionData neighborRegion = GridManager.Instance.GetRegionAtIndex(new Vector2Int(neighbor.y, neighbor.x));
+                RegionData neighborRegion = GridManager.Instance.GetRegionAtIndex(neighbor);
 
                 if (neighborRegion == null)
                     continue;
 
-                if (neighborRegion.RegionID != regionPiece.Region.RegionID)
+                if (neighborRegion.RegionID == regionPiece.Region.RegionID)
                 {
-                    regionToCheck.Add(neighbor);
-
+                    if (!combosOfAdjacentDomino.Contains(neighbor))
+                        regionToCheck.Add(neighbor);
                 }
 
             }

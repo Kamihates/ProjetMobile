@@ -52,7 +52,8 @@ public class DominoFall : MonoBehaviour
             transform.position = targetPos; // on snap au cas ou
 
             DominoPiece domino = _piece;
-            GridManager.Instance.OnDominoPlaced?.Invoke(domino);
+            GridManager.Instance.AddDominoDataInGrid(domino);
+            
             this.enabled = false;
         }
     }
