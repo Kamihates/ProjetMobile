@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using UnityEngine;
 using System.Collections.Generic;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class DominoCombos : MonoBehaviour
 {
@@ -48,13 +49,19 @@ public class DominoCombos : MonoBehaviour
         while(regionToCheck.Count> 0)
         {
             Vector2Int currentIndex = regionToCheck[0];
-            combosOfAdjacentDomino.Add(currentIndex);
+            regionToCheck.RemoveAt(0);
+
+            RegionData regionData = GridManager.Instance.GetRegionAtIndex(currentIndex);
+            if (regionData == null)
+                continue;
+
+            if (!combosOfAdjacentDomino.Contains(currentIndex))
+                combosOfAdjacentDomino.Add(currentIndex);
 
             Vector2Int[] regionNeighbors  = GetRegionNeighbors(currentIndex);
 
             foreach (Vector2Int neighbor in regionNeighbors)
             {
-                Debug.Log("index du combo = " +  neighbor);
                 if (!GridManager.Instance.CheckIndexValidation(neighbor))
                     continue;
 
@@ -71,10 +78,16 @@ public class DominoCombos : MonoBehaviour
 
             }
 
-            regionToCheck.RemoveAt(0);
+            
         }
 
         Debug.Log($"Combos found: {combosOfAdjacentDomino.Count}");
+        Debug.Log("----------- FUSION index ------- ");
+        foreach (Vector2 Int in combosOfAdjacentDomino)
+        {
+            Debug.Log(Int);
+        }
+        Debug.Log("---------------- ");
     }
 
     private Vector2Int[] GetRegionNeighbors(Vector2Int regionIndex)
