@@ -27,7 +27,6 @@ public class DominoCombos : MonoBehaviour
 
     public void CheckForCombos(DominoPiece piece)
     {
-        Debug.Log("Combo");
         RegionPiece regionPiece1 = piece.transform.GetChild(0).GetComponent<RegionPiece>();
         RegionPiece regionPiece2 = piece.transform.GetChild(1).GetComponent<RegionPiece>();
         CheckForAdjacentDomino(regionPiece1);
@@ -40,7 +39,7 @@ public class DominoCombos : MonoBehaviour
         combosOfAdjacentDomino.Clear();
 
         // Donne l'index par rapport a la grille
-        Vector2Int regionIndex = GridManager.Instance.GetPositionToGridIndex(regionPiece.transform.position);
+        Vector2Int regionIndex = GridManager.Instance.GetIndexFromPosition(regionPiece.transform.position);
 
 
         List<Vector2Int> regionToCheck = new List<Vector2Int>();
@@ -49,17 +48,18 @@ public class DominoCombos : MonoBehaviour
 
         while(regionToCheck.Count> 0)
         {
-            Vector2Int currentIndex = regionToCheck[0];
+            Vector2Int currentIndex = new Vector2Int(regionToCheck[0].y, regionToCheck[0].x);
             combosOfAdjacentDomino.Add(currentIndex);
 
             Vector2Int[] regionNeighbors  = GetRegionNeighbors(currentIndex);
 
             foreach (Vector2Int neighbor in regionNeighbors)
             {
+                Debug.Log("index du combo = " +  neighbor);
                 if (!GridManager.Instance.CheckIndexValidation(neighbor))
                     continue;
 
-                RegionData neighborRegion = GridManager.Instance.GetRegionAtIndex(neighbor);
+                RegionData neighborRegion = GridManager.Instance.GetRegionAtIndex(new Vector2Int(neighbor.y, neighbor.x));
 
                 if (neighborRegion == null)
                     continue;

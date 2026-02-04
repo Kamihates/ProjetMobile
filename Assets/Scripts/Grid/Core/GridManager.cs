@@ -86,7 +86,6 @@ public class GridManager : MonoBehaviour
 
     private void AddDominoDataInGrid(DominoPiece domino)
     {
-        Debug.Log("placement");
         foreach (Transform child in domino.transform)
         {
             if (child.TryGetComponent(out RegionPiece region))
@@ -165,6 +164,15 @@ public class GridManager : MonoBehaviour
     /// <returns></returns>
     public bool CheckIndexValidation(Vector2Int index)
     {
+        //if (index.x < 0) return false;
+
+        //if (index.y < 0) return false;
+
+        //if (index.x >= _gridData[index.y].Count) return false;
+
+        //if (index.y >= _gridData[index.y].Count) return false;
+
+
         return index.x >= 0 && index.x < _gridData.Count && index.y < _gridData[index.x].Count && index.y >= 0;
     }
 }

@@ -30,14 +30,19 @@ public class DominoFusion : MonoBehaviour
         bool conflitDetected = false;
 
         List<FusionSquare> fusionSquare1 = GetAllFusionSquare(piece, 0);
-        List<FusionSquare> fusionSquare2 = GetAllFusionSquare(piece, 2);
+        List<FusionSquare> fusionSquare2 = GetAllFusionSquare(piece, 1);
 
-        // si ya des conflits 
-        conflitDetected =
-            fusionSquare1.SelectMany(fs => fs.Square).GroupBy(vector => vector).Any(index => index.Count() > 1)
-            ||
-            fusionSquare2.SelectMany(fs => fs.Square).GroupBy(vector => vector).Any(index => index.Count() > 1)
-            ;
+        if (fusionSquare1 != null && fusionSquare2!= null)
+        {
+            // si ya des conflits 
+            conflitDetected =
+                fusionSquare1.SelectMany(fs => fs.Square).GroupBy(vector => vector).Any(index => index.Count() > 1)
+                ||
+                fusionSquare2.SelectMany(fs => fs.Square).GroupBy(vector => vector).Any(index => index.Count() > 1)
+                ;
+        }
+
+        
 
         if (conflitDetected)
         {
@@ -167,7 +172,6 @@ public class DominoFusion : MonoBehaviour
     }
     private Vector2Int[] GetFusionSquareIndex(List<Vector2Int> neighbors)
     {
-        Debug.Log("nombre de voisins : " + neighbors.Count);
 
         Vector2Int[] result = new Vector2Int[neighbors.Count];
 
@@ -188,7 +192,6 @@ public class DominoFusion : MonoBehaviour
 
         if (region == null)
         {
-            Debug.LogWarning("pas de region Data a cet index");
             return false;
         }
 
