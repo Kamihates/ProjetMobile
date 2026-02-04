@@ -36,7 +36,6 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         gridDrawer.DrawGrid(_row, Column, _cellSize, _gridOrigin);
-        OnDominoPlaced += AddDominoDataInGrid;
 
         for (int row = 0; row < _row; row++)
         {
@@ -47,11 +46,6 @@ public class GridManager : MonoBehaviour
                 _gridData[row].Add(null);
             }
         }
-    }
-
-    private void OnDestroy()
-    {
-        OnDominoPlaced -= AddDominoDataInGrid;
     }
 
     public bool IsRegionInGrid(Vector2 pos)
@@ -84,7 +78,7 @@ public class GridManager : MonoBehaviour
         return true;
     }
 
-    private void AddDominoDataInGrid(DominoPiece domino)
+    public void AddDominoDataInGrid(DominoPiece domino)
     {
         foreach (Transform child in domino.transform)
         {
@@ -98,7 +92,7 @@ public class GridManager : MonoBehaviour
 
                     // on la passe en index pour verifier si les emplacements sont vides
 
-                    Vector2Int RegionIndex = GridManager.Instance.GetPositionToGridIndex(RegionPosSimulation);
+                    Vector2Int RegionIndex = GridManager.Instance.GetIndexFromPosition(RegionPosSimulation);
 
                     _gridData[RegionIndex.y][RegionIndex.x] = region;
 
@@ -109,10 +103,16 @@ public class GridManager : MonoBehaviour
                 }
             }
         }
+
+        OnDominoPlaced?.Invoke(domino);
     }
 
-
-    public Vector2Int GetPositionToGridIndex(Vector2 position)
+    /// <summary>
+    /// renvoie l'index sur la grille (abs, ord)
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
+    public Vector2Int GetIndexFromPosition(Vector2 position)
     {
         Vector2Int index = Vector2Int.zero;
 
@@ -135,6 +135,11 @@ public class GridManager : MonoBehaviour
         return new Vector2(_gridOrigin.position.x + _cellSize * index.x, _gridOrigin.position.y - _cellSize * index.y) ;
     }
 
+    /// <summary>
+    /// renvoie la region à l'index d'abscisse x et ordonnée y
+    /// </summary>
+    /// <param name="index"> index sur la grille monde</param>
+    /// <returns></returns>
     public RegionData GetRegionAtIndex(Vector2Int index)
     {
         if (index.y >= _gridData.Count)
@@ -164,6 +169,16 @@ public class GridManager : MonoBehaviour
     /// <returns></returns>
     public bool CheckIndexValidation(Vector2Int index)
     {
-        return index.x < _gridData.Count && index.y < _gridData[index.x].Count;
+        if (index.x < 0) return false;
+
+        if (index.y < 0) return false;
+        
+        if (index.y >= _gridData.Count) return false;
+
+        if (index.x >= _gridData[index.y].Count) return false;
+
+
+        return true;
+        // return index.x >= 0 && index.x < _gridData.Count && index.y < _gridData[index.x].Count && index.y >= 0;
     }
 }

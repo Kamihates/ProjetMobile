@@ -30,7 +30,7 @@ public class DominoFall : MonoBehaviour
         if (GameManager.Instance.CurrentDomino.PieceUniqueId != _piece.PieceUniqueId) return;
 
 
-        Vector2Int currentIndex = GridManager.Instance.GetPositionToGridIndex(transform.position);
+        Vector2Int currentIndex = GridManager.Instance.GetIndexFromPosition(transform.position);
 
         Vector2 targetPos = DominoPlacementController.Instance.GetFinalDestination(_piece, currentIndex);
 
@@ -52,7 +52,8 @@ public class DominoFall : MonoBehaviour
             transform.position = targetPos; // on snap au cas ou
 
             DominoPiece domino = _piece;
-            GridManager.Instance.OnDominoPlaced?.Invoke(domino);
+            GridManager.Instance.AddDominoDataInGrid(domino);
+            
             this.enabled = false;
         }
     }

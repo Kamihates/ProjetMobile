@@ -6,11 +6,9 @@ public class GridDrawer : MonoBehaviour
     [SerializeField] private GameObject _cellPrefab;
     [SerializeField] private Transform _gridParent;
 
-    private bool _isPlaying = false;
 
     private void Start()
     {
-        _isPlaying = true;
 
         foreach (GameObject child in _gridParent.transform)
             Destroy(child);
