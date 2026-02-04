@@ -84,6 +84,7 @@ public class GridManager : MonoBehaviour
 
     private void AddDominoDataInGrid(DominoPiece domino)
     {
+        Debug.Log("placement");
         foreach (Transform child in domino.transform)
         {
             if (child.TryGetComponent(out RegionPiece region))
