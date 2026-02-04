@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 public class GridManager : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class GridManager : MonoBehaviour
 
     private void Start()
     {
+        gridDrawer.DrawGrid(_row, Column, _cellSize, _gridOrigin);
         OnDominoPlaced += AddDominoDataInGrid;
 
         for (int row = 0; row < _row; row++)
@@ -152,7 +154,7 @@ public class GridManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        gridDrawer.DrawGrid(_row, _column, _cellSize, _gridOrigin);
+        //gridDrawer.DrawGrid(_row, _column, _cellSize, _gridOrigin);
     }
 
     /// <summary>

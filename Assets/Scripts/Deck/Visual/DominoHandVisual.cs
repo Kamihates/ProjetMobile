@@ -20,7 +20,7 @@ public class DominoHandVisual : MonoBehaviour
         dominoGO.transform.localPosition = new Vector2(index * spaceWithinDomino, 0f);
 
         DominoPiece dominoPiece = dominoGO.GetComponent<DominoPiece>();
-        dominoPiece.Init(index, 0, deckManager.DominoInHand[index]);
+        dominoPiece.Init(index, 0, deckManager.DominoInHand[0]);
 
         dominoInHandVisual.Add(dominoPiece);
 

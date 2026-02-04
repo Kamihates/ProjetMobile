@@ -82,6 +82,8 @@ public class DeckManager : MonoBehaviour
                 }*/
     }
 
+
+    private int dominoUID = 0;
     private void FillHandFromDeck()
     {
         if (deck.Count == 0)
@@ -91,9 +93,11 @@ public class DeckManager : MonoBehaviour
             return;
 
         dominoInHand.Add(deck[0]);
-        deck.RemoveAt(0);        
+        deck.RemoveAt(0);
 
-        dominoHandVisual.SpawnDominoHandVisual(dominoInHand.Count - 1);
+        dominoUID++;
+
+        dominoHandVisual.SpawnDominoHandVisual(dominoUID);
 
 
     }
