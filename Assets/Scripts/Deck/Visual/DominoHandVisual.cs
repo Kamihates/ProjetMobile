@@ -13,16 +13,24 @@ public class DominoHandVisual : MonoBehaviour
     private List<DominoPiece> dominoInHandVisual = new();
     public List<DominoPiece> DominoInHandVisual => dominoInHandVisual;
 
-    public void SpawnDominoHandVisual(int index)
+    public void SpawnDominoHandVisual(int uid, int index)
     {
         GameObject dominoGO = Instantiate(dominoPrefab, handVisualParent);
 
         dominoGO.transform.localPosition = new Vector2(index * spaceWithinDomino, 0f);
 
         DominoPiece dominoPiece = dominoGO.GetComponent<DominoPiece>();
-        dominoPiece.Init(index, 0, deckManager.DominoInHand[index]);
+        dominoPiece.Init(uid, 0, deckManager.DominoInHand[index]);
 
         dominoInHandVisual.Add(dominoPiece);
 
+    }
+
+    public void UpdateDominoHandVisual()
+    {
+        for (int i = 0; i < dominoInHandVisual.Count; i++)
+        {
+            dominoInHandVisual[i].transform.localPosition = new Vector2(i * spaceWithinDomino * dominoInHandVisual.Count, 0f);
+        }
     }
 }
