@@ -73,7 +73,7 @@ public class DominoCombos : MonoBehaviour
                 if (neighborRegion == null)
                     continue;
 
-                if (neighborRegion.RegionID == regionPiece.Region.RegionID)
+                if (neighborRegion.Type == regionPiece.Region.Type)
                 {
                     if (!combosOfAdjacentDomino.Contains(neighbor))
                         regionToCheck.Add(neighbor);
@@ -84,13 +84,6 @@ public class DominoCombos : MonoBehaviour
             
         }
 
-        Debug.Log($"Combos found: {combosOfAdjacentDomino.Count}");
-        Debug.Log("----------- FUSION index ------- ");
-        foreach (Vector2 Int in combosOfAdjacentDomino)
-        {
-            Debug.Log(Int);
-        }
-        Debug.Log("---------------- ");
     }
 
     private Vector2Int[] GetRegionNeighbors(Vector2Int regionIndex)
