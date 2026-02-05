@@ -77,8 +77,8 @@ public class DeckManager : MonoBehaviour
         if (shuffleDeck)
             ShuffleDeck(deck);
 
-        for (int i = 0; i < combiData.allDominos.Count; i++)
-            Debug.Log(i + " => " + combiData.allDominos[i].Regions[0].Type + " | " + combiData.allDominos[i].Regions[1].Type);
+        //for (int i = 0; i < combiData.allDominos.Count; i++)
+        //    Debug.Log(i + " => " + combiData.allDominos[i].Regions[0].Type + " | " + combiData.allDominos[i].Regions[1].Type);
 
 
         /*        for (int i = 0; i < deckSize && combiData.allDominos.Count > 0; i++)
@@ -114,7 +114,7 @@ public class DeckManager : MonoBehaviour
     {
         // on recupere la region 
 
-        RegionData region = GridManager.Instance.GetRegionAtIndex(fusionSquare[0]);
+        RegionData region = GridManager.Instance.GetRegionAtIndex(new Vector2Int(fusionSquare[0].y, fusionSquare[0].x)).Region;
         RegionType T1Type = region.Type;
 
        foreach(RegionData t1 in regionDataT1)

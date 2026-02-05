@@ -86,7 +86,7 @@ public class DominoPieceVisual : MonoBehaviour
             if (transform.GetChild(r).TryGetComponent<RegionPiece>(out RegionPiece region))
             {
 
-                region.Init(_piece.Data.Regions[r]);
+                region.Init(_piece.Data.Regions[r], _piece.Data.IsDominoFusion, _piece);
 
                 region.gameObject.SetActive(true);
             }

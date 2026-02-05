@@ -96,14 +96,18 @@ public class DominoFusion : MonoBehaviour
             else
             {
                 Debug.Log("Fusion T1");
-
+                
                 if ((fusionSquare1.Count == 1 && fusionSquare2.Count == 1) || (fusionSquare1.Count == 1 && fusionSquare2.Count <= 0))
                 {
+                    Debug.Log("fusionSquare 1 : " + fusionSquare1.Count + " / " + fusionSquare1[0] + " / " + fusionSquare1[0].Square.Count());
                     _deckManager.PutT1InDeck(fusionSquare1[0].Square);
+                    ManagerFusion(fusionSquare1[0].Square);
                 }
-                else
+                else if (fusionSquare2.Count == 1 && fusionSquare1.Count <= 0)
                 {
+                    Debug.Log("fusionSquare 2 : " + fusionSquare2.Count + " / " + fusionSquare2[0] + " / " + fusionSquare2[0].Square.Count());
                     _deckManager.PutT1InDeck(fusionSquare2[0].Square);
+                    ManagerFusion(fusionSquare2[0].Square);
                 }
    
             }
@@ -207,7 +211,7 @@ public class DominoFusion : MonoBehaviour
 
         //RegionData region = _gridManager.GetRegionAtIndex(new Vector2Int(square[0].y, square[0].x));
 
-        RegionData region = _gridManager.GetRegionAtIndex(new Vector2Int(square[0].y, square[0].x));
+        RegionData region = _gridManager.GetRegionAtIndex(new Vector2Int(square[0].y, square[0].x)).Region;
 
         if (region == null)
         {
@@ -222,12 +226,42 @@ public class DominoFusion : MonoBehaviour
             if (_gridManager.GetRegionAtIndex(new Vector2Int(index.y, index.x)) == null)
                 return false;
 
-            if (_gridManager.GetRegionAtIndex(new Vector2Int(index.y, index.x)).RegionID != regionID)
+            if (_gridManager.GetRegionAtIndex(new Vector2Int(index.y, index.x)).Region.RegionID != regionID)
+                return false;
+
+            if (_gridManager.GetRegionAtIndex(new Vector2Int(index.y, index.x)).IsT1)
                 return false;
 
         }
 
         return true;
+    }
+
+    private void ManagerFusion(Vector2Int[] square)
+    {
+        // quand on a une fusion : 
+        // ETAPE 1 : on récupère le domino, et supprime sa region correspondante
+
+        foreach (Vector2Int index in square)
+        {
+            RegionPiece regionPiece = _gridManager.GetRegionAtIndex(new Vector2Int(index.y, index.x));
+            DominoPiece domino = regionPiece.DominoParent;
+
+            // on supprime la region de la liste du domino
+            //domino.Data.Regions.Remove(regionPiece.Region);
+
+            // on supprime la region (go)
+            //Destroy(regionPiece.gameObject);
+            regionPiece.Region = null;
+            regionPiece.gameObject.SetActive(false);
+
+            // on les supprime de la grille
+            _gridManager.GridData[index.x][index.y] = null;
+        }
+
+
+        // ETAPE 2 : On fait tomber tt les dominos qui le peuvent de la grille de bas en haut
+        _gridManager.AllDominoFall();
     }
 }
 

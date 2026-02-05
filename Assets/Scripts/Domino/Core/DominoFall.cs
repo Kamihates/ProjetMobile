@@ -13,12 +13,14 @@ public class DominoFall : MonoBehaviour
     private float _currentFallingSpeed;
     private float _currentStepSpeed;
 
+    public bool CanFall { get; set; }
 
     /// <summary>
     /// Initialisation des vitesses
     /// </summary>
     public void Init(float speed, float StepTimer)
     {
+        CanFall = false;
         _currentFallingSpeed = speed;
         _currentStepSpeed = StepTimer;
     }
@@ -26,8 +28,13 @@ public class DominoFall : MonoBehaviour
     private void FixedUpdate()
     {
         if (DominoPlacementController.Instance == null) { return; }
-        if (GameManager.Instance != null && GameManager.Instance.CurrentDomino == null) return; 
-        if (GameManager.Instance.CurrentDomino.PieceUniqueId != _piece.PieceUniqueId) return;
+
+        if (!CanFall)
+        {
+            if (GameManager.Instance != null && GameManager.Instance.CurrentDomino == null) return;
+            if (GameManager.Instance.CurrentDomino.PieceUniqueId != _piece.PieceUniqueId) return;
+        }
+        
 
 
         Vector2Int currentIndex = GridManager.Instance.GetIndexFromPosition(transform.position);
@@ -49,11 +56,11 @@ public class DominoFall : MonoBehaviour
         // si on arrive a destination
         if ((Vector2.Distance(targetPos, transform.position) < 0.01f) || transform.position.y < targetPos.y) // evite un depassement
         {
+            Debug.Log("posé");
             transform.position = targetPos; // on snap au cas ou
-
             DominoPiece domino = _piece;
             GridManager.Instance.AddDominoDataInGrid(domino);
-            
+            CanFall  = false;
             this.enabled = false;
         }
     }

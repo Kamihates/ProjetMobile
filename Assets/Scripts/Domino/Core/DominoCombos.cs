@@ -31,9 +31,15 @@ public class DominoCombos : MonoBehaviour
         RegionPiece regionPiece1 = piece.transform.GetChild(0).GetComponent<RegionPiece>();
         RegionPiece regionPiece2 = piece.transform.GetChild(1).GetComponent<RegionPiece>();
 
-        CheckForAdjacentDomino(regionPiece1);
+        if (regionPiece1.gameObject.activeSelf)
+            CheckForAdjacentDomino(regionPiece1);
 
-        if(regionPiece1.Region.RegionID != regionPiece2.Region.RegionID) 
+        if(regionPiece1.Region == null) return;
+
+        if (!regionPiece2.gameObject.activeSelf) return;
+        if (regionPiece2.Region == null) return;
+
+        if(regionPiece1.Region.RegionID != regionPiece2.Region.RegionID ) 
             CheckForAdjacentDomino(regionPiece2);
     }
 
@@ -54,7 +60,7 @@ public class DominoCombos : MonoBehaviour
             Vector2Int currentIndex = regionToCheck[0];
             regionToCheck.RemoveAt(0);
 
-            RegionData regionData = GridManager.Instance.GetRegionAtIndex(currentIndex);
+            RegionData regionData = GridManager.Instance.GetRegionAtIndex(currentIndex)?.Region;
             if (regionData == null)
                 continue;
 
@@ -68,7 +74,7 @@ public class DominoCombos : MonoBehaviour
                 if (!GridManager.Instance.CheckIndexValidation(neighbor))
                     continue;
 
-                RegionData neighborRegion = GridManager.Instance.GetRegionAtIndex(neighbor);
+                RegionData neighborRegion = GridManager.Instance.GetRegionAtIndex(neighbor)?.Region;
 
                 if (neighborRegion == null)
                     continue;

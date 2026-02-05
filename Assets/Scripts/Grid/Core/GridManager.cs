@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -36,6 +37,12 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         gridDrawer.DrawGrid(_row, Column, _cellSize, _gridOrigin);
+        ResetGridData();
+    }
+
+    private void ResetGridData()
+    {
+        _gridData.Clear();
 
         for (int row = 0; row < _row; row++)
         {
@@ -140,7 +147,7 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="index"> index sur la grille monde</param>
     /// <returns></returns>
-    public RegionData GetRegionAtIndex(Vector2Int index)
+    public RegionPiece GetRegionAtIndex(Vector2Int index)
     {
         if (index.y >= _gridData.Count)
         {
@@ -154,7 +161,7 @@ public class GridManager : MonoBehaviour
         if (_gridData[index.y][index.x] == null)
             return null;
         else 
-            return _gridData[index.y][index.x].Region;
+            return _gridData[index.y][index.x];
     }
 
     private void OnDrawGizmos()
@@ -180,5 +187,54 @@ public class GridManager : MonoBehaviour
 
         return true;
         // return index.x >= 0 && index.x < _gridData.Count && index.y < _gridData[index.x].Count && index.y >= 0;
+    }
+
+    Coroutine _currentCoroutine = null;
+    public void AllDominoFall()
+    {
+        // 1) on recupere tt les dominos de la grille
+        List<DominoPiece> dominosToFall = new List<DominoPiece>();
+
+        for (int i = _row - 1; i >= 0; i--)
+        {
+            for (int j = 0; j < _column; j++)
+            {
+                RegionPiece region = _gridData[i][j];
+                if (region != null)
+                {
+                    _gridData[i][j] = null;
+                    DominoPiece domino = region.DominoParent;
+                    if (!dominosToFall.Contains(domino))
+                        dominosToFall.Add(domino);
+                }
+            }
+        }
+
+        
+
+        // 2) on fait tomber 1 par 1
+
+
+        if (_currentCoroutine == null)
+            _currentCoroutine = StartCoroutine(WaitToFall(dominosToFall));
+    }
+
+    private IEnumerator WaitToFall(List<DominoPiece> dominosToFall)
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        // on parcours tt les dominos de bas gauche en haut droite et les fait tomber avec un gap de X secondes
+        foreach (DominoPiece domino in dominosToFall)
+        {
+            DominoFall fallController = domino.FallController;
+            fallController.Init(4, 0.1f);
+            fallController.CanFall = true;
+            fallController.enabled = true;
+
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        
+        _currentCoroutine = null;
     }
 }

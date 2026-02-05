@@ -12,16 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6af15bd3d9fae74692c3ecc9965e03c, type: 3}
   m_Name: Starting Deck Data
   m_EditorClassIdentifier: Assembly-CSharp::DeckStartingData
-  dominos:
-  - regions:
-    - {fileID: 11400000, guid: 19b5dd258eebb2840b47c8c83da1824f, type: 2}
-    - {fileID: 11400000, guid: 19b5dd258eebb2840b47c8c83da1824f, type: 2}
-  - regions:
-    - {fileID: 11400000, guid: 24f5b11f10dab494da5158a034a5ab38, type: 2}
-    - {fileID: 11400000, guid: 24f5b11f10dab494da5158a034a5ab38, type: 2}
-  - regions:
-    - {fileID: 11400000, guid: 19b5dd258eebb2840b47c8c83da1824f, type: 2}
-    - {fileID: 11400000, guid: 24f5b11f10dab494da5158a034a5ab38, type: 2}
-  - regions:
-    - {fileID: 11400000, guid: 24f5b11f10dab494da5158a034a5ab38, type: 2}
-    - {fileID: 11400000, guid: 19b5dd258eebb2840b47c8c83da1824f, type: 2}
+  dominos: []
