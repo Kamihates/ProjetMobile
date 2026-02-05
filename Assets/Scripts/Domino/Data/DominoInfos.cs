@@ -9,7 +9,7 @@ public class DominoInfos
     public List<RegionData> Regions { get => regions; set => regions = value; }
 
     private bool _isDominoFusion = false;
-    public bool IsDominoFusion { get => _isDominoFusion; }
+    public bool IsDominoFusion { get => _isDominoFusion; set => _isDominoFusion = value; }
     
 
 }

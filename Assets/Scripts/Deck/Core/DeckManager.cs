@@ -19,8 +19,15 @@ public class DeckManager : MonoBehaviour
     [BoxGroup("Debug"), SerializeField, ReadOnly] private List<DominoInfos> dominoInHand = new();
     public List<DominoInfos> DominoInHand => dominoInHand;
 
+    private List<RegionData> regionDataT1;
+
     [SerializeField, Required] private DominoSpawner dominoSpawner;
-    
+
+    private void OnEnable()
+    {
+        regionDataT1 = new List<RegionData>(Resources.LoadAll<RegionData>("ScriptableObjects/T1"));
+    }
+
 
     private void Start()
     {
@@ -103,9 +110,27 @@ public class DeckManager : MonoBehaviour
 
     }
 
-    public void AddDominoInDeck(DominoInfos dominoData)
+    public void PutT1InDeck(Vector2Int[] fusionSquare)
     {
-        deck.Add(dominoData);
+        // on recupere la region 
+
+        RegionData region = GridManager.Instance.GetRegionAtIndex(fusionSquare[0]);
+        RegionType T1Type = region.Type;
+
+       foreach(RegionData t1 in regionDataT1)
+        {
+            if(t1.Type == T1Type)
+            {
+                DominoInfos dominoInfos = new DominoInfos()
+                { 
+                    Regions = new List<RegionData>() { t1, t1 },
+                    IsDominoFusion = true
+                };
+                deck.Add(dominoInfos);
+            }
+        }
+
+
     }
 
     public DominoPiece GetNextDominoInHand()
