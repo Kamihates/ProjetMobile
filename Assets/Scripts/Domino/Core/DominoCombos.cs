@@ -1,14 +1,18 @@
 using NaughtyAttributes;
 using UnityEngine;
 using System.Collections.Generic;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+using System;
 
 public class DominoCombos : MonoBehaviour
 {
+    [SerializeField, Foldout("Temp")] private int damagePerCombo = 5;
+
     [SerializeField, Foldout("Debug"), ReadOnly] private int combosCount = 0;
     public int CombosCount => combosCount;
 
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentDomino;
+
+    public Action<int> OnComboDamage;
 
     private void SetCombosOfAdjacentDomino(List<Vector2Int> combos)
     {
@@ -41,6 +45,14 @@ public class DominoCombos : MonoBehaviour
 
         if(regionPiece1.Region.RegionID != regionPiece2.Region.RegionID ) 
             CheckForAdjacentDomino(regionPiece2);
+
+        combosCount = combosOfAdjacentDomino.Count;
+
+        if (combosCount < 2)
+            return;
+
+        int totalDamage = combosCount * damagePerCombo;
+        OnComboDamage?.Invoke(totalDamage);
     }
 
 
@@ -84,12 +96,8 @@ public class DominoCombos : MonoBehaviour
                     if (!combosOfAdjacentDomino.Contains(neighbor))
                         regionToCheck.Add(neighbor);
                 }
-
             }
-
-            
         }
-
     }
 
     private Vector2Int[] GetRegionNeighbors(Vector2Int regionIndex)
@@ -101,8 +109,6 @@ public class DominoCombos : MonoBehaviour
             new Vector2Int(0, -1) + regionIndex,  // Down
             new Vector2Int(-1, 0) + regionIndex  // Left
         };
-
-
 
         return neighbors;
     }
