@@ -26,7 +26,6 @@ public class DominoFusion : MonoBehaviour
 
     private void CheckForFusion(DominoPiece piece)
     {
-
         bool conflitDetected = false;
 
         List<FusionSquare> fusionSquare1 = GetAllFusionSquare(piece, 0);
@@ -42,7 +41,7 @@ public class DominoFusion : MonoBehaviour
                 ;
         }
 
-        
+
 
         if (conflitDetected)
         {
@@ -69,8 +68,14 @@ public class DominoFusion : MonoBehaviour
                             // on renvoie les carrés fs1 et fs2 pour T1 x 2 
                             Debug.Log("fusion T1 x 2");
                         }
+                        else
+                        {
+                            Debug.Log("Conflits inévitables");
+                        }
                     }
                 }
+
+
             }
             else
             {
@@ -80,6 +85,7 @@ public class DominoFusion : MonoBehaviour
         }
         else
         {
+            
             // pas de fusion
             if (fusionSquare1.Count == 0 && fusionSquare2.Count == 0)
             {
@@ -109,7 +115,7 @@ public class DominoFusion : MonoBehaviour
             }
         }
 
-        return null;
+        return new List<FusionSquare>(); ;
     }
 
     /// <summary>
@@ -178,15 +184,18 @@ public class DominoFusion : MonoBehaviour
         for (int i = 0; i < neighbors.Count; i++)
         {
             // on passe les index matrice en grille
-            if (_gridManager.CheckIndexValidation(neighbors[i]))
+            if (_gridManager.CheckIndexValidation(new Vector2Int(neighbors[i].y, (neighbors[i].x))))
                 result[i] = neighbors[i];
         }
 
         return result;
     }
+
     private bool IsSquareIsSameData(Vector2Int[] square)
     {
         if (square == null) return false;
+
+        //RegionData region = _gridManager.GetRegionAtIndex(new Vector2Int(square[0].y, square[0].x));
 
         RegionData region = _gridManager.GetRegionAtIndex(new Vector2Int(square[0].y, square[0].x));
 
@@ -205,6 +214,7 @@ public class DominoFusion : MonoBehaviour
 
             if (_gridManager.GetRegionAtIndex(new Vector2Int(index.y, index.x)).RegionID != regionID)
                 return false;
+
         }
 
         return true;

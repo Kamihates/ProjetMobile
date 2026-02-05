@@ -81,13 +81,13 @@ public class DominoCombos : MonoBehaviour
             
         }
 
-        Debug.Log($"Combos found: {combosOfAdjacentDomino.Count}");
-        Debug.Log("----------- FUSION index ------- ");
-        foreach (Vector2 Int in combosOfAdjacentDomino)
-        {
-            Debug.Log(Int);
-        }
-        Debug.Log("---------------- ");
+        //Debug.Log($"Combos found: {combosOfAdjacentDomino.Count}");
+        //Debug.Log("----------- COMBO index ------- ");
+        //foreach (Vector2 Int in combosOfAdjacentDomino)
+        //{
+        //    Debug.Log(Int);
+        //}
+        //Debug.Log("---------------- ");
     }
 
     private Vector2Int[] GetRegionNeighbors(Vector2Int regionIndex)
