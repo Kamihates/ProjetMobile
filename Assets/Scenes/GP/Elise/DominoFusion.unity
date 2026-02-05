@@ -979,6 +979,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1913428362}
+  - component: {fileID: 1913428363}
   m_Layer: 0
   m_Name: --- READ ME ---
   m_TagString: Untagged
@@ -1001,6 +1002,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1913428363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1913428361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdf357acbfee00f4c95d263822d6bebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReadMe
+  testGd: {fileID: 1480473142}
+  mvtController: {fileID: 93427302}
+  spawner: {fileID: 954746999}
+  gridmanager: {fileID: 201307351}
+  origin: {fileID: 751515613}
 --- !u!1 &2001327690
 GameObject:
   m_ObjectHideFlags: 0
