@@ -87,6 +87,7 @@ public class GridManager : MonoBehaviour
 
     public void AddDominoDataInGrid(DominoPiece domino)
     {
+
         foreach (Transform child in domino.transform)
         {
             if (child.TryGetComponent(out RegionPiece region))
@@ -94,12 +95,13 @@ public class GridManager : MonoBehaviour
                 // si la region n'est pas vide
                 if (region.Region != null)
                 {
+
                     // on calcule sa position selon la tagetPos de notre cellule
                     Vector2 RegionPosSimulation = (Vector2)domino.transform.position + (Vector2)region.transform.localPosition;
 
                     // on la passe en index pour verifier si les emplacements sont vides
 
-                    Vector2Int RegionIndex = GridManager.Instance.GetIndexFromPosition(RegionPosSimulation);
+                    Vector2Int RegionIndex = GetIndexFromPosition(RegionPosSimulation);
 
                     _gridData[RegionIndex.y][RegionIndex.x] = region;
 
@@ -127,8 +129,8 @@ public class GridManager : MonoBehaviour
         Vector2 localPos = _gridOrigin.InverseTransformPoint(position);
 
         // 2) on calcule les index
-        index.x = (int)Mathf.Abs(localPos.x / _cellSize); // sur la matrice c'est [][ici]
-        index.y = (int)Mathf.Abs(localPos.y / _cellSize); // sur la matrice c'est [ici][]
+        index.x = Mathf.Abs(Mathf.RoundToInt(localPos.x / _cellSize)); // sur la matrice c'est [][ici]
+        index.y = Mathf.Abs(Mathf.RoundToInt(localPos.y / _cellSize)); // sur la matrice c'est [ici][]
 
         return index;
 
@@ -221,7 +223,7 @@ public class GridManager : MonoBehaviour
 
     private IEnumerator WaitToFall(List<DominoPiece> dominosToFall)
     {
-        yield return new WaitForSeconds(0.2f);
+        //yield return new WaitForSeconds(0.2f);
 
         // on parcours tt les dominos de bas gauche en haut droite et les fait tomber avec un gap de X secondes
         foreach (DominoPiece domino in dominosToFall)
