@@ -1,4 +1,5 @@
 using UnityEngine;
+using NaughtyAttributes;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DominoMovementController dominoMouvement;
 
     public DominoPiece CurrentDomino { get => _currentDomino; set { _currentDomino = value; dominoMouvement.CurrentDomino = value; } }
-    private DominoPiece _currentDomino;
+    [SerializeField, Foldout("Debug"), ReadOnly] private DominoPiece _currentDomino;
 
 
     public static GameManager Instance;

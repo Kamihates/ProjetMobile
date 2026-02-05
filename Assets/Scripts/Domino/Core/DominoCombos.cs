@@ -30,8 +30,11 @@ public class DominoCombos : MonoBehaviour
     {
         RegionPiece regionPiece1 = piece.transform.GetChild(0).GetComponent<RegionPiece>();
         RegionPiece regionPiece2 = piece.transform.GetChild(1).GetComponent<RegionPiece>();
+
         CheckForAdjacentDomino(regionPiece1);
-        CheckForAdjacentDomino(regionPiece2);
+
+        if(regionPiece1.Region.RegionID != regionPiece2.Region.RegionID) 
+            CheckForAdjacentDomino(regionPiece2);
     }
 
 
