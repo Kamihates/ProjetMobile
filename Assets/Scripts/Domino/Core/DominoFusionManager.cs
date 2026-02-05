@@ -10,7 +10,7 @@ using static UnityEngine.Audio.ProcessorInstance;
 public class DominoFusion : MonoBehaviour
 {
     private GridManager _gridManager;
-
+    [SerializeField] private DeckManager _deckManager;
 
     private void Start()
     {
@@ -67,6 +67,7 @@ public class DominoFusion : MonoBehaviour
                         {
                             // on renvoie les carrés fs1 et fs2 pour T1 x 2 
                             Debug.Log("fusion T1 x 2");
+
                         }
                         else
                         {
@@ -95,6 +96,16 @@ public class DominoFusion : MonoBehaviour
             else
             {
                 Debug.Log("Fusion T1");
+
+                if ((fusionSquare1.Count == 1 && fusionSquare2.Count == 1) || (fusionSquare1.Count == 1 && fusionSquare2.Count <= 0))
+                {
+                    _deckManager.PutT1InDeck(fusionSquare1[0].Square);
+                }
+                else
+                {
+                    _deckManager.PutT1InDeck(fusionSquare2[0].Square);
+                }
+   
             }
         }
     }
@@ -190,7 +201,6 @@ public class DominoFusion : MonoBehaviour
 
         return result;
     }
-
     private bool IsSquareIsSameData(Vector2Int[] square)
     {
         if (square == null) return false;
