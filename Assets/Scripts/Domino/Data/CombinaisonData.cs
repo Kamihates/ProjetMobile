@@ -12,7 +12,7 @@ public class CombinaisonData : ScriptableObject
 
     private void OnEnable()
     {
-        regionDatabase = new List<RegionData>(Resources.LoadAll<RegionData>("ScriptableObjects"));
+        regionDatabase = new List<RegionData>(Resources.LoadAll<RegionData>("ScriptableObjects/RegionDatabase"));
     }
 
     [Button("Generate All Combinations")]
