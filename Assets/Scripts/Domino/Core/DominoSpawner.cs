@@ -2,11 +2,15 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using NaughtyAttributes;
 
 public class DominoSpawner : MonoBehaviour
 {
 
     [Header("Spawn"), SerializeField] private DominoMovementController dominoController;
+    [BoxGroup("Spawn")]
+    [Header("Activer la _currentRotation aléatoire")]
+    [SerializeField] private bool _rotationRandom;
 
     [Header("Base Data")]
     [SerializeField] private CombinaisonData dominoData; 
@@ -49,15 +53,10 @@ public class DominoSpawner : MonoBehaviour
         Vector2 spawnPos = GetSpawnPosition();
         int rotation = 0;
 
-
-        if (TEST_GD.Instance != null)
+        if (_rotationRandom)
         {
-            if (TEST_GD.Instance.RotationRandom)
-            {
-                // _currentRotation al�atoire
-                rotation = UnityEngine.Random.Range(0, 4);
-            }
-
+            // _currentRotation al�atoire
+            rotation = UnityEngine.Random.Range(0, 4);
         }
 
         dominoToSpawn.transform.position = spawnPos;

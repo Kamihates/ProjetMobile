@@ -11,10 +11,6 @@ public class TEST_GD : MonoBehaviour
     [BoxGroup("Références de scripts (ne pas retirer)")]
     [SerializeField] private DominoSpawner spawner;
 
-    [Space(5)]
-
-    [BoxGroup("-- Spawn d'un domino --")][Header("Activer la _currentRotation aléatoire")]
-    public bool RotationRandom;
 
     [BoxGroup("-- deplacement d'un domino --")]
     [Header("Activer la tombée case par case")]
@@ -39,8 +35,4 @@ public class TEST_GD : MonoBehaviour
         }
     }
 
-    [BoxGroup("-- INFOS --"), ReadOnly, ResizableTextArea]
-    public string autre = "Modifier infos sur le domino -> objet DominoMouvementController";
-    [BoxGroup("-- INFOS --"), ReadOnly, ResizableTextArea]
-    public string autre1 = "Modifier infos de la grille -> objet GridManager";
 }
