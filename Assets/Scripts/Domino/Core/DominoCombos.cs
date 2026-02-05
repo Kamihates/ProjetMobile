@@ -30,8 +30,11 @@ public class DominoCombos : MonoBehaviour
     {
         RegionPiece regionPiece1 = piece.transform.GetChild(0).GetComponent<RegionPiece>();
         RegionPiece regionPiece2 = piece.transform.GetChild(1).GetComponent<RegionPiece>();
+
         CheckForAdjacentDomino(regionPiece1);
-        CheckForAdjacentDomino(regionPiece2);
+
+        if(regionPiece1.Region.RegionID != regionPiece2.Region.RegionID) 
+            CheckForAdjacentDomino(regionPiece2);
     }
 
 
@@ -70,7 +73,7 @@ public class DominoCombos : MonoBehaviour
                 if (neighborRegion == null)
                     continue;
 
-                if (neighborRegion.RegionID == regionPiece.Region.RegionID)
+                if (neighborRegion.Type == regionPiece.Region.Type)
                 {
                     if (!combosOfAdjacentDomino.Contains(neighbor))
                         regionToCheck.Add(neighbor);
@@ -81,13 +84,6 @@ public class DominoCombos : MonoBehaviour
             
         }
 
-        //Debug.Log($"Combos found: {combosOfAdjacentDomino.Count}");
-        //Debug.Log("----------- COMBO index ------- ");
-        //foreach (Vector2 Int in combosOfAdjacentDomino)
-        //{
-        //    Debug.Log(Int);
-        //}
-        //Debug.Log("---------------- ");
     }
 
     private Vector2Int[] GetRegionNeighbors(Vector2Int regionIndex)

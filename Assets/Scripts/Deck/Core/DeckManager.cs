@@ -103,6 +103,11 @@ public class DeckManager : MonoBehaviour
 
     }
 
+    public void AddDominoInDeck(DominoInfos dominoData)
+    {
+        deck.Add(dominoData);
+    }
+
     public DominoPiece GetNextDominoInHand()
     {
         while (dominoInHand.Count < initialDominoInHandSize)
@@ -184,7 +189,9 @@ public class DeckManager : MonoBehaviour
 
         GameManager.Instance.CurrentDomino = null;
 
-        DiscardDomino(new List<DominoInfos> {dominoPiece.Data});
+        if(!dominoPiece.Data.IsDominoFusion) 
+            DiscardDomino(new List<DominoInfos> {dominoPiece.Data});
+
         dominoSpawner.SpawnNextDomino();
 
     }
