@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8a6cf0f017921af459f1faa4c3ca442e
+guid: f5d7fd222a1995449b3549031201743a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5765937386886720807
-    second: fire style - Josh (1)_0
+      213: 4364777264018506118
+    second: Sans titre-3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fire style - Josh (1)_0
+      name: Sans titre-3_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 72de68e0189b40050800000000000000
-      internalID: 5765937386886720807
+      spriteID: 6814689cbcdc29c30800000000000000
+      internalID: 4364777264018506118
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      fire style - Josh (1)_0: 5765937386886720807
+      Sans titre-3_0: 4364777264018506118
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

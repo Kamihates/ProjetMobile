@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8a6cf0f017921af459f1faa4c3ca442e
+guid: 88a1c12d103b0344ba30d6f75d91741c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5765937386886720807
-    second: fire style - Josh (1)_0
+      213: -6184876086596216969
+    second: water_wymbol_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fire style - Josh (1)_0
+      name: water_wymbol_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 72de68e0189b40050800000000000000
-      internalID: 5765937386886720807
+      spriteID: 777df96d7f7ea2aa0800000000000000
+      internalID: -6184876086596216969
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      fire style - Josh (1)_0: 5765937386886720807
+      water_wymbol_0: -6184876086596216969
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
