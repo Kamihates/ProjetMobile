@@ -17,9 +17,11 @@ public class DominoMovementController : MonoBehaviour
         }
     }
     private DominoPiece _currentDomino;
-    
-    [BoxGroup("Gestion du drag"), SerializeField]  private float _holdTime = 0.2f;
-    [BoxGroup("Gestion du drag"), SerializeField] private float _dragDistance = 0.2f;
+    [SerializeField] private DominoPlacementController dominoPlacement;
+
+    [HorizontalLine(color: EColor.Blue)]
+    [BoxGroup("Gestion du drag"), SerializeField, Label("temps du hold en seconde avant de detecter un drag")]  private float _holdTime = 0.2f;
+    [BoxGroup("Gestion du drag"), SerializeField, Label("distance minimal avant de detecter un drag")] private float _dragDistance = 0.2f;
 
 
     private float _draggingChrono = 0; // chrono du temps qu'on reste appuyer sur le domino pour detecter un drag
@@ -27,16 +29,16 @@ public class DominoMovementController : MonoBehaviour
     private bool _startDrag = false; // est ce que je suis en train de detecter un drag ?
     private Vector2 _pressStartPos; // position de la souris quand je clique sur le domino pour verifier si j'ai bougé pour detecter un drag plus vite que le timer
 
-
-    [BoxGroup("Vitesse du domino"), SerializeField] private float _fallingSpeed;
-    [BoxGroup("Vitesse du domino"), SerializeField] private float _stepSpeed;
-
-    [SerializeField] private DominoPlacementController dominoPlacement;
+    [HorizontalLine(color: EColor.Blue)]
+    [BoxGroup("Vitesse du domino"), SerializeField, Label("Vitesse de fall d'un domino")] private float _fallingSpeed;
+    [BoxGroup("Vitesse du domino"), SerializeField, Label("attente en seconde avant de descendre a la case suivante")] private float _stepSpeed;
 
 
     private bool _startLongTap = false; // est ce que je suis en train de detecter un drag ?
     private float _LongTapChrono = 0;
-    [SerializeField] private float _holdTapTime = 0.2f;
+    
+    [HorizontalLine(color: EColor.Blue)]
+    [BoxGroup("Chute rapide"),SerializeField, Label("temps du hold en seconde pour activer la descente rapide")] private float _holdTapTime = 0.2f;
 
 
 

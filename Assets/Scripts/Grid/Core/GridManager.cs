@@ -1,21 +1,27 @@
-﻿using System;
+﻿using NaughtyAttributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 public class GridManager : MonoBehaviour
 {
-    [Header("Nombre de colonnes")][SerializeField] private int _column;
-    [Header("Nombre de Lignes")][SerializeField] private int _row;
-    [Header("Origine de la grille")][SerializeField] private Transform _gridOrigin;
-    [Header("Taille d'une cellule")][SerializeField] private float _cellSize;
-    [Header("taille de la profondeur d'une cellule")][SerializeField] private float _tileDepth;
-
-
-    [Header("Grid Drawer")][SerializeField] private GridDrawer gridDrawer;
+    [SerializeField] private GridDrawer gridDrawer;
 
     [SerializeField]
     private List<List<RegionPiece>> _gridData = new();
+
+
+
+    [HorizontalLine(color: EColor.Blue)]
+    [BoxGroup("Infos de la grille"), Label("Nombre de colonnes")][SerializeField] private int _column;
+    [BoxGroup("Infos de la grille"), Label("Nombre de Lignes")][SerializeField] private int _row;
+    [BoxGroup("Infos de la grille"), Label("Origine de la grille")][SerializeField] private Transform _gridOrigin;
+    [BoxGroup("Infos de la grille"), Label("Taille d'une cellule")][SerializeField] private float _cellSize;
+    [BoxGroup("Infos de la grille"), Label("taille de la profondeur d'une cellule")][SerializeField] private float _tileDepth;
+
+
+    
 
     public Action<DominoPiece> OnDominoPlaced;
     public Action OnDominoExceed; // action quand un domino est placé en haut de la grille

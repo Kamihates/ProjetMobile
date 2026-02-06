@@ -14,7 +14,7 @@ public class GridManagerEditor : Editor
 
         EditorGUILayout.Space();
 
-        GUILayout.Label("-- GRILLE --");
+        GUILayout.Label("-- GRILLE DATA -- (uniquement en jeu)");
 
         if (grid.GridData == null) return;
 

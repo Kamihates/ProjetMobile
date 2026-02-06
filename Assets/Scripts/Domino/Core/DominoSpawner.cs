@@ -8,16 +8,18 @@ public class DominoSpawner : MonoBehaviour
 {
 
     [Header("Spawn"), SerializeField] private DominoMovementController dominoController;
+
+    [HorizontalLine(color: EColor.Blue)]
     [BoxGroup("Spawn")]
-    [Header("Activer la _currentRotation aléatoire")]
-    [SerializeField] private bool _rotationRandom;
+    [Header("Activer la rotation aléatoire")]
+    [SerializeField, Label("cocher pour activer la rotation aléatoire")] private bool _rotationRandom;
 
     [Header("Base Data")]
     [SerializeField] private CombinaisonData dominoData; 
     [SerializeField] private DeckManager deckManager; 
 
 
-    [SerializeField] private DominoPiece _currentDomino;
+    private DominoPiece _currentDomino;
     public DominoPiece CurrentDomino => _currentDomino;
 
 
