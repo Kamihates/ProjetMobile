@@ -30,8 +30,10 @@ public class DominoCombos : MonoBehaviour
         GridManager.Instance.OnDominoPlaced -= CheckForCombos;
     }
 
+    private int t1countInCombo = 0;
     public void CheckForCombos(DominoPiece piece)
     {
+        t1countInCombo = 0;
         RegionPiece regionPiece1 = piece.transform.GetChild(0).GetComponent<RegionPiece>();
         RegionPiece regionPiece2 = piece.transform.GetChild(1).GetComponent<RegionPiece>();
 
@@ -51,7 +53,7 @@ public class DominoCombos : MonoBehaviour
         if (combosCount < 3)
             return;
 
-        int totalDamage = combosCount * damagePerCombo;
+        int totalDamage = combosCount * damagePerCombo * (t1countInCombo * 2);
         OnComboDamage?.Invoke(totalDamage);
     }
 
@@ -77,7 +79,13 @@ public class DominoCombos : MonoBehaviour
                 continue;
 
             if (!combosOfAdjacentDomino.Contains(currentIndex))
+            {
                 combosOfAdjacentDomino.Add(currentIndex);
+                if (GridManager.Instance.GetRegionAtIndex(currentIndex).DominoParent.Data.IsDominoFusion)
+                {
+                    t1countInCombo++;
+                }
+            }
 
             Vector2Int[] regionNeighbors  = GetRegionNeighbors(currentIndex);
 
@@ -94,7 +102,10 @@ public class DominoCombos : MonoBehaviour
                 if (neighborRegion.Type == regionPiece.Region.Type)
                 {
                     if (!combosOfAdjacentDomino.Contains(neighbor))
+                    {
                         regionToCheck.Add(neighbor);
+
+                    }
                 }
             }
         }
