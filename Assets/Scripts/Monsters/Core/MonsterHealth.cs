@@ -4,13 +4,13 @@ using System;
 
 public class MonsterHealth : MonoBehaviour
 {
-    [Header("Health"), SerializeField] private int maxHealth = 100;
-    [SerializeField, Foldout("Debug"), ReadOnly] private int currentHealth;
+    [Header("Health"), SerializeField] private float maxHealth = 100;
+    [SerializeField, Foldout("Debug"), ReadOnly] private float currentHealth;
 
     [SerializeField] private DominoCombos dominoCombos;
 
-    public int CurrentHealth => currentHealth;
-    public int MaxHealth => maxHealth;
+    public float CurrentHealth => currentHealth;
+    public float MaxHealth => maxHealth;
 
     public Action<float, float> OnHealthUpdate;
 

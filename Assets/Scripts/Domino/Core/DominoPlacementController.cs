@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class DominoPlacementController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class DominoPlacementController : MonoBehaviour
         Instance = this;
     }
 
+
     public Vector2 GetFinalDestination(DominoPiece domino, Vector2Int index)
     {
         // ETAPE 1 : On converti notre domino en index de la grille pour récupérer la colonne de notre domino
@@ -16,9 +18,6 @@ public class DominoPlacementController : MonoBehaviour
             index = GridManager.Instance.GetIndexFromPosition(domino.transform.position);
             index.y = 0;
         }
-
-
-
 
         // ETAPE 2 : On verifie si la cellule est bonne
         if (GridManager.Instance.GetRegionAtIndex(index) != null)
