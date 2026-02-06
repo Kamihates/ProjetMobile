@@ -1,4 +1,7 @@
+using NUnit.Framework.Internal;
+using System.Net;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class DominoPieceVisual : MonoBehaviour
 {
@@ -153,10 +156,14 @@ public class DominoPieceVisual : MonoBehaviour
                     ClampedX = Mathf.Clamp(transform.position.x + GridManager.Instance.CellSize, GridManager.Instance.Origin.position.x, GridManager.Instance.Origin.position.x + (GridManager.Instance.CellSize * (GridManager.Instance.Column - 2)));
                 }
 
+                // On vérifie si la position est bonne
+                Vector2 targetPos = new Vector2(ClampedX, transform.position.y);
 
-                // on clamp le max et min x pour pas depasser de la grille
+                if (IsPositionValid(targetPos))
+                    transform.position = targetPos;
 
-                transform.position = new Vector2(ClampedX, transform.position.y);
+
+
                 return;
             }
         }
@@ -173,13 +180,35 @@ public class DominoPieceVisual : MonoBehaviour
                     ClampedX = Mathf.Clamp(transform.position.x - GridManager.Instance.CellSize, GridManager.Instance.Origin.position.x + GridManager.Instance.CellSize, GridManager.Instance.Origin.position.x + (GridManager.Instance.CellSize * (GridManager.Instance.Column - 1)));
                 }
 
-                transform.position = new Vector2(ClampedX, transform.position.y);
+                // On vérifie si la position est bonne
+                Vector2 targetPos = new Vector2(ClampedX, transform.position.y);
+
+                if (IsPositionValid(targetPos))
+                    transform.position = targetPos;
+
                 return;
             }
+        }
+    }
 
+    private bool IsPositionValid(Vector2 position)
+    {
+        if (_piece.transform.GetChild(0).gameObject.activeSelf)
+        {
+            if (GridManager.Instance.GetRegionAtIndex(GridManager.Instance.GetIndexFromPosition(position)) != null)
+                return false;
+        }
+        if (_piece.transform.GetChild(1).gameObject.activeSelf)
+        {
+            // calcule de position de la region selon la targetPos
+            Vector2 RegionPosSimulation = position + (Vector2)_piece.transform.GetChild(1).transform.localPosition;
+
+            if (GridManager.Instance.GetRegionAtIndex(GridManager.Instance.GetIndexFromPosition(RegionPosSimulation)) != null)
+                return false;
         }
 
-
-
+        return true;
+        
     }
+
 }

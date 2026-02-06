@@ -33,7 +33,7 @@ public class DominoCombos : MonoBehaviour
             GridManager.Instance.OnDominoPlaced -= CheckForCombos;
     }
 
-    private int t1Multiplicateur = 1;
+    private float t1Multiplicateur = 1;
     public void CheckForCombos(DominoPiece piece)
     {
         t1Multiplicateur = 1;
@@ -54,7 +54,7 @@ public class DominoCombos : MonoBehaviour
 
         combosCount = combosOfAdjacentDomino.Count;
 
-        if (combosCount < 3)
+        if (combosCount < 2)
             return;
 
         // degats totaux = (nb de regions adj * degat basique t0) * t1Multiplicateur
@@ -88,8 +88,10 @@ public class DominoCombos : MonoBehaviour
                 combosOfAdjacentDomino.Add(currentIndex);
                 if (GridManager.Instance.GetRegionAtIndex(currentIndex).DominoParent.Data.IsDominoFusion)
                 {
-                    //float t1dmg = (multipleT1 * gapDmgT1 * );
-                    //t1Multiplicateur += 
+                    float power = GridManager.Instance.GetRegionAtIndex(currentIndex).DominoParent.Data.FusionPower;
+
+                    t1Multiplicateur += multipleT1 * gapDmgT1 * power;
+
                 }
             }
 

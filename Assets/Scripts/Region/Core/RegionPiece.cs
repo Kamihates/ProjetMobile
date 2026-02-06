@@ -36,7 +36,30 @@ public class RegionPiece : MonoBehaviour
         GeneralVisualController.Instance.FitSpriteInCell(_overlayRenderer);
     }
 
-    
+
+    private void OnDisable()
+    {
+
+        // Si c'était l'enfant 0 qui se désactive
+        if (transform.GetSiblingIndex() == 0)
+        {
+            Transform parent = _dominoInfos.transform;
+            Transform pivotChild = parent.GetChild(1); // l'autre enfant
+
+            // Décalage entre le parent et le pivot 
+            Vector3 offset = pivotChild.position - parent.position;
+
+            //on deplace le parent vers le pivot
+            parent.position += offset;
+
+            // on deplace tt les enfants dans l'autre sens
+            foreach (Transform child in parent)
+            {
+                child.position -= offset;
+            }
+        }
+    }
+
 
 
 

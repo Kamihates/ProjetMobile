@@ -123,11 +123,13 @@ public class DeckManager : MonoBehaviour
             if(t1.Type == T1Type)
             {
                 DominoInfos dominoInfos = new DominoInfos()
-                { 
+                {
                     Regions = new List<RegionData>() { t1, t1 },
                     IsDominoFusion = true,
-                    FusionPowerCount = fusionIndex.Count
+                    
                 };
+
+                dominoInfos.SetPower(fusionIndex.Count);
 
                 if (deck.Count <= 0)
                 {

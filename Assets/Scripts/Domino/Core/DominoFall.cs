@@ -39,7 +39,7 @@ public class DominoFall : MonoBehaviour
 
         Vector2Int currentIndex = GridManager.Instance.GetIndexFromPosition(transform.position);
 
-        Vector2 targetPos = DominoPlacementController.Instance.GetFinalDestination(_piece, currentIndex);
+        Vector2 targetPos = DominoPlacementController.Instance.GetDestination(_piece);
 
         if (TEST_GD.Instance != null)
         {
