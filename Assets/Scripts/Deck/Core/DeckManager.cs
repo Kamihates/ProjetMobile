@@ -126,7 +126,16 @@ public class DeckManager : MonoBehaviour
                     Regions = new List<RegionData>() { t1, t1 },
                     IsDominoFusion = true
                 };
-                deck.Add(dominoInfos);
+
+                for (int i = 0; i < deck.Count; i++)
+                {
+                    if (!deck[i].IsDominoFusion)
+                    {
+                        deck.Insert(i,dominoInfos);
+                        return;
+                    }
+
+                }
             }
         }
 
