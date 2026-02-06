@@ -11,7 +11,36 @@ public class DominoInfos
     private bool _isDominoFusion = false;
     public bool IsDominoFusion { get => _isDominoFusion; set => _isDominoFusion = value; }
 
-    private int _fusionPowerCount = 4;
+    private int _fusionPower;
+    // fusion power = force du t1 (4/6/8/9)
+    public int FusionPower { get => _fusionPower; set => _fusionPower = value; }
 
-    public int FusionPowerCount { get => _fusionPowerCount; set => _fusionPowerCount = value; }
+    /// <summary>
+    /// Calcule son multiplicateur de multiplicateur
+    /// </summary>
+    /// <param name="regions"></param>
+    public void SetPower(int regions)
+    {
+        switch (regions)
+        {
+            case 4:
+                _fusionPower = 1;
+                break;
+            case 6:
+                _fusionPower = 2;
+                break;
+            case 8:
+                _fusionPower = 3;
+                break;
+            case 9:
+                _fusionPower = 4;
+                break;
+            default:
+                _fusionPower = 6;
+                break;
+        }
+    }
 }
+
+
+

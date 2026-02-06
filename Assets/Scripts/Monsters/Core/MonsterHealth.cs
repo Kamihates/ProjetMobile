@@ -12,7 +12,7 @@ public class MonsterHealth : MonoBehaviour
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
 
-    public Action<int, int> OnHealthUpdate;
+    public Action<float, float> OnHealthUpdate;
 
     private void Awake()
     {
@@ -35,7 +35,7 @@ public class MonsterHealth : MonoBehaviour
             dominoCombos.OnComboDamage -= TakeDamage;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
         OnHealthUpdate?.Invoke(currentHealth, maxHealth);

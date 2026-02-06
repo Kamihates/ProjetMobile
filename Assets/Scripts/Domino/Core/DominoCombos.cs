@@ -54,7 +54,7 @@ public class DominoCombos : MonoBehaviour
 
         combosCount = combosOfAdjacentDomino.Count;
 
-        if (combosCount < 3)
+        if (combosCount < 2)
             return;
 
         // degats totaux = (nb de regions adj * degat basique t0) * t1Multiplicateur
