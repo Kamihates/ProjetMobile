@@ -9,234 +9,59 @@ public class DominoPlacementController : MonoBehaviour
         Instance = this;
     }
 
-
-
-    //public Vector2 GetFinalDestination(DominoPiece domino, Vector2Int index)
-    //{
-    //    // ETAPE 1 : On converti notre domino en index de la grille pour récupérer la colonne de notre domino
-    //    if (index.x < 0)
-    //    {
-    //        index = GridManager.Instance.GetIndexFromPosition(domino.transform.position);
-    //        index.y = 0;
-    //    }
-
-    //    // ETAPE 2 : On verifie si la cellule est bonne
-    //    if (GridManager.Instance.GetRegionAtIndex(index) != null)
-    //    {
-    //        // placement déjà occupé
-    //        if (index.y == 0)
-    //        {
-    //            Debug.LogWarning("aucun emplacement trouvé");
-    //            GridManager.Instance.OnDominoExceed?.Invoke();
-    //            return domino.transform.position;
-    //        }
-    //        else
-    //        {
-    //            // l'emplacement est pris, on est pas à l'index 1 donc on renvoie la derniere position bonne
-    //            index.y--;
-    //            DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(index));
-    //            return GridManager.Instance.GetCellPositionAtIndex(index);
-    //        }
-
-    //    }
-
-    //    // la cellule est pas occupée, on verifie pour les regions
-
-    //    Vector2 targetCellPos = GridManager.Instance.GetCellPositionAtIndex(index);
-
-    //    // pour chaque region
-    //    foreach (Transform child in domino.transform)
-    //    {
-    //        if (child.TryGetComponent(out RegionPiece region))
-    //        {
-    //            // si la region n'est pas vide
-    //            if (region.Region != null)
-    //            {
-    //                // on calcule sa position selon la tagetPos de notre cellule
-    //                Vector2 RegionPosSimulation = targetCellPos + (Vector2)region.transform.localPosition;
-
-    //                // on verifie qu'elle est dans la grille
-    //                if (!GridManager.Instance.IsRegionInGrid(RegionPosSimulation))
-    //                {
-    //                    // la region dépasse en bas, on renvoie la derniere position trouvé bonne
-    //                    index.y--;
-    //                    DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(index));
-    //                    return GridManager.Instance.GetCellPositionAtIndex(index);
-    //                }
-
-    //                // on passe la region en index pour verifier si les emplacements sont vides
-
-    //                Vector2Int RegionIndex = GridManager.Instance.GetIndexFromPosition(RegionPosSimulation);
-
-    //                if (GridManager.Instance.GetRegionAtIndex(RegionIndex) != null)
-    //                {
-    //                    if (index.y == 0)
-    //                    {
-    //                        Debug.LogWarning("aucun emplacement trouvé");
-    //                        return domino.transform.position;
-    //                    }
-    //                    else
-    //                    {
-    //                        // l'emplacement est pris, on est pas à l'index 1 donc on renvoie la derniere position bonne
-    //                        index.y--;
-    //                        DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(index));
-    //                        return GridManager.Instance.GetCellPositionAtIndex(index);
-    //                    }
-    //                }
-    //            }
-    //        }
-
-    //    }
-    //    // tout est bon, on peut check la cellule du dessous
-
-
-    //    index.y++;
-
-
-    //    return GetFinalDestination(domino, index);
-    //}
-
-    //public Vector2 GetFinalDestination(DominoPiece domino, Vector2Int index)
-    //{
-    //    // on descend tant que c'est libre
-    //    while (true)
-    //    {
-    //        Vector2Int next = new Vector2Int(index.x, index.y + 1);
-
-    //        // bas de la grille
-    //        if (next.y >= GridManager.Instance.Row )
-    //            return GridManager.Instance.GetCellPositionAtIndex(index);
-
-    //        // collision ?
-    //        if (GridManager.Instance.GetRegionAtIndex(next) != null)
-    //            return GridManager.Instance.GetCellPositionAtIndex(index);
-
-    //        // deuxieme region check
-    //        if (domino.transform.GetChild(1).gameObject.activeSelf && domino.transform.GetChild(1).TryGetComponent(out RegionPiece region) && region.Region != null)
-    //        {
-    //            Vector2 targetCellPos = GridManager.Instance.GetCellPositionAtIndex(next);
-    //            Vector2 RegionPosSimulation = targetCellPos + (Vector2)region.transform.localPosition;
-
-    //            if (!GridManager.Instance.IsRegionInGrid(RegionPosSimulation))
-    //                return GridManager.Instance.GetCellPositionAtIndex(index);
-
-    //            Vector2Int RegionIndex = GridManager.Instance.GetIndexFromPosition(RegionPosSimulation);
-
-    //            // bas de la grille
-    //            if (RegionIndex.y >= GridManager.Instance.Row)
-    //                return GridManager.Instance.GetCellPositionAtIndex(index);
-
-    //            // collision ?
-    //            if (GridManager.Instance.GetRegionAtIndex(RegionIndex) != null)
-    //                return GridManager.Instance.GetCellPositionAtIndex(index);
-    //        }
-
-
-
-
-    //        // on peut descendre
-    //        index = next;
-    //    }
-    //}
-
-
     public Vector2 GetDestination(DominoPiece domino)
     {
-        // Index des regions
-        Vector2Int? Regionindex1 = null;
-        Vector2Int? Regionindex2 = null;
+        Transform t0 = domino.transform.GetChild(0);
+        Transform t1 = domino.transform.GetChild(1);
 
+        // 1) Déterminer le pivot actif
+        Transform pivot = t0.gameObject.activeSelf ? t0 : t1;
+        bool hasTwoRegions = t0.gameObject.activeSelf && t1.gameObject.activeSelf;
 
-        // Il faut faire en sorte que si on disable region 1, domino prenne la position de region 2
-
-
-        // On récupère l'index de notre region 1 
-        Regionindex1 = GridManager.Instance.GetIndexFromPosition(domino.transform.GetChild(0).position);
-        
-        if (domino.transform.GetChild(1).gameObject.activeSelf)
-        {
-            // On récupère l'index de notre region 2 
-            Regionindex2 = GridManager.Instance.GetIndexFromPosition(domino.transform.GetChild(1).position);
-        }
-
-        Vector2Int? targetIndex = Regionindex1;
-
+        // 2) Index du pivot
+        Vector2Int pivotIndex = GridManager.Instance.GetIndexFromPosition(pivot.position);
 
         while (true)
         {
-            // Si target index
-        }
-
-    }
-
-    public Vector2 GetFinalDestination(DominoPiece domino, Vector2Int index)
-    {
-        // ETAPE 1 : On converti notre domino en index de la grille pour récupérer la colonne de notre domino
-        if (index.x < 0)
-        {
-            index = GridManager.Instance.GetIndexFromPosition(domino.transform.position);
-            index.y = 0;
-        }
-
-        while (true)
-        {
-            // ETAPE 2 : On verifie si la cellule est bonne
-            if (GridManager.Instance.GetRegionAtIndex(index) != null)
+            // Si on dépasse la grille
+            if (pivotIndex.y >= GridManager.Instance.Row)
             {
-                if (index.y == 0)
-                {
-                    Debug.LogWarning("aucun emplacement trouvé");
-                    GridManager.Instance.OnDominoExceed?.Invoke();
-                    return domino.transform.position;
-                }
-
-                index.y--;
-                DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(index));
-                return GridManager.Instance.GetCellPositionAtIndex(index);
+                pivotIndex.y--;
+                DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(pivotIndex));
+                return GridManager.Instance.GetCellPositionAtIndex(pivotIndex);
             }
 
-            // la cellule est pas occupée, on verifie pour les regions
-            Vector2 targetCellPos = GridManager.Instance.GetCellPositionAtIndex(index);
-
-            foreach (Transform child in domino.transform)
+            // Si la case pivot est occupée
+            if (GridManager.Instance.GetRegionAtIndex(pivotIndex) != null)
             {
-                if (child.TryGetComponent(out RegionPiece region) && region.Region != null)
+                pivotIndex.y--;
+                return GridManager.Instance.GetCellPositionAtIndex(pivotIndex);
+            }
+
+            // 3) Vérifier la région 2 si elle existe
+            if (hasTwoRegions)
+            {
+                Vector2 pivotWorldPos = GridManager.Instance.GetCellPositionAtIndex(pivotIndex);
+                Vector2 region2WorldPos = pivotWorldPos + (Vector2)t1.localPosition;
+                Vector2Int region2Index = GridManager.Instance.GetIndexFromPosition(region2WorldPos);
+
+                // Si la région 2 dépasse la grille
+                if (region2Index.y >= GridManager.Instance.Row)
                 {
-                    Vector2 RegionPosSimulation = targetCellPos + (Vector2)region.transform.localPosition;
+                    pivotIndex.y--;
+                    return GridManager.Instance.GetCellPositionAtIndex(pivotIndex);
+                }
 
-                    if (!GridManager.Instance.IsRegionInGrid(RegionPosSimulation))
-                    {
-                        index.y--;
-                        DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(index));
-                        return GridManager.Instance.GetCellPositionAtIndex(index);
-                    }
-
-                    Vector2Int RegionIndex = GridManager.Instance.GetIndexFromPosition(RegionPosSimulation);
-
-                    if (GridManager.Instance.GetRegionAtIndex(RegionIndex) != null)
-                    {
-                        if (index.y == 0)
-                        {
-                            Debug.LogWarning("aucun emplacement trouvé");
-                            return domino.transform.position;
-                        }
-
-                        index.y--;
-                        DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(index));
-                        return GridManager.Instance.GetCellPositionAtIndex(index);
-                    }
+                // Si la région 2 est occupée
+                if (GridManager.Instance.GetRegionAtIndex(region2Index) != null)
+                {
+                    pivotIndex.y--;
+                    return GridManager.Instance.GetCellPositionAtIndex(pivotIndex);
                 }
             }
 
-            // tout est bon → on descend d'une ligne
-            index.y++;
-
-            // sécurité anti-boucle infinie : si on dépasse la grille, on s'arrête
-            if (index.y >= GridManager.Instance.Row)
-            {
-                index.y = GridManager.Instance.Row - 1;
-                return GridManager.Instance.GetCellPositionAtIndex(index);
-            }
+            // Sinon on descend
+            pivotIndex.y++;
         }
     }
 
