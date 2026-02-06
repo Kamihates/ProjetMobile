@@ -10,6 +10,8 @@ public class DominoInfos
 
     private bool _isDominoFusion = false;
     public bool IsDominoFusion { get => _isDominoFusion; set => _isDominoFusion = value; }
-    
 
+    private int _fusionPowerCount = 4;
+
+    public int FusionPowerCount { get => _fusionPowerCount; set => _fusionPowerCount = value; }
 }

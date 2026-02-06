@@ -5,14 +5,16 @@ using System;
 
 public class DominoCombos : MonoBehaviour
 {
-    [SerializeField, Foldout("Temp")] private int damagePerCombo = 5;
+    [SerializeField] private float damagePerCombo = 5;
+    [SerializeField, Label("un t1 basique multiplie par combien ? (basique = 4)")] private float multipleT1 = 5;
+    [SerializeField, Label("on ajoute combien au multiplicateur selon la force du t1 ? (4/6/8/9)")] private float gapDmgT1 = 1.5f;
 
     [SerializeField, Foldout("Debug"), ReadOnly] private int combosCount = 0;
     public int CombosCount => combosCount;
 
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentDomino;
 
-    public Action<int> OnComboDamage;
+    public Action<float> OnComboDamage;
 
     private void SetCombosOfAdjacentDomino(List<Vector2Int> combos)
     {
@@ -27,13 +29,15 @@ public class DominoCombos : MonoBehaviour
 
     private void OnDestroy()
     {
-        GridManager.Instance.OnDominoPlaced -= CheckForCombos;
+        if (GridManager.Instance != null) 
+            GridManager.Instance.OnDominoPlaced -= CheckForCombos;
     }
 
-    private int t1countInCombo = 0;
+    private int t1Multiplicateur = 1;
     public void CheckForCombos(DominoPiece piece)
     {
-        t1countInCombo = 0;
+        t1Multiplicateur = 1;
+
         RegionPiece regionPiece1 = piece.transform.GetChild(0).GetComponent<RegionPiece>();
         RegionPiece regionPiece2 = piece.transform.GetChild(1).GetComponent<RegionPiece>();
 
@@ -53,7 +57,8 @@ public class DominoCombos : MonoBehaviour
         if (combosCount < 3)
             return;
 
-        int totalDamage = combosCount * damagePerCombo * (t1countInCombo * 2);
+        // degats totaux = (nb de regions adj * degat basique t0) * t1Multiplicateur
+        float totalDamage = (combosCount * damagePerCombo) * t1Multiplicateur;
         OnComboDamage?.Invoke(totalDamage);
     }
 
@@ -83,7 +88,8 @@ public class DominoCombos : MonoBehaviour
                 combosOfAdjacentDomino.Add(currentIndex);
                 if (GridManager.Instance.GetRegionAtIndex(currentIndex).DominoParent.Data.IsDominoFusion)
                 {
-                    t1countInCombo++;
+                    //float t1dmg = (multipleT1 * gapDmgT1 * );
+                    //t1Multiplicateur += 
                 }
             }
 

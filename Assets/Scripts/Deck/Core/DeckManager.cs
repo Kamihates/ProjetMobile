@@ -52,7 +52,8 @@ public class DeckManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        GridManager.Instance.OnDominoPlaced -= HandleNextDomino;
+        if (GridManager.Instance != null)
+            GridManager.Instance.OnDominoPlaced -= HandleNextDomino;
     }
 
 
@@ -110,28 +111,36 @@ public class DeckManager : MonoBehaviour
 
     }
 
-    public void PutT1InDeck(Vector2Int[] fusionSquare)
+    public void PutT1InDeck(List<Vector2Int> fusionIndex)
     {
         // on recupere la region 
 
-        RegionData region = GridManager.Instance.GetRegionAtIndex(new Vector2Int(fusionSquare[0].y, fusionSquare[0].x)).Region;
+        RegionData region = GridManager.Instance.GetRegionAtIndex(new Vector2Int(fusionIndex[0].y, fusionIndex[0].x)).Region;
         RegionType T1Type = region.Type;
 
-       foreach(RegionData t1 in regionDataT1)
+        foreach (RegionData t1 in regionDataT1)
         {
             if(t1.Type == T1Type)
             {
                 DominoInfos dominoInfos = new DominoInfos()
                 { 
                     Regions = new List<RegionData>() { t1, t1 },
-                    IsDominoFusion = true
+                    IsDominoFusion = true,
+                    FusionPowerCount = fusionIndex.Count
                 };
+
+                if (deck.Count <= 0)
+                {
+                    deck.Insert(0, dominoInfos);
+                    return;
+                }
 
                 for (int i = 0; i < deck.Count; i++)
                 {
                     if (!deck[i].IsDominoFusion)
                     {
                         deck.Insert(i,dominoInfos);
+                        Debug.Log("on ajoute le t1 dans le deck");
                         return;
                     }
 
