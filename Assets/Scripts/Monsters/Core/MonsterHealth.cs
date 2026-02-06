@@ -4,15 +4,15 @@ using System;
 
 public class MonsterHealth : MonoBehaviour
 {
-    [Header("Health"), SerializeField] private int maxHealth = 100;
-    [SerializeField, Foldout("Debug"), ReadOnly] private int currentHealth;
+    [Header("Health"), SerializeField] private float maxHealth = 100;
+    [SerializeField, Foldout("Debug"), ReadOnly] private float currentHealth;
 
     [SerializeField] private DominoCombos dominoCombos;
 
-    public int CurrentHealth => currentHealth;
-    public int MaxHealth => maxHealth;
+    public float CurrentHealth => currentHealth;
+    public float MaxHealth => maxHealth;
 
-    public Action<int, int> OnHealthUpdate;
+    public Action<float, float> OnHealthUpdate;
 
     private void Awake()
     {
@@ -35,7 +35,7 @@ public class MonsterHealth : MonoBehaviour
             dominoCombos.OnComboDamage -= TakeDamage;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
         OnHealthUpdate?.Invoke(currentHealth, maxHealth);

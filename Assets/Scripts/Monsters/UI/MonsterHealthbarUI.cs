@@ -20,7 +20,7 @@ public class HealthBarUI : MonoBehaviour
         monsterHealth.OnHealthUpdate -= UpdateHealthBar;
     }
 
-    private void UpdateHealthBar(int current, int max)
+    private void UpdateHealthBar(float current, float max)
     {
         float normalize = (float)current / max;
         healthSlider.value = normalize;
