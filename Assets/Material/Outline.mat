@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: VFX_fusion_water
-  m_Shader: {fileID: -6465566751694194690, guid: cb3173e20c9706b44924243f0b2c3464, type: 3}
+  m_Name: Outline
+  m_Shader: {fileID: -6465566751694194690, guid: c36a978faadae1f468c912c82eb8f228, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -18,7 +18,8 @@ Material:
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -58,14 +59,22 @@ Material:
     m_Ints: []
     m_Floats:
     - _EnableExternalAlpha: 0
+    - _Outlinethickness: 5.21
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Thickness: 0.015
     - _ZWrite: 0
     m_Colors:
     - White: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Outline_Color: {r: 1, g: 0.009808441, b: 0, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Thickness: {r: 0.03, g: 0, b: 0, a: 0}
+    - _ThicknessL: {r: 0.015, g: 0, b: 0, a: 0}
+    - _Thicknessr: {r: -0.015, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &7457799855406515985
+--- !u!114 &6955475600730340031
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
