@@ -5,7 +5,7 @@ using System;
 
 public class DominoCombos : MonoBehaviour
 {
-    [SerializeField, Foldout("Temp")] private int damagePerCombo = 5;
+    [SerializeField, Foldout("Temp")] private int damagePerCombo = 1;
 
     [SerializeField, Foldout("Debug"), ReadOnly] private int combosCount = 0;
     public int CombosCount => combosCount;
