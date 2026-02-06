@@ -229,8 +229,6 @@ public class GridManager : MonoBehaviour
 
     private IEnumerator WaitToFall(List<DominoPiece> dominosToFall)
     {
-        //yield return new WaitForSeconds(0.2f);
-
         // on parcours tt les dominos de bas gauche en haut droite et les fait tomber avec un gap de X secondes
         foreach (DominoPiece domino in dominosToFall)
         {
@@ -239,7 +237,7 @@ public class GridManager : MonoBehaviour
             fallController.CanFall = true;
             fallController.enabled = true;
 
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
         }
 
         
