@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RegionDatabase
   RegionID: 4
   Type: 4
-  RegionTerrain: {fileID: -3038682637099569879, guid: 1cc4e96532f024840b712c96216646b5, type: 3}
+  RegionTerrain: {fileID: 21300000, guid: ff4f9c37cc637a4489530258f579605c, type: 3}
   RegionOverlay: {fileID: 0}

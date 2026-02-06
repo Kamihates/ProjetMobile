@@ -48,7 +48,7 @@ public class DominoCombos : MonoBehaviour
 
         combosCount = combosOfAdjacentDomino.Count;
 
-        if (combosCount < 2)
+        if (combosCount < 3)
             return;
 
         int totalDamage = combosCount * damagePerCombo;

@@ -20,13 +20,16 @@ public class MonsterHealth : MonoBehaviour
         OnHealthUpdate?.Invoke(currentHealth, maxHealth);
     }
 
-    private void OnEnable()
+    private void Start()
     {
         if (dominoCombos != null)
+        {
             dominoCombos.OnComboDamage += TakeDamage;
+
+        }
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         if (dominoCombos != null)
             dominoCombos.OnComboDamage -= TakeDamage;

@@ -56,7 +56,6 @@ public class DominoFall : MonoBehaviour
         // si on arrive a destination
         if ((Vector2.Distance(targetPos, transform.position) < 0.01f) || transform.position.y < targetPos.y) // evite un depassement
         {
-            Debug.Log("posé");
             transform.position = targetPos; // on snap au cas ou
             DominoPiece domino = _piece;
             GridManager.Instance.AddDominoDataInGrid(domino);
