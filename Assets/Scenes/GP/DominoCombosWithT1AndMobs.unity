@@ -163,11 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 136a1387e649d7c49938240465113b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoMovementController
+  dominoPlacement: {fileID: 2058347780}
   _holdTime: 0.2
   _dragDistance: 0.5
   _fallingSpeed: 0.5
   _stepSpeed: 1
-  dominoPlacement: {fileID: 2058347780}
   _holdTapTime: 0.2
 --- !u!1 &104440526
 GameObject:
@@ -243,12 +243,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2fd5c43a8bf6b941a23e4ce6be867e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridManager
+  gridDrawer: {fileID: 751515613}
   _column: 8
   _row: 10
   _gridOrigin: {fileID: 751515612}
   _cellSize: 0.6
   _tileDepth: 0
-  gridDrawer: {fileID: 751515613}
 --- !u!4 &201307352
 Transform:
   m_ObjectHideFlags: 0
@@ -802,7 +802,6 @@ MonoBehaviour:
   _rotationRandom: 0
   dominoData: {fileID: 11400000, guid: 4398ad35494bbcf4aab6296ee01d56f9, type: 2}
   deckManager: {fileID: 1081684069}
-  _currentDomino: {fileID: 0}
 --- !u!1 &1041578643
 GameObject:
   m_ObjectHideFlags: 0
@@ -1727,6 +1726,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoCombos
   damagePerCombo: 5
+  multipleT1: 5
+  gapDmgT1: 1.5
   combosCount: 0
   combosOfAdjacentDomino: []
 --- !u!1 &2058347778
