@@ -234,7 +234,7 @@ public class GridManager : MonoBehaviour
         {
             DominoFall fallController = domino.FallController;
             fallController.Init(4, 0.1f);
-            fallController.CanFall = true;
+            fallController.IgnoreCurrentDomino = true;
             fallController.enabled = true;
 
             yield return new WaitForSeconds(0.1f);

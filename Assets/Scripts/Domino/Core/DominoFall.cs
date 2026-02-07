@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class DominoFall : MonoBehaviour
@@ -13,14 +14,16 @@ public class DominoFall : MonoBehaviour
     private float _currentFallingSpeed;
     private float _currentStepSpeed;
 
-    public bool CanFall { get; set; }
+    private bool _canFall = false;
+    public bool CanFall { get => _canFall; set => _canFall = value; }
+    public bool IgnoreCurrentDomino { get; set; }
 
     /// <summary>
     /// Initialisation des vitesses
     /// </summary>
     public void Init(float speed, float StepTimer)
     {
-        CanFall = false;
+        IgnoreCurrentDomino = false;
         _currentFallingSpeed = speed;
         _currentStepSpeed = StepTimer;
     }
@@ -29,7 +32,10 @@ public class DominoFall : MonoBehaviour
     {
         if (DominoPlacementController.Instance == null) { return; }
 
-        if (!CanFall)
+        Debug.Log(_canFall);
+        if (!CanFall) { return; }
+
+        if (!IgnoreCurrentDomino)
         {
             if (GameManager.Instance != null && GameManager.Instance.CurrentDomino == null) return;
             if (GameManager.Instance.CurrentDomino.PieceUniqueId != _piece.PieceUniqueId) return;
@@ -56,10 +62,11 @@ public class DominoFall : MonoBehaviour
         // si on arrive a destination
         if ((Vector2.Distance(targetPos, transform.position) < 0.01f) || transform.position.y < targetPos.y) // evite un depassement
         {
+            Debug.Log("reached destination");
             transform.position = targetPos; // on snap au cas ou
             DominoPiece domino = _piece;
             GridManager.Instance.AddDominoDataInGrid(domino);
-            CanFall  = false;
+            IgnoreCurrentDomino  = false;
             this.enabled = false;
         }
     }
@@ -90,5 +97,21 @@ public class DominoFall : MonoBehaviour
         Vector2 newPos = transform.position;
         newPos.y -= _currentFallingSpeed * Time.deltaTime;
         transform.position = newPos;
+    }
+
+    Coroutine _currentCoroutine = null;
+    public void StartFall()
+    {
+        if ( _currentCoroutine == null )
+        {
+            _currentCoroutine = StartCoroutine(WaitBeforeFalling());
+        }
+    }
+
+    IEnumerator WaitBeforeFalling()
+    {
+        yield return new WaitForSeconds(2);
+        _canFall = true;
+        _currentCoroutine = null;
     }
 }
