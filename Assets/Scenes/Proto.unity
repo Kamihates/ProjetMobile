@@ -163,11 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 136a1387e649d7c49938240465113b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoMovementController
+  dominoPlacement: {fileID: 2058347780}
   _holdTime: 0.2
   _dragDistance: 0.5
   _fallingSpeed: 0.5
   _stepSpeed: 1
-  dominoPlacement: {fileID: 2058347780}
   _holdTapTime: 0.2
 --- !u!1 &104440526
 GameObject:
@@ -243,12 +243,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2fd5c43a8bf6b941a23e4ce6be867e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridManager
+  gridDrawer: {fileID: 751515613}
   _column: 8
   _row: 10
   _gridOrigin: {fileID: 751515612}
   _cellSize: 0.6
   _tileDepth: 0
-  gridDrawer: {fileID: 751515613}
 --- !u!4 &201307352
 Transform:
   m_ObjectHideFlags: 0
@@ -555,7 +555,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -124}
+  m_AnchoredPosition: {x: 0, y: -49}
   m_SizeDelta: {x: -552.503, y: -1220.891}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &751515611
@@ -802,7 +802,6 @@ MonoBehaviour:
   _rotationRandom: 0
   dominoData: {fileID: 11400000, guid: 4398ad35494bbcf4aab6296ee01d56f9, type: 2}
   deckManager: {fileID: 1081684069}
-  _currentDomino: {fileID: 0}
 --- !u!1 &1041578643
 GameObject:
   m_ObjectHideFlags: 0
@@ -1276,14 +1275,14 @@ RectTransform:
   m_GameObject: {fileID: 1300258857}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 719330300}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 43, y: 597.8401}
+  m_AnchoredPosition: {x: 43, y: 538}
   m_SizeDelta: {x: 791.58, y: 443.67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1387307199
@@ -1564,7 +1563,7 @@ GameObject:
   m_Layer: 0
   m_Name: Hand
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1593,9 +1592,9 @@ Transform:
   m_GameObject: {fileID: 1633267705}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.89, y: 0.44, z: 0}
+  m_LocalPosition: {x: 0.89, y: 1.44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1283870527}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1624,7 +1623,7 @@ Transform:
   m_GameObject: {fileID: 1685774071}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.86, z: 0}
+  m_LocalPosition: {x: 0, y: -1.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1727,6 +1726,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoCombos
   damagePerCombo: 5
+  multipleT1: 5
+  gapDmgT1: 1.5
   combosCount: 0
   combosOfAdjacentDomino: []
 --- !u!1 &2058347778
