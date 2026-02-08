@@ -99,19 +99,6 @@ public class DominoFall : MonoBehaviour
         transform.position = newPos;
     }
 
-    Coroutine _currentCoroutine = null;
-    public void StartFall()
-    {
-        if ( _currentCoroutine == null )
-        {
-            _currentCoroutine = StartCoroutine(WaitBeforeFalling());
-        }
-    }
 
-    IEnumerator WaitBeforeFalling()
-    {
-        yield return new WaitForSeconds(2);
-        _canFall = true;
-        _currentCoroutine = null;
-    }
+    
 }

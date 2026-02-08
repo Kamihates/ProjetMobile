@@ -553,10 +553,10 @@ RectTransform:
   - {fileID: 1041578644}
   m_Father: {fileID: 1543411935}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -49}
-  m_SizeDelta: {x: -552.503, y: -1220.891}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -1009.5}
+  m_SizeDelta: {x: 527.497, y: 700.109}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &751515611
 GameObject:
@@ -800,6 +800,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DominoSpawner
   dominoController: {fileID: 93427302}
   _rotationRandom: 0
+  _waitingTime: 1
   dominoData: {fileID: 11400000, guid: 4398ad35494bbcf4aab6296ee01d56f9, type: 2}
   deckManager: {fileID: 1081684069}
 --- !u!1 &1041578643
@@ -1225,7 +1226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca66a6ec6f13c2c4495903a0465bac64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterHealth
-  maxHealth: 100
+  maxHealth: 1000
   currentHealth: 0
   dominoCombos: {fileID: 2001327692}
 --- !u!114 &1300258859
@@ -1592,7 +1593,7 @@ Transform:
   m_GameObject: {fileID: 1633267705}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.89, y: 1.44, z: 0}
+  m_LocalPosition: {x: 3.4, y: 1.44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []

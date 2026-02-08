@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GeneralVisualController : MonoBehaviour
@@ -27,6 +29,33 @@ public class GeneralVisualController : MonoBehaviour
 
         renderer.gameObject.AddComponent<BoxCollider2D>();
         renderer.GetComponent<BoxCollider2D>().isTrigger = true;
+    }
 
+
+
+    public void FallAtoB(Transform transform, float duration, Vector2 startingPos, Vector2 destination)
+    {
+        StartCoroutine(LerpPosition(transform, duration, startingPos, destination));
+    }
+
+    private IEnumerator LerpPosition(Transform transform, float duration, Vector2 startingPos, Vector2 destination)
+    {
+        float time = 0f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+            transform.position = Vector2.Lerp(startingPos, destination, easeInExpo(t));
+            yield return null;
+        }
+
+        transform.position = destination;
+    }
+
+
+    private float easeInExpo(float x)
+    {
+        return x == 0 ? 0 : Mathf.Pow(2, 10 * x - 10);
     }
 }

@@ -17,20 +17,27 @@ public class DominoHandVisual : MonoBehaviour
     {
         GameObject dominoGO = Instantiate(dominoPrefab, handVisualParent);
 
-        dominoGO.transform.localPosition = new Vector2(index * spaceWithinDomino, 0f);
+        
+        //dominoGO.transform.localPosition = new Vector2(index * spaceWithinDomino, 0f);
+        dominoGO.transform.localPosition = new Vector2(index * - spaceWithinDomino, 0f);
 
         DominoPiece dominoPiece = dominoGO.GetComponent<DominoPiece>();
         dominoPiece.Init(uid, 0, deckManager.DominoInHand[index]);
 
         dominoInHandVisual.Add(dominoPiece);
-
     }
 
     public void UpdateDominoHandVisual()
     {
         for (int i = 0; i < dominoInHandVisual.Count; i++)
         {
-            dominoInHandVisual[i].transform.localPosition = new Vector2(handVisualParent.position.x - (i * spaceWithinDomino), 0);
+            Vector2 startingPos = dominoInHandVisual[i].transform.position;
+            Vector2 EndPos = new Vector2(- (i * spaceWithinDomino), handVisualParent.position.y);
+
+            GeneralVisualController.Instance.FallAtoB(dominoInHandVisual[i].transform, 1f, startingPos, EndPos);
+           // dominoInHandVisual[i].transform.localPosition = new Vector2(handVisualParent.position.x - (i * spaceWithinDomino), 0);
         }
     }
+
+
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using NaughtyAttributes;
+using System.Collections;
 
 public class DominoSpawner : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class DominoSpawner : MonoBehaviour
     [BoxGroup("Spawn")]
     [Header("Activer la rotation aléatoire")]
     [SerializeField, Label("cocher pour activer la rotation aléatoire")] private bool _rotationRandom;
+    [BoxGroup("Spawn"),SerializeField, Label("temps avant la descente")] private float _waitingTime = 1f;
 
     [Header("Base Data")]
     [SerializeField] private CombinaisonData dominoData; 
@@ -35,6 +37,7 @@ public class DominoSpawner : MonoBehaviour
         OnDominoSpawn -= SpawnNextDomino;
     }
 
+    Coroutine _currentCoroutine = null;
     public void SpawnNextDomino()
     {
 
@@ -60,10 +63,21 @@ public class DominoSpawner : MonoBehaviour
             rotation = UnityEngine.Random.Range(0, 4);
         }
 
-        dominoToSpawn.transform.position = spawnPos;
+       // dominoToSpawn.transform.position = spawnPos;
         GameManager.Instance.CurrentDomino = dominoToSpawn;
-        dominoToSpawn.FallController.StartFall();
 
+        GeneralVisualController.Instance.FallAtoB(dominoToSpawn.transform, 0.5f, dominoToSpawn.transform.position, spawnPos);
+
+        if (_currentCoroutine ==  null)
+            _currentCoroutine = StartCoroutine(WaitBeforeFalling(dominoToSpawn));
+
+    }
+
+    IEnumerator WaitBeforeFalling(DominoPiece dominoToSpawn)
+    {
+        yield return new WaitForSeconds(_waitingTime);
+        dominoToSpawn.FallController.CanFall = true;
+        _currentCoroutine = null;
     }
 
 
@@ -73,6 +87,7 @@ public class DominoSpawner : MonoBehaviour
 
         // on r�cup�re la cellule du milieu 
         int cell = Mathf.CeilToInt(GridManager.Instance.Column / 2);
+        //int cell = GridManager.Instance.Column - 1;
 
         // on recupere sa position
         Vector2 spawnPos = new Vector2(GridManager.Instance.Origin.position.x + ((cell - 1) * GridManager.Instance.CellSize), GridManager.Instance.Origin.position.y + (GridManager.Instance.CellSize * 2f));
