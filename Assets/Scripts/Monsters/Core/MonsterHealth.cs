@@ -40,7 +40,9 @@ public class MonsterHealth : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
         OnHealthUpdate?.Invoke(currentHealth, maxHealth);
 
-        if (currentHealth <= 0) 
-            Debug.Log("Monster dead");
+        if (currentHealth <= 0)
+        {
+            GameManager.Instance.OnMobDefeated();
+        }
     }
 }
