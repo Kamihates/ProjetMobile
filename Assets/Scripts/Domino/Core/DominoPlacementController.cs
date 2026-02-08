@@ -35,6 +35,7 @@ public class DominoPlacementController : MonoBehaviour
             if (GridManager.Instance.GetRegionAtIndex(pivotIndex) != null)
             {
                 pivotIndex.y--;
+                DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(pivotIndex));
                 return GridManager.Instance.GetCellPositionAtIndex(pivotIndex);
             }
 
@@ -49,6 +50,7 @@ public class DominoPlacementController : MonoBehaviour
                 if (region2Index.y >= GridManager.Instance.Row)
                 {
                     pivotIndex.y--;
+                    DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(pivotIndex));
                     return GridManager.Instance.GetCellPositionAtIndex(pivotIndex);
                 }
 
@@ -56,6 +58,7 @@ public class DominoPlacementController : MonoBehaviour
                 if (GridManager.Instance.GetRegionAtIndex(region2Index) != null)
                 {
                     pivotIndex.y--;
+                    DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(pivotIndex));
                     return GridManager.Instance.GetCellPositionAtIndex(pivotIndex);
                 }
             }

@@ -32,7 +32,6 @@ public class DominoFall : MonoBehaviour
     {
         if (DominoPlacementController.Instance == null) { return; }
 
-        Debug.Log(_canFall);
         if (!CanFall) { return; }
 
         if (!IgnoreCurrentDomino)
@@ -40,10 +39,7 @@ public class DominoFall : MonoBehaviour
             if (GameManager.Instance != null && GameManager.Instance.CurrentDomino == null) return;
             if (GameManager.Instance.CurrentDomino.PieceUniqueId != _piece.PieceUniqueId) return;
         }
-        
-
-
-        Vector2Int currentIndex = GridManager.Instance.GetIndexFromPosition(transform.position);
+      
 
         Vector2 targetPos = DominoPlacementController.Instance.GetDestination(_piece);
 
@@ -62,12 +58,20 @@ public class DominoFall : MonoBehaviour
         // si on arrive a destination
         if ((Vector2.Distance(targetPos, transform.position) < 0.01f) || transform.position.y < targetPos.y) // evite un depassement
         {
-            Debug.Log("reached destination");
+            
+            // si la position finale depasse de la grille c'est game over
+           
             transform.position = targetPos; // on snap au cas ou
+
+            if (!GridManager.Instance.IsDominoInGrid(_piece, false))
+            {
+                GameManager.Instance.OnGameLost?.Invoke();
+            }
+
             DominoPiece domino = _piece;
             GridManager.Instance.AddDominoDataInGrid(domino);
             IgnoreCurrentDomino  = false;
-            this.enabled = false;
+            enabled = false;
         }
     }
 

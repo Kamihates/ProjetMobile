@@ -24,7 +24,7 @@ public class GridManager : MonoBehaviour
     
 
     public Action<DominoPiece> OnDominoPlaced;
-    public Action OnDominoExceed; // action quand un domino est placé en haut de la grille
+   
 
    
     public int Column { get => _column; }
@@ -61,7 +61,22 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public bool IsRegionInGrid(Vector2 pos)
+    public bool IsDominoInGrid(DominoPiece domino, bool ignoreTop)
+    {
+        if (domino.transform.GetChild(0).gameObject.activeSelf)
+        {
+            if (!IsRegionInGrid(domino.transform.GetChild(0).position, ignoreTop))
+                return false;
+        }
+        if (domino.transform.GetChild(1).gameObject.activeSelf)
+        {
+            if (!IsRegionInGrid(domino.transform.GetChild(1).position, ignoreTop))
+                return false;
+        }
+        return true;
+    }
+
+    public bool IsRegionInGrid(Vector2 pos, bool ignoreTop = true)
     {
         float half = _cellSize / 2f;
 
@@ -70,22 +85,26 @@ public class GridManager : MonoBehaviour
         Vector2 BL = new Vector2(pos.x - half, pos.y - half);
         Vector2 BR = new Vector2(pos.x + half, pos.y - half);
 
-        return IsInGrid(new List<Vector2> { TL, TR, BL, BR });
+        return IsInGrid(new List<Vector2> { TL, TR, BL, BR }, ignoreTop);
     }
 
-    public bool IsInGrid(List<Vector2> positions)
+    public bool IsInGrid(List<Vector2> positions, bool ignoreTop = true)
     {
         // limites de la grille
         float bottomMax = (_gridOrigin.position.y + _cellSize / 2) - (_row * _cellSize);
         float LeftMax = (_gridOrigin.position.x - _cellSize / 2);
         float RightMax = (_gridOrigin.position.x - _cellSize / 2) + (_column * _cellSize);
+        float TopMax = (_gridOrigin.position.y + _cellSize / 2);
 
-        
+        float gap = 0.2f;
+
         foreach (Vector2 p in positions)
         {
-            if (p.x > RightMax) return false;
-            if (p.x < LeftMax) return false;
-            if (p.y < bottomMax) return false;
+            if (p.x > RightMax - gap) return false;
+            if (p.x < LeftMax + gap) return false;
+            if (p.y < bottomMax - gap) return false;
+            if (!ignoreTop)
+                if (p.y > TopMax + gap) return false;
         }
 
         return true;
