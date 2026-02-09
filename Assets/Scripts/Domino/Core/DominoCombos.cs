@@ -6,64 +6,89 @@ using System;
 public class DominoCombos : MonoBehaviour
 {
     [SerializeField] private float damagePerCombo = 5;
-    [SerializeField, Label("un t1 basique multiplie par combien ? (basique = 4)")] private float multipleT1 = 5;
+    [SerializeField, Label("un t1 basique multiplie par combien ? (basique = 4)")] private float T1multipicator = 2;
     [SerializeField, Label("on ajoute combien au multiplicateur selon la force du t1 ? (4/6/8/9)")] private float gapDmgT1 = 1.5f;
 
     [SerializeField, Foldout("Debug"), ReadOnly] private int combosCount = 0;
+
+
+    [SerializeField] private DominoFusion dominoFusion;
     public int CombosCount => combosCount;
 
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentDomino;
+    [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentR1;
+    [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentR2;
 
     public Action<float> OnComboDamage;
 
-    private void SetCombosOfAdjacentDomino(List<Vector2Int> combos)
-    {
-        combosOfAdjacentDomino = combos;
-        combosCount = combosOfAdjacentDomino.Count;
-    }
-
     private void Start()
     {
-        GridManager.Instance.OnDominoPlaced += CheckForCombos;
+        GridManager.Instance.OnDominoPlaced += CheckForReaction;
     }
 
     private void OnDestroy()
     {
         if (GridManager.Instance != null) 
-            GridManager.Instance.OnDominoPlaced -= CheckForCombos;
+            GridManager.Instance.OnDominoPlaced -= CheckForReaction;
     }
 
-    private float t1Multiplicateur = 1;
-    public void CheckForCombos(DominoPiece piece)
+    private float t1Count = 0;
+
+
+    public void CheckForReaction(DominoPiece piece)
     {
-        t1Multiplicateur = 1;
+        // d'abord on check les combos.
+        // si ya une ou des fusions, on calcule leurs bonus pour les ajouter aux degats
+        float totalDamage = 0;  
+        float comboDamages = CheckForCombos(piece);
+        float fusionBonusDamage = dominoFusion.CheckForFusion(piece);
 
-        RegionPiece regionPiece1 = piece.transform.GetChild(0).GetComponent<RegionPiece>();
-        RegionPiece regionPiece2 = piece.transform.GetChild(1).GetComponent<RegionPiece>();
+        totalDamage = comboDamages + fusionBonusDamage;
 
-        if (regionPiece1.gameObject.activeSelf)
-            CheckForAdjacentDomino(regionPiece1);
-
-        if(regionPiece1.Region == null) return;
-
-        if (!regionPiece2.gameObject.activeSelf) return;
-        if (regionPiece2.Region == null) return;
-
-        if(regionPiece1.Region.RegionID != regionPiece2.Region.RegionID ) 
-            CheckForAdjacentDomino(regionPiece2);
-
-        combosCount = combosOfAdjacentDomino.Count;
-
-        if (combosCount < 2)
-            return;
-
-        // degats totaux = (nb de regions adj * degat basique t0) * t1Multiplicateur
-        float totalDamage = (combosCount * damagePerCombo) * t1Multiplicateur;
         OnComboDamage?.Invoke(totalDamage);
     }
 
 
-    private void CheckForAdjacentDomino(RegionPiece regionPiece)
+
+    public float CheckForCombos(DominoPiece piece)
+    {
+        t1Count = 0;
+
+        int combosOfAdjacentR1 = 0;
+        int combosOfAdjacentR2 = 0;
+
+        RegionPiece regionPiece1 = piece.transform.GetChild(0).GetComponent<RegionPiece>();
+        RegionPiece regionPiece2 = piece.transform.GetChild(1).GetComponent<RegionPiece>();
+
+        if (regionPiece1.gameObject.activeSelf && regionPiece1.Region != null)
+            combosOfAdjacentR1 = CheckForAdjacentDomino(regionPiece1);
+
+        if (regionPiece1.gameObject.activeSelf && regionPiece1.Region != null && (regionPiece1.Region.RegionID != regionPiece2.Region.RegionID || !regionPiece1.gameObject.activeSelf))
+            combosOfAdjacentR2 = CheckForAdjacentDomino(regionPiece2);
+
+        if (combosOfAdjacentR1 == 1) 
+            combosOfAdjacentR1 = 0;
+
+        if (combosOfAdjacentR2 == 1)
+            combosOfAdjacentR2 = 0;
+
+        combosCount = combosOfAdjacentR1 + combosOfAdjacentR2;
+
+
+        if (combosCount < 2)
+            return 0;
+
+        // degats totaux = (nb de regions adj * degat basique t0) * t1Multiplicateur
+
+        if (t1Count == 0)
+            return (combosCount * damagePerCombo);
+
+        return (combosCount * damagePerCombo) * (t1Count * T1multipicator);
+        
+    }
+
+
+    private int CheckForAdjacentDomino(RegionPiece regionPiece)
     {
         combosOfAdjacentDomino.Clear();
 
@@ -86,12 +111,11 @@ public class DominoCombos : MonoBehaviour
             if (!combosOfAdjacentDomino.Contains(currentIndex))
             {
                 combosOfAdjacentDomino.Add(currentIndex);
+
+
                 if (GridManager.Instance.GetRegionAtIndex(currentIndex).DominoParent.Data.IsDominoFusion)
                 {
-                    float power = GridManager.Instance.GetRegionAtIndex(currentIndex).DominoParent.Data.FusionPower;
-
-                    t1Multiplicateur += multipleT1 * gapDmgT1 * power;
-
+                    t1Count++;
                 }
             }
 
@@ -112,11 +136,13 @@ public class DominoCombos : MonoBehaviour
                     if (!combosOfAdjacentDomino.Contains(neighbor))
                     {
                         regionToCheck.Add(neighbor);
-
                     }
                 }
             }
         }
+
+
+        return (combosOfAdjacentDomino.Count);
     }
 
     private Vector2Int[] GetRegionNeighbors(Vector2Int regionIndex)
