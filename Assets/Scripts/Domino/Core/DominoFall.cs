@@ -66,6 +66,7 @@ public class DominoFall : MonoBehaviour
             if (!GridManager.Instance.IsDominoInGrid(_piece, false))
             {
                 GameManager.Instance.GameLost();
+                return;
             }
 
             DominoPiece domino = _piece;
