@@ -86,6 +86,12 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.LoseState);
     }
 
+    public void GameWon()
+    {
+        //OnWin?.Invoke();
+        ChangeState(GameState.WinState);
+    }
+
     public void ReturnToGameAfterShop()
     {
         ChangeState(GameState.InGameState);
