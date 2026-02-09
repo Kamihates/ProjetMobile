@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
         if(currentRound % gameConfig.RoundsBeforeBoss == 0)
         {
             isBossRound = true;
+            Pause(false);
             ChangeState(GameState.BossState);
             return;
         }
@@ -78,18 +79,21 @@ public class GameManager : MonoBehaviour
         }
 
         ChangeState(GameState.InGameState);
+        Pause(false);
     }
 
     public void GameLost()
     {
         //OnGameLost?.Invoke();
         ChangeState(GameState.LoseState);
+        Pause(true);
     }
 
     public void GameWon()
     {
         //OnWin?.Invoke();
         ChangeState(GameState.WinState);
+        Pause(true);
     }
 
     public void ReturnToGameAfterShop()
@@ -101,6 +105,12 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(1);
         ChangeState(GameState.InGameState);
+        Pause(false);
+    }
+
+    public void GoToMenu()
+    {
+        ChangeState(GameState.MenuState);
     }
 
     public void ReturnToMainMenu()
@@ -113,6 +123,11 @@ public class GameManager : MonoBehaviour
     public void Pause(bool pause)
     {
         Time.timeScale = pause ? 0 : 1;
+    }
+
+    public void PauseGame(bool pause)
+    {
+        Pause(true);
         ChangeState(pause ? GameState.PauseState : GameState.InGameState);
     }
 }
