@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI.MessageBox;
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(GridManager))]
 public class GridManagerEditor : Editor
 {
@@ -52,3 +53,4 @@ public class GridManagerEditor : Editor
 
     }
 }
+#endif
