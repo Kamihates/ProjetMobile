@@ -16,6 +16,7 @@ public class UIAnimations : MonoBehaviour
 
     public void Fade(float duration, CanvasGroup grp, bool fade = true)
     {
+        Debug.Log(_currentCoroutine);
         if (_currentCoroutine == null)
         {
             _currentCoroutine = StartCoroutine(FadeIn(duration, grp, fade));

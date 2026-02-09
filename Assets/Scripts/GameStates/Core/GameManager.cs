@@ -42,9 +42,10 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        SceneManager.LoadSceneAsync(1);
+        ChangeState(GameState.InGameState);
         currentRound = 0;
         isBossRound = false;
-        ChangeState(GameState.InGameState);
     }
 
     public void OnMobDefeated()
