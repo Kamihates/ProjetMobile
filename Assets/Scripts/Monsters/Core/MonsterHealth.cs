@@ -42,7 +42,7 @@ public class MonsterHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            GameManager.Instance.OnMobDefeated();
+            GameManager.Instance.GameWon();
         }
     }
 }
