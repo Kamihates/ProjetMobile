@@ -1,6 +1,9 @@
 using UnityEditor;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+
+
+#if UNITY_EDITOR
+
 public class ReadMe : MonoBehaviour
 {
     [SerializeField] private TEST_GD testGd;
@@ -9,6 +12,8 @@ public class ReadMe : MonoBehaviour
     [SerializeField] private GridManager gridmanager;
     [SerializeField] private GridDrawer origin;
 }
+
+
 
 [CustomEditor(typeof(ReadMe))]
 public class ReadmeEditor : Editor 
@@ -92,4 +97,7 @@ public class ReadmeEditor : Editor
         EditorGUILayout.LabelField("-> UNIQUEMENT : modifier sa position pour changer la position de la grille ", stylewrapp);
 
     }
+
+
 }
+#endif
