@@ -11,9 +11,12 @@ public class GeneralVisualController : MonoBehaviour
     {
         if (renderer == null || GridManager.Instance == null) return;
 
-
         // Taille réelle du sprite avant scale
         Vector2 spriteSize = renderer.sprite.bounds.size;
+
+
+        Debug.Log("Sprite height = " + spriteSize.y);
+        Debug.Log("TileDepth = " + GridManager.Instance.TileDepth);
 
         // on calcule le scale qu'il faut seulement en largeur car le bas a le truc profondeur qui depasse
         float scale = GridManager.Instance.CellSize / spriteSize.x;
@@ -30,6 +33,8 @@ public class GeneralVisualController : MonoBehaviour
         renderer.gameObject.AddComponent<BoxCollider2D>();
         renderer.GetComponent<BoxCollider2D>().isTrigger = true;
     }
+
+
 
 
 

@@ -63,8 +63,11 @@ public class DominoSpawner : MonoBehaviour
             rotation = UnityEngine.Random.Range(0, 4);
         }
 
+        
+
        // dominoToSpawn.transform.position = spawnPos;
         GameManager.Instance.CurrentDomino = dominoToSpawn;
+        
 
         GeneralVisualController.Instance.FallAtoB(dominoToSpawn.transform, 0.5f, dominoToSpawn.transform.position, spawnPos);
 

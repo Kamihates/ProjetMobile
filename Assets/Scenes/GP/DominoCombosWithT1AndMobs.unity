@@ -426,6 +426,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoFusion
   _deckManager: {fileID: 1081684069}
+  _bonusFor4: 0
+  _bonusFor6: 0
+  _bonusFor8: 0
+  _bonusFor9: 0
+  _bonusBasique: 0
 --- !u!1 &201307350
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,7 +465,7 @@ MonoBehaviour:
   _row: 10
   _gridOrigin: {fileID: 751515612}
   _cellSize: 0.6
-  _tileDepth: 0
+  _tileDepth: 10
 --- !u!4 &201307352
 Transform:
   m_ObjectHideFlags: 0
@@ -3037,10 +3042,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoCombos
   damagePerCombo: 5
-  multipleT1: 5
+  T1multipicator: 2
   gapDmgT1: 1.5
   combosCount: 0
+  dominoFusion: {fileID: 104440528}
   combosOfAdjacentDomino: []
+  combosOfAdjacentR1: []
+  combosOfAdjacentR2: []
 --- !u!1 &2058347778
 GameObject:
   m_ObjectHideFlags: 0

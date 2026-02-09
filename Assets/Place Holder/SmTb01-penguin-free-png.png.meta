@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 63370f860af086c4bb8e58ed27acdd49
+guid: a6bbfd211b9533c42b77020d17ea144f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2223819268950575365
-    second: testTile_0
+      213: -6838840538785391887
+    second: SmTb01-penguin-free-png_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: testTile_0
+      name: SmTb01-penguin-free-png_0
       rect:
         serializedVersion: 2
-        x: 298
-        y: 560
-        width: 186
-        height: 219
-      alignment: 9
-      pivot: {x: 0.5, y: 0.56}
+        x: 0
+        y: 0
+        width: 1979
+        height: 2174
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bf6388d38286321e0800000000000000
-      internalID: -2223819268950575365
+      spriteID: 1fad72283ce8711a0800000000000000
+      internalID: -6838840538785391887
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 0658b2a14e0d0284ea41ce99a90c3d8e
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      testTile_0: -2223819268950575365
+      SmTb01-penguin-free-png_0: -6838840538785391887
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

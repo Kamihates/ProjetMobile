@@ -62,6 +62,7 @@ public class DominoFall : MonoBehaviour
             // si la position finale depasse de la grille c'est game over
            
             transform.position = targetPos; // on snap au cas ou
+            
 
             if (!GridManager.Instance.IsDominoInGrid(_piece, false))
             {
@@ -69,9 +70,15 @@ public class DominoFall : MonoBehaviour
                 return;
             }
 
+            int orderLayerR1 = GridManager.Instance.GetIndexFromPosition(transform.GetChild(0).position).y;
+            int orderLayerR2 = GridManager.Instance.GetIndexFromPosition(transform.GetChild(1).position).y;
+
+            transform.GetChild(0).GetComponent<RegionPiece>().UpdateLayer(orderLayerR1);
+            transform.GetChild(1).GetComponent<RegionPiece>().UpdateLayer(orderLayerR2);
+
             DominoPiece domino = _piece;
             GridManager.Instance.AddDominoDataInGrid(domino);
-            IgnoreCurrentDomino  = false;
+            IgnoreCurrentDomino = false;
             enabled = false;
         }
     }
