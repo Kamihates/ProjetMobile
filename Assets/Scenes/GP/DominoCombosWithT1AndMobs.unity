@@ -1304,9 +1304,8 @@ MonoBehaviour:
   pausePanel: {fileID: 0}
   settingsPanel: {fileID: 0}
   shopPanel: {fileID: 0}
-  lostPanel: {fileID: 0}
+  lostPanel: {fileID: 416655916}
   winPanel: {fileID: 0}
-  _currentPanel: {fileID: 0}
 --- !u!1 &889063551
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup lostPanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup winPanel;
 
-    [SerializeField, Foldout("Debug"), ReadOnly] private CanvasGroup _currentPanel = null;
+    private CanvasGroup _currentPanel = null;
 
     public static UIManager Instance { get; private set; }
 
@@ -27,6 +27,8 @@ public class UIManager : MonoBehaviour
     {
         if(GameManager.Instance != null)
             GameManager.Instance.OnStateChanged += OnGameStateChanged;
+
+        
     }
 
     private void OnDestroy()
@@ -101,7 +103,6 @@ public class UIManager : MonoBehaviour
         
     }
 
-    // On l'utilises déjà dans UIAnimations, on peut juste appeler UIAnimations.Instance.Fade() dans OpenMenu et CloseMenu
     //private void DeactivatePanel(CanvasGroup canvas)
     //{
     //    canvas.gameObject.SetActive(false);

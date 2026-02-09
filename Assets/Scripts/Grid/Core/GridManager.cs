@@ -100,8 +100,8 @@ public class GridManager : MonoBehaviour
 
         foreach (Vector2 p in positions)
         {
-            if (p.x > RightMax - gap) return false;
-            if (p.x < LeftMax + gap) return false;
+            if (p.x > RightMax + gap) return false;
+            if (p.x < LeftMax - gap) return false;
             if (p.y < bottomMax - gap) return false;
             if (!ignoreTop)
                 if (p.y > TopMax + gap) return false;

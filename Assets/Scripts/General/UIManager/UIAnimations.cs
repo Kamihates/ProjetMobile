@@ -22,6 +22,13 @@ public class UIAnimations : MonoBehaviour
         }
     }
 
+    public IEnumerator DisplayForXSeconds(float seconds, float fadeDuration, CanvasGroup grp)
+    {
+        yield return StartCoroutine(FadeIn(fadeDuration, grp));
+        yield return new WaitForSeconds(seconds);
+        yield return StartCoroutine(FadeIn(fadeDuration, grp, false));
+    }
+
     private IEnumerator FadeIn(float duration, CanvasGroup grp, bool fade = true)
     {
         if (fade)
