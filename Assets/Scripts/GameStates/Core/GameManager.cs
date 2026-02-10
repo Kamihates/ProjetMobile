@@ -73,11 +73,11 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if(currentRound % gameConfig.RoundsBeforeShop == 0)
-        {
-            ChangeState(GameState.ShopState);
-            return;
-        }
+        //if(currentRound % gameConfig.RoundsBeforeShop == 0)
+        //{
+        //    ChangeState(GameState.TutoState);
+        //    return;
+        //}
 
         ChangeState(GameState.InGameState);
         Pause(false);
@@ -101,6 +101,11 @@ public class GameManager : MonoBehaviour
     public void ReturnToGameAfterShop()
     {
         ChangeState(GameState.InGameState);
+    }
+
+    public void Tuto()
+    {
+        ChangeState(GameState.TutoState);
     }
 
     public void Restart()

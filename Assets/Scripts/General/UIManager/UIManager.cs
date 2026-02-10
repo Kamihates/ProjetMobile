@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup menuPanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup pausePanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup settingsPanel;
-    [SerializeField, Foldout("Panel"), Required] private CanvasGroup shopPanel;
+    [SerializeField, Foldout("Panel"), Required] private CanvasGroup tutoPanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup lostPanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup winPanel;
 
@@ -78,12 +78,12 @@ public class UIManager : MonoBehaviour
                 }
                 OpenMenu(settingsPanel);
                 break;
-            case GameState.ShopState:
-                if (shopPanel == null)
+            case GameState.TutoState:
+                if (tutoPanel == null)
                 {
                     Debug.LogWarning("Shop Panel is not assigned in the inspector"); return;
                 }
-                OpenMenu(shopPanel);
+                OpenMenu(tutoPanel);
                 break;
             case GameState.LoseState:
                 if (lostPanel == null)
