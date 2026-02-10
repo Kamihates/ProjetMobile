@@ -77,7 +77,7 @@ public class DominoMovementController : MonoBehaviour
             {
                 if (GridManager.Instance != null)
                 {
-                    if (GridManager.Instance.IsInGrid(new List<Vector2> { pos }))
+                    if (GridManager.Instance.IsInGrid(new List<Vector2> { pos }, false))
                     {
                         // est ce que je maintient ? 
                         _startLongTap = true;

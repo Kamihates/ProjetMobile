@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MenuScene.unity
     guid: a799657be4d83c8478daa2a3a0ec8a5c
   - enabled: 1
+    path: Assets/Scenes/GP/PROTO.unity
+    guid: 8ddc0368f88dd48468f42390db2104fe
+  - enabled: 0
     path: Assets/Scenes/GP/DominoCombosWithT1AndMobs.unity
     guid: 868b2d337a9ee394e80104629e36f540
   m_configObjects:
