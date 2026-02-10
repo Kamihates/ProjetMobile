@@ -205,13 +205,16 @@ public class DominoFusion : MonoBehaviour
     {
         // quand on a une fusion : 
         // ETAPE 1 : on récupère le domino, et supprime sa region correspondante
+        List<RegionPiece> allPieces = new List<RegionPiece>();
 
         _deckManager.PutT1InDeck(AllIndex);
+        RegionType type = RegionType.None;
 
         foreach (Vector2Int index in AllIndex)
         {
             RegionPiece regionPiece = _gridManager.GetRegionAtIndex(new Vector2Int(index.y, index.x));
-            DominoPiece domino = regionPiece.DominoParent;
+            type = regionPiece.Region.Type;
+            allPieces.Add(regionPiece);
 
             // on supprime la region de la liste du domino
             //domino.Data.Regions.Remove(regionPiece.Region);
@@ -225,9 +228,13 @@ public class DominoFusion : MonoBehaviour
             _gridManager.GridData[index.x][index.y] = null;
         }
 
+        // on appelle la particule
+        EventManager.Instance.PlayFusionParticule(allPieces, type);
 
         // ETAPE 2 : On fait tomber tt les dominos qui le peuvent de la grille de bas en haut
         _gridManager.AllDominoFall();
+
+       
     }
 }
 

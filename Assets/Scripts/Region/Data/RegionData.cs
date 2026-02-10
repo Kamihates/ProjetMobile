@@ -1,5 +1,3 @@
-using NUnit.Framework;
-using System.Collections.Generic;
 using UnityEngine;
 
 //[CreateAssetMenu(menuName = "RegionDataBase")]
@@ -24,8 +22,8 @@ public class RegionData : ScriptableObject
 public enum RegionType
 {
     None,
-    Mer,
-    Terre,
-    Urbain,
-    Culture
+    Water,
+    Rock,
+    Fire,
+    Wind
 }

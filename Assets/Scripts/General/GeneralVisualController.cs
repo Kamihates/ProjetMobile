@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -34,8 +35,17 @@ public class GeneralVisualController : MonoBehaviour
         renderer.GetComponent<BoxCollider2D>().isTrigger = true;
     }
 
+    public Vector2 GetCenterPosition(List<RegionPiece> allPieces)
+    {
+        Vector2 center = Vector2.zero;
 
+        foreach (RegionPiece piece in allPieces)
+        {
+            center += (Vector2)piece.transform.position;
+        }
 
+        return center / allPieces.Count;
+    }
 
 
     public void FallAtoB(Transform transform, float duration, Vector2 startingPos, Vector2 destination)
