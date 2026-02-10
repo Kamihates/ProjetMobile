@@ -64,6 +64,9 @@ public class UIManager : MonoBehaviour
                 }
                 OpenMenu(menuPanel);
                 break;
+            case GameState.InGameState:
+                CloseMenu();
+                break;
             case GameState.PauseState:
                 if (pausePanel == null)
                 {
@@ -81,7 +84,7 @@ public class UIManager : MonoBehaviour
             case GameState.TutoState:
                 if (tutoPanel == null)
                 {
-                    Debug.LogWarning("Shop Panel is not assigned in the inspector"); return;
+                    Debug.LogWarning("Tuto Panel is not assigned in the inspector"); return;
                 }
                 OpenMenu(tutoPanel);
                 break;
@@ -127,7 +130,7 @@ public class UIManager : MonoBehaviour
         if (_currentPanel != null)
         {
             CloseMenu();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSecondsRealtime(_menuFadeDuration);
         }
 
         _currentPanel = canvas;

@@ -98,14 +98,16 @@ public class GameManager : MonoBehaviour
         Pause(true);
     }
 
-    public void ReturnToGameAfterShop()
+    public void ReturnToGame()
     {
+        Time.timeScale = 1;
         ChangeState(GameState.InGameState);
     }
 
     public void Tuto()
     {
         ChangeState(GameState.TutoState);
+        Pause(true);
     }
 
     public void Restart()
