@@ -34,7 +34,7 @@ public class RegionPiece : MonoBehaviour
         }
            
 
-        if (_overlayRenderer != null)
+        if (_overlayRenderer != null && data.RegionOverlay != null)
         {
             _overlayRenderer.sprite = data.RegionOverlay;
             GeneralVisualController.Instance.FitSpriteInCell(_overlayRenderer);

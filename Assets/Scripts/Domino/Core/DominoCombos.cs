@@ -63,28 +63,26 @@ public class DominoCombos : MonoBehaviour
         if (regionPiece1.gameObject.activeSelf && regionPiece1.Region != null)
             combosOfAdjacentR1 = CheckForAdjacentDomino(regionPiece1);
 
-        if (regionPiece1.gameObject.activeSelf && regionPiece1.Region != null && (regionPiece1.Region.RegionID != regionPiece2.Region.RegionID || !regionPiece1.gameObject.activeSelf))
+        if (regionPiece2.gameObject.activeSelf
+            && regionPiece2.Region != null
+            && (!regionPiece1.gameObject.activeSelf
+                || regionPiece1.Region.RegionID != regionPiece2.Region.RegionID))
+        {
             combosOfAdjacentR2 = CheckForAdjacentDomino(regionPiece2);
+        }
 
-        if (combosOfAdjacentR1 == 1) 
-            combosOfAdjacentR1 = 0;
-
-        if (combosOfAdjacentR2 == 1)
-            combosOfAdjacentR2 = 0;
+        if (combosOfAdjacentR1 == 1) combosOfAdjacentR1 = 0;
+        if (combosOfAdjacentR2 == 1) combosOfAdjacentR2 = 0;
 
         combosCount = combosOfAdjacentR1 + combosOfAdjacentR2;
-
 
         if (combosCount < 2)
             return 0;
 
-        // degats totaux = (nb de regions adj * degat basique t0) * t1Multiplicateur
-
         if (t1Count == 0)
-            return (combosCount * damagePerCombo);
+            return combosCount * damagePerCombo;
 
         return (combosCount * damagePerCombo) * (t1Count * T1multipicator);
-        
     }
 
 

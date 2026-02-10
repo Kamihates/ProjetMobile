@@ -29,15 +29,20 @@ public class EventManager : MonoBehaviour
     {
         Vector2 targertPos = GeneralVisualController.Instance.GetCenterPosition(allPieces);
 
+        Debug.Log("partivule a jouer ? " + _fusionParticles[type]);
+
         if (_fusionParticles[type] != null)
         {
             // on instantie la particule
             GameObject particleGO = Instantiate(_fusionParticles[type], targertPos, Quaternion.identity);
 
-            foreach (Transform particle in _fusionParticles[type].transform)
+            foreach (Transform particle in particleGO.transform)
             {
                 if (particle.TryGetComponent(out ParticleSystem systeme))
-                    systeme.Play(); 
+                {
+                    systeme.Play();
+                    Debug.Log("on joue la particule");
+                }
             }
 
             StartCoroutine(WaitForDestroyParticle(particleGO));
