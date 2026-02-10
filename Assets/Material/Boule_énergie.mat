@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Damaged
-  m_Shader: {fileID: -6465566751694194690, guid: 7e84facd4754b4b46abc2478ca29f8e8, type: 3}
+  m_Name: "Boule_\xE9nergie"
+  m_Shader: {fileID: -6465566751694194690, guid: d50b68ef54cddf54691aeaa9a3eb07ec, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -18,7 +18,8 @@ Material:
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -31,16 +32,36 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Maintext:
-        m_Texture: {fileID: 2800000, guid: 88a1c12d103b0344ba30d6f75d91741c, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MaskTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_93cfc8a829b84b089c87609fe3bff261_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 32a7c9f0f158c004384d9ecf85a001d9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_ba84f7f490c943f1a9b29780ba640200_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 88a1c12d103b0344ba30d6f75d91741c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_29bdde92f7344c6487d02d2ac744abf0_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 595208b26c90db346a01545d5f941b2d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_364ed29a076d407a8dbd0e041a33023f_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 595208b26c90db346a01545d5f941b2d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_ac503e81f1e94835aeebe7b170e0dd9b_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 595208b26c90db346a01545d5f941b2d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_bf1576951f904bd188ec87e74ab2468c_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 595208b26c90db346a01545d5f941b2d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -57,17 +78,22 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Colorbright: 1
+    - _DisplacementAmount: 0.05
     - _EnableExternalAlpha: 0
+    - _NoiseSize: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _SpeedTime: 0.37
+    - _Vectoroffset: 0
     - _ZWrite: 0
     m_Colors:
     - White: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorFlash: {r: 1, g: 0, b: 0, a: 1}
+    - _Color: {r: 1, g: 0.6784314, b: 0.43529412, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+    - _UVSize: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &8665771797915076133
+--- !u!114 &885928483953477152
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

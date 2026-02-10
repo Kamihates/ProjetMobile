@@ -76,6 +76,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _EnableExternalAlpha: 0
+    - _Luminosity: 6.3
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SphereMaskHardenss: 1
