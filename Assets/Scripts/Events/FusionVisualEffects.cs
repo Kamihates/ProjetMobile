@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public class FusionVisualEffects : MonoBehaviour
@@ -16,7 +17,11 @@ public class FusionVisualEffects : MonoBehaviour
     [BoxGroup("T1 trainée"), SerializeField, Label("position de la fin du deck")] private Transform deckPos;
     [BoxGroup("T1 trainée"), SerializeField, Label("curve")] private AnimationCurve curve;
 
+    [SerializeField] private DeckManager deckManager;
+
+
     private Dictionary<RegionType, GameObject> _fusionParticles = new();
+    private GameObject _currentMiniT1 = null;
 
     public static FusionVisualEffects Instance;
     private void Awake() 
@@ -29,11 +34,38 @@ public class FusionVisualEffects : MonoBehaviour
         _fusionParticles[RegionType.Fire] = ParticleFire;
     }
 
+    private void Start()
+    {
+        if (GridManager.Instance != null)
+        {
+            GridManager.Instance.OnDominoPlaced += removeMiniT1Preview;
+
+        }
+    }
+    private void OnDestroy()
+    {
+        if (GridManager.Instance != null)
+        {
+            GridManager.Instance.OnDominoPlaced -= removeMiniT1Preview;
+
+        }
+    }
+
+
+    private void removeMiniT1Preview(DominoPiece piece)
+    {
+        if (_currentMiniT1 != null)
+        {
+            Destroy(_currentMiniT1 );
+            _currentMiniT1 = null;
+        }
+    }
+
 
     public void PlayFusionParticule(List<RegionPiece> allPieces, RegionType type)
     {
         Vector2 targertPos = GeneralVisualController.Instance.GetCenterPosition(allPieces);
-        AnimationT1ToDeck(targertPos);
+        AnimationT1ToDeck(targertPos, type);
 
         if (_fusionParticles[type] != null)
         {
@@ -59,10 +91,19 @@ public class FusionVisualEffects : MonoBehaviour
         Destroy(particle);
     }
 
-    public void AnimationT1ToDeck(Vector2 startPos)
+    public void AnimationT1ToDeck(Vector2 startPos, RegionType type)
     {
         // 1) on instantie notre t1 en petit à la position donnée
-        GameObject miniT1 = Instantiate(visuPrefabT1, startPos, Quaternion.Euler(new Vector3(0, 0, 45f)));
+        GameObject miniT1 = Instantiate(visuPrefabT1, startPos, visuPrefabT1.transform.rotation);
+        
+        RegionData data = deckManager.GetT1Data(type);
+
+        if (miniT1.TryGetComponent(out MiniT1VisualController controller) && data != null)
+        {
+            controller.Init(data);
+        }
+
+        _currentMiniT1 = miniT1;
 
         // 2)
         Vector2 targetPos = deckPos.position;

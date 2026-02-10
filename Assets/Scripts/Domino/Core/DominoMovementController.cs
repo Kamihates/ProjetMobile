@@ -47,8 +47,7 @@ public class DominoMovementController : MonoBehaviour
     private void Update()
     {
         if (_currentDomino == null) return;
-
-
+        if (GameManager.Instance.CurrentState != GameState.InGameState) return;
 
         if (Input.GetMouseButtonDown(0))
         {
