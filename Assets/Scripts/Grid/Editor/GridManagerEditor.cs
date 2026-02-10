@@ -37,7 +37,7 @@ public class GridManagerEditor : Editor
                     {
                         // si on clique sur le bouton, ca ajoute un region data au pif
                         RegionPiece piece = new RegionPiece();
-                        piece.Init(new RegionData { RegionID = 3, Type = RegionType.Urbain }, false);
+                        piece.Init(new RegionData { RegionID = 3, Type = RegionType.Fire }, false);
 
                         grid.GridData[row][col] = piece;
 

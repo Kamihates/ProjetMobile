@@ -23,17 +23,37 @@ public class RegionPiece : MonoBehaviour
         _isFusionT1 = t1;
         _dominoInfos = domino;
 
-        _terrainRenderer.sprite = data.RegionTerrain;
-        // _overlayRenderer.sprite = data.RegionOverlay;
+        
+        
 
         if (_terrainRenderer != null)
+        {
+            _terrainRenderer.sprite = data.RegionTerrain;
+            GeneralVisualController.Instance.FitSpriteInCell(_terrainRenderer);
             _terrainRenderer.sortingOrder = 1;
+        }
+           
 
-        if (_overlayRenderer != null)
+        if (_overlayRenderer != null && data.RegionOverlay != null)
+        {
+            _overlayRenderer.sprite = data.RegionOverlay;
+            GeneralVisualController.Instance.FitSpriteInCell(_overlayRenderer);
             _overlayRenderer.sortingOrder = 2;
+        }
+            
 
-        GeneralVisualController.Instance.FitSpriteInCell(_terrainRenderer);
-        GeneralVisualController.Instance.FitSpriteInCell(_overlayRenderer);
+        
+        
+
+        UpdateLayer(-1);
+    }
+
+    public void UpdateLayer(int layerOrder)
+    {
+        if (_terrainRenderer != null)
+            _terrainRenderer.sortingOrder = layerOrder;
+        if (_overlayRenderer != null)
+            _overlayRenderer.sortingOrder = layerOrder + 1;
     }
 
 

@@ -87,7 +87,8 @@ public class GameManager : MonoBehaviour
     {
         //OnGameLost?.Invoke();
         ChangeState(GameState.LoseState);
-        Pause(true);
+        CurrentDomino = null;
+        //Pause(true);
     }
 
     public void GameWon()

@@ -12,18 +12,20 @@ public class DominoFusion : MonoBehaviour
     private GridManager _gridManager;
     [SerializeField] private DeckManager _deckManager;
 
+    [SerializeField] private float _bonusFor4;
+    [SerializeField] private float _bonusFor6;
+    [SerializeField] private float _bonusFor8;
+    [SerializeField] private float _bonusFor9;
+    [SerializeField] private float _bonusBasique;
+
     private void Start()
     {
         _gridManager = GridManager.Instance;
-        _gridManager.OnDominoPlaced += CheckForFusion;
     }
 
-    private void OnDestroy()
-    {
-        _gridManager.OnDominoPlaced -= CheckForFusion;
-    }
+    
 
-    private void CheckForFusion(DominoPiece piece)
+    public float CheckForFusion(DominoPiece piece)
     {
         List<FusionSquare> fusionSquare1 = GetAllFusionSquare(piece, 0);
         List<FusionSquare> fusionSquare2 = GetAllFusionSquare(piece, 1);
@@ -48,116 +50,33 @@ public class DominoFusion : MonoBehaviour
         }
 
         if (AllFusionIndex.Count > 0)
+        {
             ManageFusion(AllFusionIndex);
+            return GetBonus(AllFusionIndex.Count);
+        }
+        return 0;
     }
 
-    //private void CheckForFusion(DominoPiece piece)
-    //{
-    //    bool conflitDetected = false;
-
-    //    List<FusionSquare> fusionSquare1 = GetAllFusionSquare(piece, 0);
-    //    List<FusionSquare> fusionSquare2 = GetAllFusionSquare(piece, 1);
-
-    //    if (fusionSquare1 != null && fusionSquare2!= null)
-    //    {
-    //        // si ya des conflits 
-    //        conflitDetected =
-    //            fusionSquare1.SelectMany(fs => fs.Square).GroupBy(vector => vector).Any(index => index.Count() > 1)
-    //            ||
-    //            fusionSquare2.SelectMany(fs => fs.Square).GroupBy(vector => vector).Any(index => index.Count() > 1)
-    //            ;
-    //    }
-
-
-
-    //    if (conflitDetected)
-    //    {
-    //        if (fusionSquare1.Count > 1 && fusionSquare2.Count > 1)
-    //        {
-    //            // recherche de squares independants
-
-    //            List<Vector2Int> AllFusionIndex = new List<Vector2Int>();
-
-    //            // on ajoute tt les index dans le tableau a envoyer 
-
-    //            foreach (FusionSquare fs in fusionSquare1)
-    //            {
-    //                foreach (Vector2Int index in fs.Square)
-    //                {
-    //                    if (!AllFusionIndex.Contains(index))
-    //                        AllFusionIndex.Add(index);
-    //                }
-    //            }
-    //            foreach (FusionSquare fs in fusionSquare2)
-    //            {
-    //                foreach (Vector2Int index in fs.Square)
-    //                {
-    //                    if (!AllFusionIndex.Contains(index))
-    //                        AllFusionIndex.Add(index);
-    //                }
-    //            }
+    private float GetBonus(int count)
+    {
+        switch (count)
+        {
+            case 4:
+                return _bonusFor4;
+            case 6:
+                return _bonusFor6;
+            case 8:
+                return _bonusFor8;
+            case 9:
+                return _bonusFor9;
+            default:
+                return _bonusBasique;
+        }
+    }
 
 
-    //            //foreach (FusionSquare fs in fusionSquare1)
-    //            //{
-    //            //    foreach(FusionSquare fs2 in fusionSquare2)
-    //            //    {
-    //            //        foreach (Vector2Int index in fs.Square)
-    //            //        {
 
-    //            //            // FS1 ne va pas avec FS2
-    //            //            if (fs2.Square.Contains(index))
-    //            //            {
-    //            //                isValid = false;
-    //            //                break;
-    //            //            }
-    //            //        }
 
-    //            //        if (!isValid)
-    //            //            continue;
-
-    //            //        ValidSquares.Add(fs.Square);
-    //            //        ValidSquares.Add(fs2.Square);
-
-    //            //    }
-
-    //            //}
-
-    //        }
-    //        //else
-    //        //{
-    //        //    // conflit inévitables
-    //        //    Debug.Log("Conflits inévitables");
-    //        //}
-    //    }
-    //    else
-    //    {
-
-    //        // pas de fusion
-    //        if (fusionSquare1.Count == 0 && fusionSquare2.Count == 0)
-    //        {
-    //            Debug.Log("Pas de fusion");
-    //        }
-    //        // fusion T1
-    //        else
-    //        {
-    //            Debug.Log("Fusion T1");
-
-    //            if ((fusionSquare1.Count == 1 && fusionSquare2.Count == 1) || (fusionSquare1.Count == 1 && fusionSquare2.Count <= 0))
-    //            {
-
-    //                _deckManager.PutT1InDeck(new List<fusionSquare1[0].Square);
-    //                ManagerFusion(fusionSquare1[0].Square);
-    //            }
-    //            else if (fusionSquare2.Count == 1 && fusionSquare1.Count <= 0)
-    //            {
-    //                _deckManager.PutT1InDeck(fusionSquare2[0].Square);
-    //                ManagerFusion(fusionSquare2[0].Square);
-    //            }
-
-    //        }
-    //    }
-    //}
 
     private List<FusionSquare> GetAllFusionSquare(DominoPiece piece, int regionIndex)
     {
@@ -286,13 +205,16 @@ public class DominoFusion : MonoBehaviour
     {
         // quand on a une fusion : 
         // ETAPE 1 : on récupère le domino, et supprime sa region correspondante
+        List<RegionPiece> allPieces = new List<RegionPiece>();
 
         _deckManager.PutT1InDeck(AllIndex);
+        RegionType type = RegionType.None;
 
         foreach (Vector2Int index in AllIndex)
         {
             RegionPiece regionPiece = _gridManager.GetRegionAtIndex(new Vector2Int(index.y, index.x));
-            DominoPiece domino = regionPiece.DominoParent;
+            type = regionPiece.Region.Type;
+            allPieces.Add(regionPiece);
 
             // on supprime la region de la liste du domino
             //domino.Data.Regions.Remove(regionPiece.Region);
@@ -306,9 +228,13 @@ public class DominoFusion : MonoBehaviour
             _gridManager.GridData[index.x][index.y] = null;
         }
 
+        // on appelle la particule
+        EventManager.Instance.PlayFusionParticule(allPieces, type);
 
         // ETAPE 2 : On fait tomber tt les dominos qui le peuvent de la grille de bas en haut
         _gridManager.AllDominoFall();
+
+       
     }
 }
 
