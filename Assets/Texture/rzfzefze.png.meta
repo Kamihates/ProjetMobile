@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 88a1c12d103b0344ba30d6f75d91741c
+guid: 595208b26c90db346a01545d5f941b2d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6184876086596216969
-    second: water_wymbol_0
+      213: -512701444740380972
+    second: rzfzefze_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -54,7 +54,7 @@ TextureImporter:
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
-  alphaUsage: 2
+  alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: water_wymbol_0
+      name: rzfzefze_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 512
-        height: 512
+        x: 57
+        y: 61
+        width: 402
+        height: 401
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 777df96d7f7ea2aa0800000000000000
-      internalID: -6184876086596216969
+      spriteID: 4d68b6e90c482e8f0800000000000000
+      internalID: -512701444740380972
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      water_wymbol_0: -6184876086596216969
+      rzfzefze_0: -512701444740380972
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
