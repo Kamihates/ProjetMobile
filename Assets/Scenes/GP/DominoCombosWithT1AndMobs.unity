@@ -1422,7 +1422,7 @@ Transform:
   m_GameObject: {fileID: 860195654}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 39.48174, y: 92.54681, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1441,14 +1441,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   _menuFadeDuration: 1
+  displayedSeconds: 2
   splashScreenPanel: {fileID: 0}
   titlePanel: {fileID: 0}
   menuPanel: {fileID: 0}
   pausePanel: {fileID: 0}
   settingsPanel: {fileID: 0}
-  shopPanel: {fileID: 0}
+  tutoPanel: {fileID: 0}
   lostPanel: {fileID: 416655916}
   winPanel: {fileID: 1177692831}
+  _currentPanel: {fileID: 0}
 --- !u!1 &889063551
 GameObject:
   m_ObjectHideFlags: 0
@@ -1599,7 +1601,7 @@ Transform:
   m_GameObject: {fileID: 985710632}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 39.48174, y: 92.54681, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2722,7 +2724,7 @@ Transform:
   m_GameObject: {fileID: 1504924589}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.47518, y: 2.88308, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
