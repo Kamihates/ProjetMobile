@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,14 +32,22 @@ public class EventManager : MonoBehaviour
         if (_fusionParticles[type] != null)
         {
             // on instantie la particule
-            Instantiate(_fusionParticles[type], targertPos, Quaternion.identity);
+            GameObject particleGO = Instantiate(_fusionParticles[type], targertPos, Quaternion.identity);
 
             foreach (Transform particle in _fusionParticles[type].transform)
             {
                 if (particle.TryGetComponent(out ParticleSystem systeme))
                     systeme.Play(); 
             }
+
+            StartCoroutine(WaitForDestroyParticle(particleGO));
         }
         
+    }
+
+    private IEnumerator WaitForDestroyParticle(GameObject particle)
+    {
+        yield return new WaitForSeconds(3f);
+        Destroy(particle);
     }
 }
