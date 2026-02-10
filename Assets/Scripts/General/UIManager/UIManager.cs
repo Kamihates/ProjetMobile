@@ -29,6 +29,8 @@ public class UIManager : MonoBehaviour
     {
         if(GameManager.Instance != null)
             GameManager.Instance.OnStateChanged += OnGameStateChanged;
+
+        OnGameStateChanged(GameManager.Instance.CurrentState);
     }
 
     private void OnDestroy()

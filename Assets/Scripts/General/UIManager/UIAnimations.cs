@@ -31,8 +31,8 @@ public class UIAnimations : MonoBehaviour
 
     private IEnumerator FadeIn(float duration, CanvasGroup grp, bool fade = true)
     {
-        if (fade)
-            grp.gameObject.SetActive(true);
+        //if (fade)
+        //    grp.gameObject.SetActive(true);
 
         float time = 0;
 
@@ -53,8 +53,8 @@ public class UIAnimations : MonoBehaviour
         grp.blocksRaycasts = fade;
 
 
-        if (!fade)
-            grp.gameObject.SetActive(true);
+        //if (!fade)
+        //    grp.gameObject.SetActive(true); // on désactive le panel une fois le fade out terminé (c'était a true)
 
         _currentCoroutine = null;
     } 
