@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventManager : MonoBehaviour
+public class FusionVisualEffects : MonoBehaviour
 {
     [HorizontalLine(color: EColor.Blue)]
     [BoxGroup("Particules Fusion"), SerializeField, Label("fusion eau")] private GameObject ParticleWater;
@@ -11,9 +11,14 @@ public class EventManager : MonoBehaviour
     [BoxGroup("Particules Fusion"), SerializeField, Label("fusion feu")] private GameObject ParticleFire;
     [BoxGroup("Particules Fusion"), SerializeField, Label("fusion vent")] private GameObject ParticleWind;
 
+    [HorizontalLine(color: EColor.Blue)]
+    [BoxGroup("T1 trainée"), SerializeField, Label("prefab mini t1")] private GameObject visuPrefabT1;
+    [BoxGroup("T1 trainée"), SerializeField, Label("position de la fin du deck")] private Transform deckPos;
+    [BoxGroup("T1 trainée"), SerializeField, Label("curve")] private AnimationCurve curve;
+
     private Dictionary<RegionType, GameObject> _fusionParticles = new();
 
-    public static EventManager Instance;
+    public static FusionVisualEffects Instance;
     private void Awake() 
     { 
         Instance = this;
@@ -28,8 +33,7 @@ public class EventManager : MonoBehaviour
     public void PlayFusionParticule(List<RegionPiece> allPieces, RegionType type)
     {
         Vector2 targertPos = GeneralVisualController.Instance.GetCenterPosition(allPieces);
-
-        Debug.Log("partivule a jouer ? " + _fusionParticles[type]);
+        AnimationT1ToDeck(targertPos);
 
         if (_fusionParticles[type] != null)
         {
@@ -41,7 +45,6 @@ public class EventManager : MonoBehaviour
                 if (particle.TryGetComponent(out ParticleSystem systeme))
                 {
                     systeme.Play();
-                    Debug.Log("on joue la particule");
                 }
             }
 
@@ -54,5 +57,50 @@ public class EventManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         Destroy(particle);
+    }
+
+    public void AnimationT1ToDeck(Vector2 startPos)
+    {
+        // 1) on instantie notre t1 en petit à la position donnée
+        GameObject miniT1 = Instantiate(visuPrefabT1, startPos, Quaternion.Euler(new Vector3(0, 0, 45f)));
+
+        // 2)
+        Vector2 targetPos = deckPos.position;
+
+        StartCoroutine(T1TrailCourbe(miniT1.transform, startPos, targetPos));
+
+    }
+
+    
+    float duration = 1f;
+
+    private IEnumerator T1TrailCourbe(Transform miniT1, Vector2 startPos, Vector2 target)
+    {
+        float time = 0;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+
+            float t = time / duration;
+
+            Vector2 linearPos = Vector2.Lerp(startPos, target, t);
+
+
+            // calcul du vecteur
+            Vector2 direction = (target - startPos).normalized;
+
+            // calcule de la normale (perpendiculaire) pour faire notre trajectoire
+            Vector2 normal = new Vector2(-direction.y, direction.x);
+
+            // calcule de la deviation selon la curve
+            float curveValue = curve.Evaluate(t);
+
+            Vector2 finalPos = linearPos + normal * (curveValue * 2);
+
+            miniT1.position = finalPos;
+
+            yield return null;
+        }
     }
 }

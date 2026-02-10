@@ -229,7 +229,7 @@ public class DominoFusion : MonoBehaviour
         }
 
         // on appelle la particule
-        EventManager.Instance.PlayFusionParticule(allPieces, type);
+        FusionVisualEffects.Instance.PlayFusionParticule(allPieces, type);
 
         // ETAPE 2 : On fait tomber tt les dominos qui le peuvent de la grille de bas en haut
         _gridManager.AllDominoFall();
