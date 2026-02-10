@@ -1,20 +1,22 @@
 using NaughtyAttributes;
+using System.Collections;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField, Foldout("Settings")] private float _menuFadeDuration = 1;
+    [SerializeField, Foldout("Settings")] private float displayedSeconds = 2;
 
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup splashScreenPanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup titlePanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup menuPanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup pausePanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup settingsPanel;
-    [SerializeField, Foldout("Panel"), Required] private CanvasGroup shopPanel;
+    [SerializeField, Foldout("Panel"), Required] private CanvasGroup tutoPanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup lostPanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup winPanel;
 
-    private CanvasGroup _currentPanel = null;
+    [SerializeField, Foldout("Debug"), ReadOnly] private CanvasGroup _currentPanel = null;
 
     public static UIManager Instance { get; private set; }
 
@@ -27,8 +29,6 @@ public class UIManager : MonoBehaviour
     {
         if(GameManager.Instance != null)
             GameManager.Instance.OnStateChanged += OnGameStateChanged;
-
-        
     }
 
     private void OnDestroy()
@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
 
     private void OnGameStateChanged(GameState gameState)
     {
-        CloseMenu();
+        //CloseMenu();
 
         switch(gameState)
         {
@@ -48,7 +48,7 @@ public class UIManager : MonoBehaviour
                 {
                     Debug.LogWarning("SplashScreenPanel is not assigned in the inspector"); return;
                 }
-                OpenMenu(splashScreenPanel);
+                StartCoroutine(SplashScreen());
                 break;
             case GameState.TitleScreenState:
                 if (titlePanel == null)
@@ -78,12 +78,12 @@ public class UIManager : MonoBehaviour
                 }
                 OpenMenu(settingsPanel);
                 break;
-            case GameState.ShopState:
-                if (shopPanel == null)
+            case GameState.TutoState:
+                if (tutoPanel == null)
                 {
                     Debug.LogWarning("Shop Panel is not assigned in the inspector"); return;
                 }
-                OpenMenu(shopPanel);
+                OpenMenu(tutoPanel);
                 break;
             case GameState.LoseState:
                 if (lostPanel == null)
@@ -103,6 +103,12 @@ public class UIManager : MonoBehaviour
         
     }
 
+    private IEnumerator SplashScreen()
+    {
+        yield return UIAnimations.Instance.DisplayForXSeconds(displayedSeconds, _menuFadeDuration, splashScreenPanel);
+        GameManager.Instance.ChangeState(GameState.TitleScreenState);
+    }
+
     //private void DeactivatePanel(CanvasGroup canvas)
     //{
     //    canvas.gameObject.SetActive(false);
@@ -113,6 +119,17 @@ public class UIManager : MonoBehaviour
 
     public void OpenMenu(CanvasGroup canvas)
     {
+        StartCoroutine(OpenPanel(canvas));
+    }
+
+    public IEnumerator OpenPanel(CanvasGroup canvas)
+    {
+        if (_currentPanel != null)
+        {
+            CloseMenu();
+            yield return new WaitForSeconds(1f);
+        }
+
         _currentPanel = canvas;
         UIAnimations.Instance.Fade(_menuFadeDuration, canvas, true);
     }
@@ -121,5 +138,7 @@ public class UIManager : MonoBehaviour
     {
         if(_currentPanel != null)
             UIAnimations.Instance.Fade(_menuFadeDuration, _currentPanel, false);
+
+        _currentPanel = null;
     }
 }

@@ -6,7 +6,8 @@ public enum GameState
     SettingsState,
     InGameState,
     BossState,
-    ShopState,
+    TutoState,
+    //ShopState,
     WinState,
     LoseState,
     PauseState
