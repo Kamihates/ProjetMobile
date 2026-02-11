@@ -4867,7 +4867,7 @@ ParticleSystemRenderer:
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
-  m_MaxParticleSize: 0.5
+  m_MaxParticleSize: 5
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
@@ -4922,8 +4922,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.41, y: 1.41, z: 1.41}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8130610340973564381}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5940,29 +5940,29 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 4.3106136
-          outSlope: 4.3106136
+          inSlope: 3.6978323
+          outSlope: 3.6978323
           tangentMode: 34
           weightedMode: 0
           inWeight: 0
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 0.23198554
-          value: 1
-          inSlope: 2.1553068
-          outSlope: 2.1553068
-          tangentMode: 34
+          time: 0.20983182
+          value: 0.7759229
+          inSlope: 0.5628243
+          outSlope: 0.5628243
+          tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
+          inWeight: 0.34065157
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 1
-          inSlope: -1.1088731
-          outSlope: -1.1088731
+          value: 0.71189344
+          inSlope: -2.2880569
+          outSlope: -2.2880569
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.2114952
+          inWeight: 0.059005782
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -9770,7 +9770,7 @@ ParticleSystemRenderer:
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
-  m_MaxParticleSize: 0.5
+  m_MaxParticleSize: 5
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
@@ -14664,7 +14664,7 @@ ParticleSystemRenderer:
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
-  m_MaxParticleSize: 0.5
+  m_MaxParticleSize: 5
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
@@ -19567,7 +19567,7 @@ ParticleSystemRenderer:
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
-  m_MaxParticleSize: 0.5
+  m_MaxParticleSize: 5
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
