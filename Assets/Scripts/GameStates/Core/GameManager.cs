@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     [SerializeField, Foldout("Debug"), ReadOnly] private int currentRound = 0;
     [SerializeField, Foldout("Debug"), ReadOnly] private bool isBossRound = false;
 
+    private bool _isInInfiniteState = false;
+    public bool IsInfiniteState => _isInInfiniteState;
     public DominoPiece CurrentDomino { get => _currentDomino; set { _currentDomino = value; dominoMouvement.CurrentDomino = value; } }
 
     private DominoPiece _currentDomino;
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
     //public Action OnGameLost; // action quand un domino est placé en haut de la grille
     //public Action OnWin;
     public Action<GameState> OnStateChanged; // Nouvelle action principale pour les gérer les states 
+    public Action OnInfiniteGameStarted;
 
 
     private void Awake() { Instance = this; }
@@ -138,5 +141,13 @@ public class GameManager : MonoBehaviour
     {
         Pause(true);
         ChangeState(pause ? GameState.PauseState : GameState.InGameState);
+    }
+
+    public void GoInInfiniteState()
+    {
+        _isInInfiniteState = true;
+
+        // on vide la grille et restart le jeu en mode infini
+        OnInfiniteGameStarted.Invoke();
     }
 }

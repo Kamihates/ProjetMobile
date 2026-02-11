@@ -2,6 +2,8 @@ using NaughtyAttributes;
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using GooglePlayGames;
+using System.Linq;
 
 public class DominoCombos : MonoBehaviour
 {
@@ -21,18 +23,45 @@ public class DominoCombos : MonoBehaviour
 
     public Action<float> OnComboDamage;
 
+    public Dictionary<RegionType, bool> _hascomboOf4 = new Dictionary<RegionType, bool>();
+
+
+
+
     private void Start()
     {
         GridManager.Instance.OnDominoPlaced += CheckForReaction;
+
+        resetCounters();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnInfiniteGameStarted += resetCounters;
+        }
+
     }
 
     private void OnDestroy()
     {
         if (GridManager.Instance != null) 
             GridManager.Instance.OnDominoPlaced -= CheckForReaction;
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnInfiniteGameStarted -= resetCounters;
+        }
     }
 
     private float t1Count = 0;
+
+
+    private void resetCounters()
+    {
+        _hascomboOf4[RegionType.Fire] = false;
+        _hascomboOf4[RegionType.Wind] = false;
+        _hascomboOf4[RegionType.Rock] = false;
+        _hascomboOf4[RegionType.Water] = false;
+    }
 
 
     public void CheckForReaction(DominoPiece piece)
@@ -44,6 +73,18 @@ public class DominoCombos : MonoBehaviour
         float fusionBonusDamage = dominoFusion.CheckForFusion(piece);
 
         totalDamage = comboDamages + fusionBonusDamage;
+
+        if (totalDamage >= 25)
+        {
+            // succes "Critical Spell"
+            PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQCQ", 100.0f, (bool success) =>
+            {
+                if (success)
+                    Debug.Log("Succès débloqué !");
+                else
+                    Debug.Log("Échec du déblocage du succès.");
+            });
+        }
 
         OnComboDamage?.Invoke(totalDamage);
     }
@@ -78,6 +119,11 @@ public class DominoCombos : MonoBehaviour
 
         if (combosCount < 2)
             return 0;
+
+        
+
+        
+
 
         if (t1Count == 0)
             return combosCount * damagePerCombo;
@@ -139,6 +185,42 @@ public class DominoCombos : MonoBehaviour
             }
         }
 
+
+        // pour le succes : avec une combo d'au moins 4 piece de tout les types
+        if (combosCount >= 4)
+        {
+            _hascomboOf4[regionPiece.Region.Type] = true;
+
+
+            bool allTrue = _hascomboOf4.Values.All(v => v);
+
+            if (allTrue)
+            {
+                // succes "Arcane Harmony"
+                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQBA", 100.0f, (bool success) =>
+                {
+                    if (success)
+                        Debug.Log("Succès débloqué !");
+                    else
+                        Debug.Log("Échec du déblocage du succès.");
+                });
+            }
+
+
+
+        }
+
+        if (combosOfAdjacentDomino.Count >= 8 && !GameManager.Instance.IsInfiniteState)
+        {
+            // succes "major convergence"
+            PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQAw", 100.0f, (bool success) =>
+            {
+                if (success)
+                    Debug.Log("Succès débloqué !");
+                else
+                    Debug.Log("Échec du déblocage du succès.");
+            });
+        }
 
         return (combosOfAdjacentDomino.Count);
     }
