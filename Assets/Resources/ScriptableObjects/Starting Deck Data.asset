@@ -15,4 +15,7 @@ MonoBehaviour:
   dominos:
   - regions:
     - {fileID: 11400000, guid: 19b5dd258eebb2840b47c8c83da1824f, type: 2}
+    - {fileID: 11400000, guid: 24f5b11f10dab494da5158a034a5ab38, type: 2}
+  - regions:
     - {fileID: 11400000, guid: 19b5dd258eebb2840b47c8c83da1824f, type: 2}
+    - {fileID: 11400000, guid: f21ef94e146ecef4399ff018588a07a8, type: 2}
