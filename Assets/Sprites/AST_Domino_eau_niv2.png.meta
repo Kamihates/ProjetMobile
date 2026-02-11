@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 050a5d1b9258dc34d99f30ac6aaadd9b
+guid: cb32127b4bb53554d852d72c667ba8f6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2434846698411057901
-    second: Domino_feu_niv_2_v3_0
+      213: -4180217063479164251
+    second: AST_Domino_eau_niv2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Domino_feu_niv_2_v3_0
+      name: AST_Domino_eau_niv2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 506
-        height: 496
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 31d1da204dfa53ed0800000000000000
-      internalID: -2434846698411057901
+      spriteID: 5a24c4f7ab2ecf5c0800000000000000
+      internalID: -4180217063479164251
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Domino_feu_niv_2_v3_0: -2434846698411057901
+      AST_Domino_eau_niv2_0: -4180217063479164251
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
