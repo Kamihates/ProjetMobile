@@ -12,11 +12,10 @@ public class DominoCombosPopup : MonoBehaviour
     [SerializeField, Foldout("UI")] private CanvasGroup totalDamageCG;
     [SerializeField, Foldout("UI")] private TMP_Text totalDamageText;
 
-    [SerializeField, Foldout("Settings")] private float popupDelay = 1f;
+    [SerializeField, Foldout("Settings")] private float popupDelay = 0.3f;
     [SerializeField, Foldout("Settings")] private float popupFadeDuration = 0.5f;
-    [SerializeField, Foldout("Settings")] private float totalDamageDisplayedSecond = 5f;
+    [SerializeField, Foldout("Settings")] private float totalDamageDisplayedSecond = 2f;
 
-    [SerializeField, Foldout("Debug"), ReadOnly] private float currentTotalDamage = 0;
     [SerializeField, Foldout("Debug"), ReadOnly] private List<CanvasGroup> activeCombosPopups = new();
 
     private Coroutine comboRoutine;
@@ -25,88 +24,121 @@ public class DominoCombosPopup : MonoBehaviour
     private void Start()
     {
         combos.OnComboChain += StartComboChain;
-        combos.OnT1Multiplier += DisplayT1Multiplier;
         combos.OnComboFinished += FinishCombo;
     }
 
-    // Appelé à chaque fois qu'on a un t1, pour afficher le multiplicateur du t1 à coté des dégats totaux
-    private void DisplayT1Multiplier(int multiplier)
+    private void OnDestroy()
     {
-        totalDamageText.text += $" x{multiplier}"; 
+        combos.OnComboChain -= StartComboChain;
+        combos.OnComboFinished -= FinishCombo;
     }
 
     #region Affichage des combos en chaine
 
     private void StartComboChain(List<RegionPiece> regions)
     {
+        // On stop la coroutine du combo précédent si elle est encore en cours
         if (comboRoutine != null)
             StopCoroutine(comboRoutine);
 
-        StartCoroutine(ComboChainCoroutine(regions));
+        comboRoutine = StartCoroutine(ComboChainCoroutine(regions));
     }
 
     private IEnumerator ComboChainCoroutine(List<RegionPiece> regions)
     {
-        foreach(RegionPiece region in regions)
+        float delay = 0f;
+
+        foreach (RegionPiece region in regions)
         {
             CanvasGroup popupCG = Instantiate(comboPopupPrefab, transform);
             popupCG.transform.position = region.transform.position;
 
             TMP_Text tmpText = popupCG.GetComponentInChildren<TMP_Text>();
-            tmpText.text = combos.DamagePerCombo.ToString(); // On affiche les dégâts de base du combo
+            tmpText.text = $"+{combos.DamagePerCombo}";
 
-            activeCombosPopups.Add(popupCG); // On ajoute le popup de dmg à la liste des popups actifs
+            activeCombosPopups.Add(popupCG);
 
-            UIAnimations.Instance.Fade(popupFadeDuration, popupCG, true); // On appelle la fonction pour fade le popup
+            StartCoroutine(UIAnimations.Instance.FadeIn(popupFadeDuration, popupCG, true));
 
-            currentTotalDamage += combos.DamagePerCombo; // Les dégats totaux sont augmentés progressivement par rapports au dégats de base du combo
-            UpdateTotalDamage(); 
+            StartCoroutine(FadeAndRemovePopupAfterDelay(popupCG, delay));
 
-            yield return new WaitForSeconds(popupDelay);
+            delay += popupDelay;
         }
+
+        yield break;
+    }
+
+    private IEnumerator FadeAndRemovePopupAfterDelay(CanvasGroup popupCG, float delayBeforeFade)
+    {
+        if (popupCG == null) 
+            yield break;
+
+        yield return new WaitForSeconds(delayBeforeFade + totalDamageDisplayedSecond);
+
+        if (!popupCG) 
+            yield break; 
+
+        yield return UIAnimations.Instance.FadeIn(popupFadeDuration, popupCG, false);
+
+        activeCombosPopups.Remove(popupCG);
+
+        if (popupCG != null)
+            Destroy(popupCG.gameObject);
     }
 
     #endregion
 
     #region Desaffichage des combos en chaine
 
-    private void FinishCombo(float totalDamage)
+    private void FinishCombo(float totalDamage, float T1Multiplier = 0)
     {
-        // On stop l'ancien coroutine de désaffichage du combo pour en lancer un nouveau à chaque fois qu'on finit un combo
         if (totalDamageRoutine != null)
+        {
             StopCoroutine(totalDamageRoutine);
+            totalDamageRoutine = null;
+            totalDamageText.text = "";
+        }
 
-        totalDamageRoutine = StartCoroutine(FinishComboCoroutine());
+        if (activeCombosPopups.Count > 0)
+            StartCoroutine(FadeOutAllPopups());
+
+        totalDamageRoutine = StartCoroutine(DisplayForXSecondsTotalDamage(totalDamage, T1Multiplier));
     }
 
-    private IEnumerator FinishComboCoroutine()
+    private IEnumerator FadeOutAllPopups()
     {
-        foreach (CanvasGroup popupCG in activeCombosPopups)
-        {
-            UIAnimations.Instance.Fade(popupFadeDuration, popupCG, false);
-        }
-        activeCombosPopups.Clear(); // On vide la liste des popups actifs
+        // Copie de la liste pour éviter de modifier pendant le foreach
+        var popupsToFade = new List<CanvasGroup>(activeCombosPopups);
 
-        yield return StartCoroutine(FadeOutTotalDamage()); // On lance la coroutine pour faire disparaitre le total des dégats après un certain temps
+        foreach (CanvasGroup popup in popupsToFade)
+        {
+            if (popup != null)
+            {
+                StartCoroutine(FadeAndRemovePopupAfterDelay(popup, 0));
+            }
+        }
+
+        activeCombosPopups.Clear();
+
+        yield break;
     }
 
     #endregion
 
     #region Affichage des dégats totaux
 
-    private void UpdateTotalDamage()
+    private IEnumerator DisplayForXSecondsTotalDamage(float totalDamage, float T1Multiplier)
     {
-        totalDamageCG.alpha = 1; 
-        //UIAnimations.Instance.Fade(popupFadeDuration, totalDamageCG, true);
+        if (T1Multiplier > 1f)
+        {
+            float comboDamage = totalDamage / (T1Multiplier * combos.T1Multipicator); 
+            totalDamageText.text = $"-{comboDamage} (x{T1Multiplier})"; 
+            yield return new WaitForSeconds(1f); 
+        }
 
-        totalDamageText.text = $"-{currentTotalDamage.ToString()}";
-    }
-
-    private IEnumerator FadeOutTotalDamage()
-    {
-        yield return new WaitForSeconds(totalDamageDisplayedSecond);
-        UIAnimations.Instance.Fade(popupFadeDuration, totalDamageCG, false);
-        currentTotalDamage = 0; // On reset les dégats totaux pour le prochain combo
+        totalDamageText.text = $"-{totalDamage}"; // On affiche le total de dégâts du combo
+        yield return UIAnimations.Instance.DisplayForXSeconds(totalDamageDisplayedSecond, popupFadeDuration, totalDamageCG);
+        totalDamageText.text = ""; // On reset le text une fois le total de dégâts affiché
     }
 
     #endregion
