@@ -7,19 +7,19 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [SerializeField, Foldout("Config"), Required] private GameConfig  gameConfig;
+    [SerializeField, Foldout("Config"), Required] private GameConfig gameConfig;
     [SerializeField, Foldout("Config")] private GameState defaultState = GameState.SplashScreenState;
 
     [SerializeField, Foldout("Références"), Required] private DeckManager deckManager;
     [SerializeField, Foldout("Références"), Required] private DominoSpawner dominoSpawner;
     [SerializeField, Foldout("Références"), Required] private DominoMovementController dominoMouvement;
 
-    [field:SerializeField, Foldout("Debug"), ReadOnly] public GameState CurrentState { get; private set; }
+    [field: SerializeField, Foldout("Debug"), ReadOnly] public GameState CurrentState { get; private set; }
     [SerializeField, Foldout("Debug"), ReadOnly] private int currentRound = 0;
     [SerializeField, Foldout("Debug"), ReadOnly] private bool isBossRound = false;
 
     public DominoPiece CurrentDomino { get => _currentDomino; set { _currentDomino = value; dominoMouvement.CurrentDomino = value; } }
-    
+
     private DominoPiece _currentDomino;
 
     //public Action OnGameLost; // action quand un domino est placé en haut de la grille
@@ -52,11 +52,11 @@ public class GameManager : MonoBehaviour
     {
         currentRound++;
 
-        if(isBossRound)
+        if (isBossRound)
         {
             isBossRound = false;
 
-            if(gameConfig.LoopAfterBoss)
+            if (gameConfig.LoopAfterBoss)
             {
                 currentRound = 0;
                 ChangeState(GameState.InGameState);
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
                 ChangeState(GameState.WinState);
         }
 
-        if(currentRound % gameConfig.RoundsBeforeBoss == 0)
+        if (currentRound % gameConfig.RoundsBeforeBoss == 0)
         {
             isBossRound = true;
             Pause(false);
