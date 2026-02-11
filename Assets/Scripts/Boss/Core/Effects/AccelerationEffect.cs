@@ -9,7 +9,7 @@ public class AccelerationEffect : BossEffect
         {
             if (GameManager.Instance.CurrentDomino != null)
             {
-                GameManager.Instance.CurrentDomino.FallController.Init();
+                //GameManager.Instance.CurrentDomino.FallController.Init();
             }
         }
     }
