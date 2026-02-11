@@ -6,6 +6,7 @@ using System;
 public class DominoCombos : MonoBehaviour
 {
     [SerializeField] private float damagePerCombo = 5;
+    public float DamagePerCombo => damagePerCombo;
     [SerializeField, Label("un t1 basique multiplie par combien ? (basique = 4)")] private float T1multipicator = 2;
     [SerializeField, Label("on ajoute combien au multiplicateur selon la force du t1 ? (4/6/8/9)")] private float gapDmgT1 = 1.5f;
 
@@ -20,6 +21,9 @@ public class DominoCombos : MonoBehaviour
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentR2;
 
     public Action<float> OnComboDamage;
+    public Action<List<RegionPiece>> OnComboChain;
+    public Action<int> OnT1Multiplier;
+    public Action<float> OnComboFinished;
 
     private void Start()
     {
@@ -34,7 +38,6 @@ public class DominoCombos : MonoBehaviour
 
     private float t1Count = 0;
 
-
     public void CheckForReaction(DominoPiece piece)
     {
         // d'abord on check les combos.
@@ -47,8 +50,6 @@ public class DominoCombos : MonoBehaviour
 
         OnComboDamage?.Invoke(totalDamage);
     }
-
-
 
     public float CheckForCombos(DominoPiece piece)
     {
@@ -77,12 +78,26 @@ public class DominoCombos : MonoBehaviour
         combosCount = combosOfAdjacentR1 + combosOfAdjacentR2;
 
         if (combosCount < 2)
+        {
+            OnComboFinished?.Invoke(0);
             return 0;
+        }
 
-        if (t1Count == 0)
-            return combosCount * damagePerCombo;
+        float totalDamage = combosCount * damagePerCombo;
 
-        return (combosCount * damagePerCombo) * (t1Count * T1multipicator);
+        if (t1Count > 0)
+        {
+            OnT1Multiplier?.Invoke((int)t1Count);
+             totalDamage *= (t1Count * T1multipicator);
+        }
+
+        OnComboChain?.Invoke(GetAllComboRegions());
+
+        OnComboFinished?.Invoke(totalDamage);
+
+        return totalDamage;
+
+        //return (combosCount * damagePerCombo) * (t1Count * T1multipicator);
     }
 
 
@@ -154,5 +169,20 @@ public class DominoCombos : MonoBehaviour
         };
 
         return neighbors;
+    }
+
+    private List<RegionPiece> GetAllComboRegions()
+    {
+        List<RegionPiece> regions = new();
+
+        // On parcourt tous les index des régions qui font partie du combos et on récupère les RegionPiece correspondantes pour les envoyer à l'affichage du combo
+        foreach (Vector2Int index in combosOfAdjacentDomino)
+        {
+            RegionPiece region = GridManager.Instance.GetRegionAtIndex(index);
+            if (region != null && !regions.Contains(region))
+                regions.Add(region); // On vérifie que la région n'est pas null et qu'elle n'est pas déjà dans la liste avant de l'ajouter
+        }
+
+        return regions; // On return la liste de toutes les régions qui font partie du combo
     }
 }
