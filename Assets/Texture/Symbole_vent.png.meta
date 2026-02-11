@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7dce148115200ed44b4cce057cf8c117
+guid: 73012aa1174d6f245ad45ea222d636f7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5116922758422239066
-    second: Symbole_eau_blanc_0
+      213: 713521073639880077
+    second: Symbole_vent_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Symbole_eau_blanc_0
+      name: Symbole_vent_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a579ede5326f20740800000000000000
-      internalID: 5116922758422239066
+      spriteID: d857f06d2afe6e900800000000000000
+      internalID: 713521073639880077
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Symbole_eau_blanc_0: 5116922758422239066
+      Symbole_vent_0: 713521073639880077
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -42,7 +42,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Light_impact:
-        m_Texture: {fileID: 2800000, guid: f8e2742d7a2adf54bad34f89b26c16c6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 73012aa1174d6f245ad45ea222d636f7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -76,7 +76,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _EnableExternalAlpha: 0
-    - _Luminosity: 6.3
+    - _Luminosity: 3.8
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SphereMaskHardenss: 1
