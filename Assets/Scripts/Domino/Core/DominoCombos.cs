@@ -6,11 +6,13 @@ using System;
 public class DominoCombos : MonoBehaviour
 {
     [SerializeField] private float damagePerCombo = 5;
+    public float DamagePerCombo => damagePerCombo;
     [SerializeField, Label("un t1 basique multiplie par combien ? (basique = 4)")] private float T1multipicator = 2;
+    public float T1Multipicator => T1multipicator;
     [SerializeField, Label("on ajoute combien au multiplicateur selon la force du t1 ? (4/6/8/9)")] private float gapDmgT1 = 1.5f;
 
     [SerializeField, Foldout("Debug"), ReadOnly] private int combosCount = 0;
-
+    [SerializeField, Foldout("Debug"), ReadOnly] private int t1Count = 0;
 
     [SerializeField] private DominoFusion dominoFusion;
     public int CombosCount => combosCount;
@@ -20,6 +22,8 @@ public class DominoCombos : MonoBehaviour
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentR2;
 
     public Action<float> OnComboDamage;
+    public Action<List<RegionPiece>> OnComboChain;
+    public Action<float, float> OnComboFinished;
 
     private void Start()
     {
@@ -32,27 +36,23 @@ public class DominoCombos : MonoBehaviour
             GridManager.Instance.OnDominoPlaced -= CheckForReaction;
     }
 
-    private float t1Count = 0;
-
-
     public void CheckForReaction(DominoPiece piece)
     {
         // d'abord on check les combos.
         // si ya une ou des fusions, on calcule leurs bonus pour les ajouter aux degats
-        float totalDamage = 0;  
+
         float comboDamages = CheckForCombos(piece);
         float fusionBonusDamage = dominoFusion.CheckForFusion(piece);
 
-        totalDamage = comboDamages + fusionBonusDamage;
+        float totalDamage = comboDamages + fusionBonusDamage;
 
         OnComboDamage?.Invoke(totalDamage);
     }
 
-
-
     public float CheckForCombos(DominoPiece piece)
     {
         t1Count = 0;
+        combosCount = 0;
 
         int combosOfAdjacentR1 = 0;
         int combosOfAdjacentR2 = 0;
@@ -77,12 +77,29 @@ public class DominoCombos : MonoBehaviour
         combosCount = combosOfAdjacentR1 + combosOfAdjacentR2;
 
         if (combosCount < 2)
+        {
+            OnComboFinished?.Invoke(0, 0);
             return 0;
+        }
 
-        if (t1Count == 0)
-            return combosCount * damagePerCombo;
+        float comboDamage = combosCount * damagePerCombo;
+        float multiplicator = 1f;
 
-        return (combosCount * damagePerCombo) * (t1Count * T1multipicator);
+        if(t1Count > 0)
+        {
+            if (t1Count/2 > 0)
+            {
+                multiplicator = (t1Count / 2) * T1Multipicator;
+                Debug.Log(multiplicator);
+            }
+        }
+
+        float totalDamage = comboDamage * multiplicator;
+            
+        OnComboChain?.Invoke(GetAllComboRegions());
+        OnComboFinished?.Invoke(totalDamage, multiplicator);
+
+        return totalDamage;
     }
 
 
@@ -93,9 +110,7 @@ public class DominoCombos : MonoBehaviour
         // Donne l'index par rapport a la grille
         Vector2Int regionIndex = GridManager.Instance.GetIndexFromPosition(regionPiece.transform.position);
 
-
         List<Vector2Int> regionToCheck = new List<Vector2Int> { regionIndex };
-
 
         while(regionToCheck.Count> 0)
         {
@@ -109,7 +124,6 @@ public class DominoCombos : MonoBehaviour
             if (!combosOfAdjacentDomino.Contains(currentIndex))
             {
                 combosOfAdjacentDomino.Add(currentIndex);
-
 
                 if (GridManager.Instance.GetRegionAtIndex(currentIndex).DominoParent.Data.IsDominoFusion)
                 {
@@ -154,5 +168,20 @@ public class DominoCombos : MonoBehaviour
         };
 
         return neighbors;
+    }
+
+    private List<RegionPiece> GetAllComboRegions()
+    {
+        List<RegionPiece> regions = new();
+
+        // On parcourt tous les index des régions qui font partie du combos et on récupère les RegionPiece correspondantes pour les envoyer à l'affichage du combo
+        foreach (Vector2Int index in combosOfAdjacentDomino)
+        {
+            RegionPiece region = GridManager.Instance.GetRegionAtIndex(index);
+            if (region != null && !regions.Contains(region))
+                regions.Add(region); // On vérifie que la région n'est pas null et qu'elle n'est pas déjà dans la liste avant de l'ajouter
+        }
+
+        return regions; // On return la liste de toutes les régions qui font partie du combo
     }
 }
