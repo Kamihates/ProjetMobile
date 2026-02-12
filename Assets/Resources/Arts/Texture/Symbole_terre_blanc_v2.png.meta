@@ -1,25 +1,25 @@
 fileFormatVersion: 2
-guid: 4a72ee8d0c3245b4c9555f09c08e8c91
+guid: f8a89db27b794624cb236af806f7a947
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6387949140538278722
-    second: UI_Option_0
+      213: -5402726504382470475
+    second: Symbole_terre_blanc_v2_0
   - first:
-      213: 3834435826919600080
-    second: UI_Option_1
+      213: 437015765522024719
+    second: Symbole_terre_blanc_v2_1
   - first:
-      213: 7523150412038475048
-    second: UI_Option_2
+      213: 2183392951737477873
+    second: Symbole_terre_blanc_v2_2
   - first:
-      213: -1782019174341841560
-    second: UI_Option_3
+      213: -4965087475597188239
+    second: Symbole_terre_blanc_v2_3
   - first:
-      213: -2850321430512716478
-    second: UI_Option_4
+      213: -64851460666358855
+    second: Symbole_terre_blanc_v2_4
   - first:
-      213: 6434338719712379035
-    second: UI_Option_5
+      213: 3723679300509881921
+    second: Symbole_terre_blanc_v2_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -61,7 +61,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -87,7 +87,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -128,12 +128,78 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI_Option_0
+      name: Symbole_terre_blanc_v2_0
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 252
+        width: 25
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b6e1bf7ed8a505b0800000000000000
+      internalID: -5402726504382470475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Symbole_terre_blanc_v2_1
       rect:
         serializedVersion: 2
         x: 0
-        y: 88
-        width: 35
+        y: 46
+        width: 367
+        height: 191
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f098f29f587901600800000000000000
+      internalID: 437015765522024719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Symbole_terre_blanc_v2_2
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 175
+        width: 100
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fa676d4258fc4e10800000000000000
+      internalID: 2183392951737477873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Symbole_terre_blanc_v2_3
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 8
+        width: 27
         height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -143,19 +209,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ebc34faf9127957a0800000000000000
-      internalID: -6387949140538278722
+      spriteID: 173e9424f37781bb0800000000000000
+      internalID: -4965087475597188239
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Option_1
+      name: Symbole_terre_blanc_v2_4
       rect:
         serializedVersion: 2
-        x: 42
-        y: 88
-        width: 177
+        x: 171
+        y: 0
+        width: 21
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b301dba0f9991ff0800000000000000
+      internalID: -64851460666358855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Symbole_terre_blanc_v2_5
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 8
+        width: 27
         height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -165,96 +253,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0dfe291a117a63530800000000000000
-      internalID: 3834435826919600080
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UI_Option_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 47
-        width: 35
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 82d036db079976860800000000000000
-      internalID: 7523150412038475048
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UI_Option_3
-      rect:
-        serializedVersion: 2
-        x: 42
-        y: 47
-        width: 177
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 86d6b62a00ff447e0800000000000000
-      internalID: -1782019174341841560
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UI_Option_4
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 7
-        width: 35
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2453b96b2cf9178d0800000000000000
-      internalID: -2850321430512716478
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UI_Option_5
-      rect:
-        serializedVersion: 2
-        x: 42
-        y: 7
-        width: 177
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b908ff899fc5b4950800000000000000
-      internalID: 6434338719712379035
+      spriteID: 146dd5c489a2da330800000000000000
+      internalID: 3723679300509881921
       vertices: []
       indices: 
       edges: []
@@ -263,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -273,12 +273,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      UI_Option_0: -6387949140538278722
-      UI_Option_1: 3834435826919600080
-      UI_Option_2: 7523150412038475048
-      UI_Option_3: -1782019174341841560
-      UI_Option_4: -2850321430512716478
-      UI_Option_5: 6434338719712379035
+      Symbole_terre_blanc_v2_0: -5402726504382470475
+      Symbole_terre_blanc_v2_1: 437015765522024719
+      Symbole_terre_blanc_v2_2: 2183392951737477873
+      Symbole_terre_blanc_v2_3: -4965087475597188239
+      Symbole_terre_blanc_v2_4: -64851460666358855
+      Symbole_terre_blanc_v2_5: 3723679300509881921
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
