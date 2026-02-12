@@ -1,3 +1,4 @@
+using GooglePlayGames;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,25 @@ public class DominoFusion : MonoBehaviour
     [SerializeField] private float _bonusFor9;
     [SerializeField] private float _bonusBasique;
 
+    private int _fusionCount = 0;
+
     private void Start()
     {
         _gridManager = GridManager.Instance;
+        if (GameManager.Instance != null )
+            GameManager.Instance.OnInfiniteGameStarted += resetCounters;
     }
 
-    
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnInfiniteGameStarted -= resetCounters;
+    }
+
+    private void resetCounters()
+    {
+        _fusionCount = 0;
+    }
 
     public float CheckForFusion(DominoPiece piece)
     {
@@ -51,6 +65,31 @@ public class DominoFusion : MonoBehaviour
 
         if (AllFusionIndex.Count > 0)
         {
+            _fusionCount++;
+            if (_fusionCount == 1)
+            {
+                // succes sur la premiere fusion "First ritual"
+                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQAA", 100.0f, (bool success) =>
+                {
+                    if (success)
+                        Debug.Log("Succès débloqué !");
+                    else
+                        Debug.Log("Échec du déblocage du succès.");
+                });
+            }
+
+            if (_fusionCount >= 8 && !GameManager.Instance.IsInfiniteState)
+            {
+                // succes sur 8 fusions "Ritual Master"
+                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQBg", 100.0f, (bool success) =>
+                {
+                    if (success)
+                        Debug.Log("Succès débloqué !");
+                    else
+                        Debug.Log("Échec du déblocage du succès.");
+                });
+            }
+
             ManageFusion(AllFusionIndex);
             return GetBonus(AllFusionIndex.Count);
         }
@@ -68,6 +107,14 @@ public class DominoFusion : MonoBehaviour
             case 8:
                 return _bonusFor8;
             case 9:
+                // succes "perfect ritual"
+                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQBQ", 100.0f, (bool success) =>
+                {
+                    if (success)
+                        Debug.Log("Succès débloqué !");
+                    else
+                        Debug.Log("Échec du déblocage du succès.");
+                });
                 return _bonusFor9;
             default:
                 return _bonusBasique;
