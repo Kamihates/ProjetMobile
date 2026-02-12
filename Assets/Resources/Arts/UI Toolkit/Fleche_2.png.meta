@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 79747d4b6e462a14bb5888f31273a9b7
+guid: 26ca936d337af924eb301d6c7cca019c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4449076478677172820
-    second: UI_Bordure_Rouleau_0
-  - first:
-      213: -5492626955876942985
-    second: UI_Bordure_Rouleau_1
+      213: 4145881856007572025
+    second: Fleche_2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -116,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI_Bordure_Rouleau_0
+      name: Fleche_2_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 164
-        width: 1067
-        height: 25
+        x: 0
+        y: 0
+        width: 195
+        height: 139
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,30 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cadb6edc384b142c0800000000000000
-      internalID: -4449076478677172820
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UI_Bordure_Rouleau_1
-      rect:
-        serializedVersion: 2
-        x: 7
-        y: 7
-        width: 1067
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 77b383382e446c3b0800000000000000
-      internalID: -5492626955876942985
+      spriteID: 93a811c0591298930800000000000000
+      internalID: 4145881856007572025
       vertices: []
       indices: 
       edges: []
@@ -163,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -173,8 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      UI_Bordure_Rouleau_0: -4449076478677172820
-      UI_Bordure_Rouleau_1: -5492626955876942985
+      Fleche_2_0: 4145881856007572025
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
