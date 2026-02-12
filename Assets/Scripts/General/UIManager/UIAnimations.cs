@@ -5,14 +5,12 @@ public class UIAnimations : MonoBehaviour
 {
     private Coroutine _currentCoroutine = null;
 
-
     public static UIAnimations Instance { get; private set; }
 
     private void Awake()
     {
         Instance = this;
     }
-
 
     public void Fade(float duration, CanvasGroup grp, bool fade = true)
     {
@@ -29,15 +27,16 @@ public class UIAnimations : MonoBehaviour
         yield return StartCoroutine(FadeIn(fadeDuration, grp, false));
     }
 
-    private IEnumerator FadeIn(float duration, CanvasGroup grp, bool fade = true)
+    public IEnumerator FadeIn(float duration, CanvasGroup grp, bool fade = true)
     {
-        //if (fade)
-        //    grp.gameObject.SetActive(true);
+        if(grp == null) yield break;
 
         float time = 0;
 
         while (time < duration)
         {
+
+            if (grp == null) yield break;
 
             float ratio = time / duration;
 
@@ -48,13 +47,12 @@ public class UIAnimations : MonoBehaviour
             yield return null;
         }
 
-        grp.alpha = fade ? 1 : 0;
-        grp.interactable = fade;
-        grp.blocksRaycasts = fade;
-
-
-        //if (!fade)
-        //    grp.gameObject.SetActive(true); // on désactive le panel une fois le fade out terminé (c'était a true)
+        if(grp != null)
+        {
+            grp.alpha = fade ? 1 : 0;
+            grp.interactable = fade;
+            grp.blocksRaycasts = fade;
+        }
 
         _currentCoroutine = null;
     } 
