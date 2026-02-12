@@ -9,7 +9,6 @@ public class DominoCombos : MonoBehaviour
     public float DamagePerCombo => damagePerCombo;
     [SerializeField, Label("un t1 basique multiplie par combien ? (basique = 4)")] private float T1multipicator = 2;
     public float T1Multipicator => T1multipicator;
-    [SerializeField, Label("on ajoute combien au multiplicateur selon la force du t1 ? (4/6/8/9)")] private float gapDmgT1 = 1.5f;
 
     [SerializeField, Foldout("Debug"), ReadOnly] private int combosCount = 0;
     [SerializeField, Foldout("Debug"), ReadOnly] private int t1Count = 0;
