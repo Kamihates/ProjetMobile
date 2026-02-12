@@ -6,6 +6,10 @@ public class DominoFall : MonoBehaviour
 
     [SerializeField] DominoPiece _piece;
 
+    private Vector2Int _lastIndex;
+    public Vector2Int LastIndex => _lastIndex;
+
+
     // case par case
     private float _fallingStepChrono = 0; // chrono entre chaque step
     private bool _canDoOneStep = true;
@@ -62,7 +66,7 @@ public class DominoFall : MonoBehaviour
             // si la position finale depasse de la grille c'est game over
            
             transform.position = targetPos; // on snap au cas ou
-            
+           
 
             if (!GridManager.Instance.IsDominoInGrid(_piece, false))
             {
@@ -80,6 +84,9 @@ public class DominoFall : MonoBehaviour
             GridManager.Instance.AddDominoDataInGrid(domino);
             IgnoreCurrentDomino = false;
             enabled = false;
+
+            // on recupere l'index
+            _lastIndex = GridManager.Instance.GetIndexFromPosition(transform.GetChild(0).position);
         }
     }
 

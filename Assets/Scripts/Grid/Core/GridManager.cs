@@ -11,6 +11,8 @@ public class GridManager : MonoBehaviour
     [SerializeField]
     private List<List<RegionPiece>> _gridData = new();
 
+   
+
 
 
     [HorizontalLine(color: EColor.Blue)]
@@ -138,7 +140,13 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        OnDominoPlaced?.Invoke(domino);
+
+        // si le domino n'avait pas changé de position, on ne recalcule pas ses degats...
+
+        if (GetIndexFromPosition(domino.transform.GetChild(0).position) != domino.FallController.LastIndex)
+            OnDominoPlaced?.Invoke(domino);
+
+
     }
 
     /// <summary>
