@@ -18,7 +18,7 @@ public class FusionVisualEffects : MonoBehaviour
     [BoxGroup("T1 trainée"), SerializeField, Label("curve")] private AnimationCurve curve;
 
     [SerializeField] private DeckManager deckManager;
-
+    private Coroutine moveCoroutine = null;
 
     private Dictionary<RegionType, GameObject> _fusionParticles = new();
     private GameObject _currentMiniT1 = null;
@@ -54,10 +54,12 @@ public class FusionVisualEffects : MonoBehaviour
 
     private void removeMiniT1Preview(DominoPiece piece)
     {
-        if (_currentMiniT1 != null)
+        if (_currentMiniT1 != null && moveCoroutine == null)
         {
-            Destroy(_currentMiniT1 );
+
+            Destroy(_currentMiniT1);
             _currentMiniT1 = null;
+            
         }
     }
 
@@ -108,7 +110,7 @@ public class FusionVisualEffects : MonoBehaviour
         // 2)
         Vector2 targetPos = deckPos.position;
 
-        StartCoroutine(T1TrailCourbe(miniT1.transform, startPos, targetPos));
+        moveCoroutine = StartCoroutine(T1TrailCourbe(miniT1.transform, startPos, targetPos));
 
     }
 
@@ -143,5 +145,6 @@ public class FusionVisualEffects : MonoBehaviour
 
             yield return null;
         }
+        moveCoroutine = null;
     }
 }
