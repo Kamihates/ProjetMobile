@@ -2708,7 +2708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   gameConfig: {fileID: 11400000, guid: 57d968f94ceda824eaff73e54063df84, type: 2}
-  defaultState: 0
+  defaultState: 4
   deckManager: {fileID: 1081684069}
   dominoSpawner: {fileID: 954746999}
   dominoMouvement: {fileID: 93427302}

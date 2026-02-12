@@ -111,6 +111,18 @@ public class DeckManager : MonoBehaviour
 
     }
 
+    public RegionData GetT1Data(RegionType type)
+    {
+        foreach (RegionData t1 in regionDataT1)
+        {
+            if (t1.Type == type)
+            {
+                return t1;
+            }
+        }
+        return null;
+    }
+
     public void PutT1InDeck(List<Vector2Int> fusionIndex)
     {
         // on recupere la region 
@@ -131,6 +143,7 @@ public class DeckManager : MonoBehaviour
 
                 dominoInfos.SetPower(fusionIndex.Count);
 
+
                 if (deck.Count <= 0)
                 {
                     deck.Insert(0, dominoInfos);
@@ -141,7 +154,7 @@ public class DeckManager : MonoBehaviour
                 {
                     if (!deck[i].IsDominoFusion)
                     {
-                        deck.Insert(i,dominoInfos);
+                        deck.Insert(i, dominoInfos);
                         Debug.Log("on ajoute le t1 dans le deck");
                         return;
                     }
