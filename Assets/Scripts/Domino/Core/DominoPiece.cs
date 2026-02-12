@@ -9,6 +9,8 @@ public class DominoPiece : MonoBehaviour
     private int _currentRotation = 0;
     private DominoInfos _data;
 
+    
+
     public DominoPieceVisual Visual => visualController;
     public DominoFall FallController => fallController;
     public int PieceUniqueId { get => _pieceUniqueId; }
