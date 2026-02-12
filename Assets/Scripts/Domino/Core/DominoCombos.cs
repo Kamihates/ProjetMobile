@@ -21,7 +21,7 @@ public class DominoCombos : MonoBehaviour
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentR2;
 
     public Action<float> OnComboDamage;
-    public Action<List<RegionPiece>> OnComboChain;
+    public Action<List<Vector2Int>> OnComboChain;
     public Action<float, float> OnComboFinished;
 
     private void Start()
@@ -77,7 +77,6 @@ public class DominoCombos : MonoBehaviour
 
         if (combosCount < 2)
         {
-            OnComboFinished?.Invoke(0, 0);
             return 0;
         }
 
@@ -95,7 +94,7 @@ public class DominoCombos : MonoBehaviour
 
         float totalDamage = comboDamage * multiplicator;
             
-        OnComboChain?.Invoke(GetAllComboRegions());
+        //OnComboChain?.Invoke(GetAllComboRegions());
         OnComboFinished?.Invoke(totalDamage, multiplicator);
 
         return totalDamage;
@@ -152,6 +151,11 @@ public class DominoCombos : MonoBehaviour
             }
         }
 
+        if (combosOfAdjacentDomino.Count >= 2)
+        {
+            List<Vector2Int> temp = combosOfAdjacentDomino;
+            OnComboChain?.Invoke(temp);
+        }
 
         return (combosOfAdjacentDomino.Count);
     }
@@ -167,20 +171,5 @@ public class DominoCombos : MonoBehaviour
         };
 
         return neighbors;
-    }
-
-    private List<RegionPiece> GetAllComboRegions()
-    {
-        List<RegionPiece> regions = new();
-
-        // On parcourt tous les index des régions qui font partie du combos et on récupère les RegionPiece correspondantes pour les envoyer à l'affichage du combo
-        foreach (Vector2Int index in combosOfAdjacentDomino)
-        {
-            RegionPiece region = GridManager.Instance.GetRegionAtIndex(index);
-            if (region != null && !regions.Contains(region))
-                regions.Add(region); // On vérifie que la région n'est pas null et qu'elle n'est pas déjà dans la liste avant de l'ajouter
-        }
-
-        return regions; // On return la liste de toutes les régions qui font partie du combo
     }
 }

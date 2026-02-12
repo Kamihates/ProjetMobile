@@ -7541,6 +7541,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  deckManager: {fileID: 1081684069}
 --- !u!4 &1336670241
 Transform:
   m_ObjectHideFlags: 0

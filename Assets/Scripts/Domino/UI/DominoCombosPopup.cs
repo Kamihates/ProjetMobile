@@ -35,7 +35,7 @@ public class DominoCombosPopup : MonoBehaviour
 
     #region Affichage des combos en chaine
 
-    private void StartComboChain(List<RegionPiece> regions)
+    private void StartComboChain(List<Vector2Int> regions)
     {
         // On stop la coroutine du combo précédent si elle est encore en cours
         if (comboRoutine != null)
@@ -44,14 +44,15 @@ public class DominoCombosPopup : MonoBehaviour
         comboRoutine = StartCoroutine(ComboChainCoroutine(regions));
     }
 
-    private IEnumerator ComboChainCoroutine(List<RegionPiece> regions)
+    private IEnumerator ComboChainCoroutine(List<Vector2Int> regions)
     {
         float delay = 0f;
 
-        foreach (RegionPiece region in regions)
+        foreach (Vector2Int Index in regions)
         {
+            
             CanvasGroup popupCG = Instantiate(comboPopupPrefab, transform);
-            popupCG.transform.position = region.transform.position;
+            popupCG.transform.position = GridManager.Instance.GetCellPositionAtIndex(Index);
 
             TMP_Text tmpText = popupCG.GetComponentInChildren<TMP_Text>();
             tmpText.text = $"+{combos.DamagePerCombo}";
@@ -62,10 +63,11 @@ public class DominoCombosPopup : MonoBehaviour
 
             StartCoroutine(FadeAndRemovePopupAfterDelay(popupCG, delay));
 
+
             delay += popupDelay;
+            yield return new WaitForSeconds(0.2f);
         }
 
-        yield break;
     }
 
     private IEnumerator FadeAndRemovePopupAfterDelay(CanvasGroup popupCG, float delayBeforeFade)
