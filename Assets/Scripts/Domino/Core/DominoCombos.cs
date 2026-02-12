@@ -55,9 +55,6 @@ public class DominoCombos : MonoBehaviour
         }
     }
 
-    private float t1Count = 0;
-
-
     private void resetCounters()
     {
         _hascomboOf4[RegionType.Fire] = false;
