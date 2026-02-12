@@ -50,6 +50,7 @@ public class DominoCombosPopup : MonoBehaviour
 
         foreach (Vector2Int Index in regions)
         {
+            
             CanvasGroup popupCG = Instantiate(comboPopupPrefab, transform);
             popupCG.transform.position = GridManager.Instance.GetCellPositionAtIndex(Index);
 
@@ -62,10 +63,11 @@ public class DominoCombosPopup : MonoBehaviour
 
             StartCoroutine(FadeAndRemovePopupAfterDelay(popupCG, delay));
 
+
             delay += popupDelay;
+            yield return new WaitForSeconds(0.2f);
         }
 
-        yield break;
     }
 
     private IEnumerator FadeAndRemovePopupAfterDelay(CanvasGroup popupCG, float delayBeforeFade)
