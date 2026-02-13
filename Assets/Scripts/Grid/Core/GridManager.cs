@@ -11,8 +11,10 @@ public class GridManager : MonoBehaviour
     [SerializeField]
     private List<List<RegionPiece>> _gridData = new();
 
-   
+    private Dictionary<Vector2Int, GameObject> _disableCells = new();
+    public Dictionary<Vector2Int, GameObject> DisableCells => _disableCells;
 
+    [SerializeField] private GameObject _disableCellPrefab;
 
 
     [HorizontalLine(color: EColor.Blue)]
@@ -50,6 +52,7 @@ public class GridManager : MonoBehaviour
 
     private void ResetGridData()
     {
+        _disableCells.Clear();
         _gridData.Clear();
 
         for (int row = 0; row < _row; row++)
@@ -61,6 +64,20 @@ public class GridManager : MonoBehaviour
                 _gridData[row].Add(null);
             }
         }
+    }
+
+    public void DisableCell(Vector2Int index)
+    {
+        Debug.Log(index);
+        GameObject cell = Instantiate(_disableCellPrefab);
+        if (cell.TryGetComponent(out SpriteRenderer spriteRenderer))
+        {
+            GeneralVisualController.Instance.FitSpriteInCell(spriteRenderer);
+            cell.transform.position = GetCellPositionAtIndex(index);
+            spriteRenderer.sortingOrder = index.x;
+        }
+
+        _disableCells[index] = cell;
     }
 
     public bool IsDominoInGrid(DominoPiece domino, bool ignoreTop)

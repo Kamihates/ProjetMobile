@@ -32,12 +32,13 @@ public class DominoPlacementController : MonoBehaviour
             }
 
             // Si la case pivot est occupée
-            if (GridManager.Instance.GetRegionAtIndex(pivotIndex) != null)
+            if (GridManager.Instance.GetRegionAtIndex(pivotIndex) != null || GridManager.Instance.DisableCells.ContainsKey(pivotIndex))
             {
                 pivotIndex.y--;
                 DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(pivotIndex));
                 return GridManager.Instance.GetCellPositionAtIndex(pivotIndex);
             }
+
 
             // 3) Vérifier la région 2 si elle existe
             if (hasTwoRegions)
@@ -55,7 +56,7 @@ public class DominoPlacementController : MonoBehaviour
                 }
 
                 // Si la région 2 est occupée
-                if (GridManager.Instance.GetRegionAtIndex(region2Index) != null)
+                if (GridManager.Instance.GetRegionAtIndex(region2Index) != null || GridManager.Instance.DisableCells.ContainsKey(region2Index))
                 {
                     pivotIndex.y--;
                     DrawPrevisualisation(domino, GridManager.Instance.GetCellPositionAtIndex(pivotIndex));

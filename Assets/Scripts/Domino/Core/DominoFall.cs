@@ -9,6 +9,8 @@ public class DominoFall : MonoBehaviour
     private Vector2Int _lastIndex;
     public Vector2Int LastIndex => _lastIndex;
 
+    private float _baseFallingSpeed; 
+    private float _baseStepSpeed;
 
     // case par case
     private float _fallingStepChrono = 0; // chrono entre chaque step
@@ -22,15 +24,43 @@ public class DominoFall : MonoBehaviour
     public bool CanFall { get => _canFall; set => _canFall = value; }
     public bool IgnoreCurrentDomino { get; set; }
 
+    private bool _isAccelerating = false;
+    public bool IsAccelerating { get=> _isAccelerating; set {
+            _isAccelerating = value;
+            ApplySpeed();
+        } }
+
+
     /// <summary>
     /// Initialisation des vitesses
     /// </summary>
     public void Init(float speed, float StepTimer)
     {
         IgnoreCurrentDomino = false;
-        _currentFallingSpeed = speed;
-        _currentStepSpeed = StepTimer;
+
+        _baseFallingSpeed = speed;
+        _baseStepSpeed = StepTimer;
+
+        ApplySpeed();
+
     }
+
+    private void ApplySpeed()
+    {
+        if (_isAccelerating)
+        {
+            _currentFallingSpeed = _baseFallingSpeed *= 2f;
+            _currentStepSpeed = _baseStepSpeed /= 2f;
+        }
+        else
+        {
+            _currentFallingSpeed = _baseFallingSpeed;
+            _currentStepSpeed = _baseStepSpeed;
+        }
+
+    }
+            
+
 
     private void FixedUpdate()
     {

@@ -2,6 +2,8 @@ using NaughtyAttributes;
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using GooglePlayGames;
+using System.Linq;
 
 public class DominoCombos : MonoBehaviour
 {
@@ -9,7 +11,6 @@ public class DominoCombos : MonoBehaviour
     public float DamagePerCombo => damagePerCombo;
     [SerializeField, Label("un t1 basique multiplie par combien ? (basique = 4)")] private float T1multipicator = 2;
     public float T1Multipicator => T1multipicator;
-    [SerializeField, Label("on ajoute combien au multiplicateur selon la force du t1 ? (4/6/8/9)")] private float gapDmgT1 = 1.5f;
 
     [SerializeField, Foldout("Debug"), ReadOnly] private int combosCount = 0;
     [SerializeField, Foldout("Debug"), ReadOnly] private int t1Count = 0;
@@ -25,16 +26,43 @@ public class DominoCombos : MonoBehaviour
     public Action<List<Vector2Int>> OnComboChain;
     public Action<float, float> OnComboFinished;
 
+    public Dictionary<RegionType, bool> _hascomboOf4 = new Dictionary<RegionType, bool>();
+
+
+
+
     private void Start()
     {
         GridManager.Instance.OnDominoPlaced += CheckForReaction;
+
+        resetCounters();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnInfiniteGameStarted += resetCounters;
+        }
+
     }
 
     private void OnDestroy()
     {
         if (GridManager.Instance != null) 
             GridManager.Instance.OnDominoPlaced -= CheckForReaction;
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnInfiniteGameStarted -= resetCounters;
+        }
     }
+
+    private void resetCounters()
+    {
+        _hascomboOf4[RegionType.Fire] = false;
+        _hascomboOf4[RegionType.Wind] = false;
+        _hascomboOf4[RegionType.Rock] = false;
+        _hascomboOf4[RegionType.Water] = false;
+    }
+
 
     public void CheckForReaction(DominoPiece piece)
     {
@@ -45,6 +73,18 @@ public class DominoCombos : MonoBehaviour
         float fusionBonusDamage = dominoFusion.CheckForFusion(piece);
 
         float totalDamage = comboDamages + fusionBonusDamage;
+
+        if (totalDamage >= 25)
+        {
+            // succes "Critical Spell"
+            PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQCQ", 100.0f, (bool success) =>
+            {
+                if (success)
+                    Debug.Log("Succ�s d�bloqu� !");
+                else
+                    Debug.Log("�chec du d�blocage du succ�s.");
+            });
+        }
 
         OnComboDamage?.Invoke(totalDamage);
     }
@@ -83,6 +123,13 @@ public class DominoCombos : MonoBehaviour
 
         float comboDamage = combosCount * damagePerCombo;
         float multiplicator = 1f;
+        
+
+        
+
+
+        if (t1Count == 0)
+            return combosCount * damagePerCombo;
 
         if(t1Count > 0)
         {
@@ -155,6 +202,42 @@ public class DominoCombos : MonoBehaviour
         if (combosOfAdjacentDomino.Count >= 2)
         {
             OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino));
+        }
+
+        // pour le succes : avec une combo d'au moins 4 piece de tout les types
+        if (combosCount >= 4)
+        {
+            _hascomboOf4[regionPiece.Region.Type] = true;
+
+
+            bool allTrue = _hascomboOf4.Values.All(v => v);
+
+            if (allTrue)
+            {
+                // succes "Arcane Harmony"
+                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQBA", 100.0f, (bool success) =>
+                {
+                    if (success)
+                        Debug.Log("Succ�s d�bloqu� !");
+                    else
+                        Debug.Log("�chec du d�blocage du succ�s.");
+                });
+            }
+
+
+
+        }
+
+        if (combosOfAdjacentDomino.Count >= 8 && !GameManager.Instance.IsInfiniteState)
+        {
+            // succes "major convergence"
+            PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQAw", 100.0f, (bool success) =>
+            {
+                if (success)
+                    Debug.Log("Succ�s d�bloqu� !");
+                else
+                    Debug.Log("�chec du d�blocage du succ�s.");
+            });
         }
 
         return (combosOfAdjacentDomino.Count);
