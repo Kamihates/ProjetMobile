@@ -12,19 +12,20 @@ public class DominoCombosPopup : MonoBehaviour
     [SerializeField, Foldout("UI")] private CanvasGroup totalDamageCG;
     [SerializeField, Foldout("UI")] private TMP_Text totalDamageText;
 
-    [SerializeField, Foldout("Settings")] private float popupDelay = 0.3f;
+    [SerializeField, Foldout("Settings")] private int initialComboPopupQueueSize = 10;
+
+    [SerializeField, Foldout("Settings"), HorizontalLine(2f, EColor.Red)] private float popupDelay = 0.3f;
     [SerializeField, Foldout("Settings")] private float popupFadeDuration = 0.5f;
-    [SerializeField, Foldout("Settings")] private float totalDamageDisplayedSecond = 2f;
+    [SerializeField, Foldout("Settings"), HorizontalLine(2f, EColor.Red)] private float totalDamageDisplayedSecond = 2f;
 
-    [SerializeField, Foldout("Debug"), ReadOnly] private List<CanvasGroup> activeCombosPopups = new();
-
-    private Coroutine comboRoutine;
-    private Coroutine totalDamageRoutine;
+     private Queue <CanvasGroup> comboPopupQueue = new();
 
     private void Start()
     {
         combos.OnComboChain += StartComboChain;
         combos.OnComboFinished += FinishCombo;
+
+        InitializeComboPopupQueue();
     }
 
     private void OnDestroy()
@@ -33,57 +34,65 @@ public class DominoCombosPopup : MonoBehaviour
         combos.OnComboFinished -= FinishCombo;
     }
 
+    #region PopupToQueue
+
+    private void InitializeComboPopupQueue()
+    {
+        for (int i = 0; i < initialComboPopupQueueSize; i++)
+            CreateNewComboPopupInQueue();
+    }
+
+    private void CreateNewComboPopupInQueue()
+    {
+        CanvasGroup popup = Instantiate(comboPopupPrefab, transform);
+        popup.alpha = 0f;
+        popup.gameObject.SetActive(false);
+        comboPopupQueue.Enqueue(popup); // On ajoute la popup dans la queue
+    }
+
+    private CanvasGroup GetPopupFromQueue()
+    {
+        if (comboPopupQueue.Count == 0)
+            CreateNewComboPopupInQueue();
+
+        CanvasGroup popup = comboPopupQueue.Dequeue();
+        popup.gameObject.SetActive(true);
+        return popup;
+    }
+
+    public void ReturnComboPopupToQueue(CanvasGroup popup)
+    {
+        Debug.Log("Haha");
+        popup.alpha = 0f;
+        popup.gameObject.SetActive(false);
+        comboPopupQueue.Enqueue(popup);
+    }
+
+    #endregion
+
     #region Affichage des combos en chaine
 
     private void StartComboChain(List<Vector2Int> regions)
     {
-        // On stop la coroutine du combo précédent si elle est encore en cours
-        if (comboRoutine != null)
-            StopCoroutine(comboRoutine);
-
-        comboRoutine = StartCoroutine(ComboChainCoroutine(regions));
+        StartCoroutine(ComboChainCoroutine(regions));
     }
 
     private IEnumerator ComboChainCoroutine(List<Vector2Int> regions)
     {
-        float delay = 0f;
-
         foreach (Vector2Int Index in regions)
         {
-            CanvasGroup popupCG = Instantiate(comboPopupPrefab, transform);
+            CanvasGroup popupCG = GetPopupFromQueue();
             popupCG.transform.position = GridManager.Instance.GetCellPositionAtIndex(Index);
 
             TMP_Text tmpText = popupCG.GetComponentInChildren<TMP_Text>();
             tmpText.text = $"+{combos.DamagePerCombo}";
 
-            activeCombosPopups.Add(popupCG);
+            StartCoroutine(popupCG.gameObject.GetComponent<DominoCombosPopupSelfFade>().StartPopupFade(this));
 
-            StartCoroutine(UIAnimations.Instance.FadeIn(popupFadeDuration, popupCG, true));
-
-            StartCoroutine(FadeAndRemovePopupAfterDelay(popupCG, delay));
-
-            delay += popupDelay;
+            yield return new WaitForSeconds(popupDelay);
         }
 
         yield break;
-    }
-
-    private IEnumerator FadeAndRemovePopupAfterDelay(CanvasGroup popupCG, float delayBeforeFade)
-    {
-        if (popupCG == null) 
-            yield break;
-
-        yield return new WaitForSeconds(delayBeforeFade + totalDamageDisplayedSecond);
-
-        if (!popupCG) 
-            yield break; 
-
-        yield return UIAnimations.Instance.FadeIn(popupFadeDuration, popupCG, false);
-
-        activeCombosPopups.Remove(popupCG);
-
-        if (popupCG != null)
-            Destroy(popupCG.gameObject);
     }
 
     #endregion
@@ -92,35 +101,7 @@ public class DominoCombosPopup : MonoBehaviour
 
     private void FinishCombo(float totalDamage, float T1Multiplier = 0)
     {
-        if (totalDamageRoutine != null)
-        {
-            StopCoroutine(totalDamageRoutine);
-            totalDamageRoutine = null;
-            totalDamageText.text = "";
-        }
-
-        if (activeCombosPopups.Count > 0)
-            StartCoroutine(FadeOutAllPopups());
-
-        totalDamageRoutine = StartCoroutine(DisplayForXSecondsTotalDamage(totalDamage, T1Multiplier));
-    }
-
-    private IEnumerator FadeOutAllPopups()
-    {
-        // Copie de la liste pour éviter de modifier pendant le foreach
-        var popupsToFade = new List<CanvasGroup>(activeCombosPopups);
-
-        foreach (CanvasGroup popup in popupsToFade)
-        {
-            if (popup != null)
-            {
-                StartCoroutine(FadeAndRemovePopupAfterDelay(popup, 0));
-            }
-        }
-
-        activeCombosPopups.Clear();
-
-        yield break;
+        StartCoroutine(DisplayForXSecondsTotalDamage(totalDamage, T1Multiplier));
     }
 
     #endregion
