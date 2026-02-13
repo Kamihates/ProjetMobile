@@ -42,5 +42,9 @@ public class BossController : MonoBehaviour
         int randomIndex = Random.Range(0, _bossEffects.Count);
 
         _bossEffects[randomIndex].Activate();
+
+
+        // on active le visuel d'attaque
+
     }
 }
