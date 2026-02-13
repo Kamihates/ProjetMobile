@@ -68,7 +68,6 @@ public class GridManager : MonoBehaviour
 
     public void DisableCell(Vector2Int index)
     {
-        Debug.Log(index);
         GameObject cell = Instantiate(_disableCellPrefab);
         if (cell.TryGetComponent(out SpriteRenderer spriteRenderer))
         {
@@ -262,13 +261,11 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        
 
         // 2) on fait tomber 1 par 1
 
 
-        if (_currentCoroutine == null)
-            _currentCoroutine = StartCoroutine(WaitToFall(dominosToFall));
+        _currentCoroutine = StartCoroutine(WaitToFall(dominosToFall));
     }
 
     private IEnumerator WaitToFall(List<DominoPiece> dominosToFall)
@@ -281,10 +278,11 @@ public class GridManager : MonoBehaviour
             fallController.IgnoreCurrentDomino = true;
             fallController.enabled = true;
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitUntil(() => fallController.enabled == false);
+            yield return new WaitForEndOfFrame();
+
         }
 
-        
         _currentCoroutine = null;
     }
 }

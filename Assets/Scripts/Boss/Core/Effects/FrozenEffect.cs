@@ -17,7 +17,7 @@ public class FrozenEffect : BossEffect
 
 
             effectTry ++;
-            int randowRow = Random.Range(1, GridManager.Instance.Row);
+            int randowRow = Random.Range(0, GridManager.Instance.Row - 1);
             int randowCol = Random.Range(0, GridManager.Instance.Column);
 
             if (GridManager.Instance.GridData[randowRow][randowCol] == null)

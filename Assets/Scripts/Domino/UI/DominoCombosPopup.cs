@@ -62,7 +62,6 @@ public class DominoCombosPopup : MonoBehaviour
 
     public void ReturnComboPopupToQueue(CanvasGroup popup)
     {
-        Debug.Log("Haha");
         popup.alpha = 0f;
         popup.gameObject.SetActive(false);
         comboPopupQueue.Enqueue(popup);

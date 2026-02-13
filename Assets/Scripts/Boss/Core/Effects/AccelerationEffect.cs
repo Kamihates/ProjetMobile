@@ -28,6 +28,7 @@ public class AccelerationEffect : BossEffect
 
     protected override void OnDeactivated()
     {
-        GameManager.Instance.CurrentDomino.FallController.IsAccelerating = false;
+        if (GameManager.Instance.CurrentDomino != null)
+            GameManager.Instance.CurrentDomino.FallController.IsAccelerating = false;
     }
 }

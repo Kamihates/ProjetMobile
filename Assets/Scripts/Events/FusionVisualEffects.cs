@@ -17,11 +17,12 @@ public class FusionVisualEffects : MonoBehaviour
     [BoxGroup("T1 trainée"), SerializeField, Label("position de la fin du deck")] private Transform deckPos;
     [BoxGroup("T1 trainée"), SerializeField, Label("curve")] private AnimationCurve curve;
 
+
+    private List<GameObject> _MiniT1Queue = new();
+
     [SerializeField] private DeckManager deckManager;
-    private Coroutine moveCoroutine = null;
 
     private Dictionary<RegionType, GameObject> _fusionParticles = new();
-    private GameObject _currentMiniT1 = null;
 
     public static FusionVisualEffects Instance;
     private void Awake() 
@@ -36,30 +37,29 @@ public class FusionVisualEffects : MonoBehaviour
 
     private void Start()
     {
-        if (GridManager.Instance != null)
-        {
-            GridManager.Instance.OnDominoPlaced += removeMiniT1Preview;
-
-        }
+        deckManager.OnT1InHand += removeMiniT1Preview;
     }
     private void OnDestroy()
     {
-        if (GridManager.Instance != null)
-        {
-            GridManager.Instance.OnDominoPlaced -= removeMiniT1Preview;
-
-        }
+        deckManager.OnT1InHand -= removeMiniT1Preview;
     }
 
 
-    private void removeMiniT1Preview(DominoPiece piece)
+    private void removeMiniT1Preview()
     {
-        if (_currentMiniT1 != null && moveCoroutine == null)
+        if (_MiniT1Queue.Count > 0)
         {
+            Destroy(_MiniT1Queue[0]);
+            _MiniT1Queue.RemoveAt(0);
+        }
 
-            Destroy(_currentMiniT1);
-            _currentMiniT1 = null;
-            
+
+        for (int i = 0; i <  _MiniT1Queue.Count; i++)
+        {
+            Vector2 targetPos = deckPos.position;
+            targetPos.x += i * 0.4f;
+
+            GeneralVisualController.Instance.FallAtoB(_MiniT1Queue[i].transform, 0.2f, _MiniT1Queue[i].transform.position, targetPos);
         }
     }
 
@@ -105,12 +105,13 @@ public class FusionVisualEffects : MonoBehaviour
             controller.Init(data);
         }
 
-        _currentMiniT1 = miniT1;
+        _MiniT1Queue.Add(miniT1);
 
         // 2)
         Vector2 targetPos = deckPos.position;
+        targetPos.x +=(  _MiniT1Queue.Count -1 )* 0.4f;
 
-        moveCoroutine = StartCoroutine(T1TrailCourbe(miniT1.transform, startPos, targetPos));
+        StartCoroutine(T1TrailCourbe(miniT1.transform, startPos, targetPos));
 
     }
 
@@ -141,10 +142,11 @@ public class FusionVisualEffects : MonoBehaviour
 
             Vector2 finalPos = linearPos + normal * (curveValue * 2);
 
+            
             miniT1.position = finalPos;
 
             yield return null;
         }
-        moveCoroutine = null;
+        
     }
 }

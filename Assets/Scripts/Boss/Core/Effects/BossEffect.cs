@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class BossEffect : MonoBehaviour
 {
 
-    private bool _isActive = false;
+    protected bool _isActive = false;
 
     public virtual void Activate()
     {
