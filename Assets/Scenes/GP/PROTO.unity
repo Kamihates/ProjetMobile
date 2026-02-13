@@ -1196,6 +1196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridManager
   gridDrawer: {fileID: 751515613}
+  _disableCellPrefab: {fileID: 2662062833752245037, guid: c8fbd8eed698862468166a64696fbbb1, type: 3}
   _column: 8
   _row: 10
   _gridOrigin: {fileID: 751515612}
@@ -4104,6 +4105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a4027a7f7096445a92b2f57a326951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AccelerationEffect
+  _effectDuration: 5
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -4418,6 +4420,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 753382866}
+  - component: {fileID: 753382867}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Untagged
@@ -4441,6 +4444,23 @@ Transform:
   - {fileID: 1604450703}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &753382867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753382865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2aa92ad1ebb4aa4ca54830f6056fc17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossController
+  _bossEffects:
+  - {fileID: 880679012}
+  - {fileID: 584843653}
+  _minTimerBetweenEffects: 20
+  _maxTimerBetweenEffects: 60
 --- !u!1 &759088880
 GameObject:
   m_ObjectHideFlags: 0
@@ -9898,7 +9918,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DominoCombos
   damagePerCombo: 5
   T1multipicator: 2
-  gapDmgT1: 1.5
   combosCount: 0
   t1Count: 0
   dominoFusion: {fileID: 104440528}

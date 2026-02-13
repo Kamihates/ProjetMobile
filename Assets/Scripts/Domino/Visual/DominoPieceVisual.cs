@@ -197,6 +197,8 @@ public class DominoPieceVisual : MonoBehaviour
         {
             if (GridManager.Instance.GetRegionAtIndex(GridManager.Instance.GetIndexFromPosition(position)) != null)
                 return false;
+            if (GridManager.Instance.DisableCells.ContainsKey(GridManager.Instance.GetIndexFromPosition(position)))
+                return false;
         }
         if (_piece.transform.GetChild(1).gameObject.activeSelf)
         {
@@ -204,6 +206,9 @@ public class DominoPieceVisual : MonoBehaviour
             Vector2 RegionPosSimulation = position + (Vector2)_piece.transform.GetChild(1).transform.localPosition;
 
             if (GridManager.Instance.GetRegionAtIndex(GridManager.Instance.GetIndexFromPosition(RegionPosSimulation)) != null)
+                return false;
+
+            if (GridManager.Instance.DisableCells.ContainsKey(GridManager.Instance.GetIndexFromPosition(RegionPosSimulation)))
                 return false;
         }
 
