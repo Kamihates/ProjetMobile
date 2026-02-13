@@ -72,7 +72,8 @@ public class GridManager : MonoBehaviour
         if (cell.TryGetComponent(out SpriteRenderer spriteRenderer))
         {
             GeneralVisualController.Instance.FitSpriteInCell(spriteRenderer);
-            cell.transform.position = GetCellPositionAtIndex(index);
+            Vector2Int vec = new Vector2Int(index.y, index.x);
+            cell.transform.position = GetCellPositionAtIndex(vec);
             spriteRenderer.sortingOrder = index.x;
         }
 
@@ -162,6 +163,7 @@ public class GridManager : MonoBehaviour
         if (GetIndexFromPosition(domino.transform.GetChild(0).position) != domino.FallController.LastIndex)
             OnDominoPlaced?.Invoke(domino);
 
+        domino.FallController.LastIndex = GetIndexFromPosition(domino.transform.GetChild(0).position);
 
     }
 

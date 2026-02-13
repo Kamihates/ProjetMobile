@@ -4105,7 +4105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a4027a7f7096445a92b2f57a326951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AccelerationEffect
-  _effectDuration: 5
+  _effectDuration: 10
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -4460,8 +4460,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossController
   _bossEffects:
   - {fileID: 880679012}
-  _minTimerBetweenEffects: 20
-  _maxTimerBetweenEffects: 60
+  - {fileID: 584843653}
+  _minTimerBetweenEffects: 10
+  _maxTimerBetweenEffects: 25
 --- !u!1 &759088880
 GameObject:
   m_ObjectHideFlags: 0

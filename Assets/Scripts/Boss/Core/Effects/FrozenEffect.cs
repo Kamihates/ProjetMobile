@@ -17,14 +17,15 @@ public class FrozenEffect : BossEffect
 
 
             effectTry ++;
-            int randowRow = Random.Range(0, GridManager.Instance.Row - 1);
-            int randowCol = Random.Range(0, GridManager.Instance.Column);
 
-            if (GridManager.Instance.GridData[randowRow][randowCol] == null)
+
+            int randomRow = Random.Range(2, GridManager.Instance.Row);
+            int randomCol = Random.Range(0, GridManager.Instance.Column);
+
+            if (GridManager.Instance.GridData[randomRow][randomCol] == null)
             {
                 // on bloque la position de la grille
-                Debug.Log("FREEZE");
-                GridManager.Instance.DisableCell(new Vector2Int(randowRow, randowCol));
+                GridManager.Instance.DisableCell(new Vector2Int(randomRow, randomCol));
                 Deactivate();
                 return;
             }

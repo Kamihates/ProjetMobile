@@ -249,11 +249,13 @@ public class DeckManager : MonoBehaviour
 
     private void HandleNextDomino(DominoPiece dominoPiece)
     {
+        Debug.Log("current domino = " + GameManager.Instance.CurrentDomino);
         // si le domino qui à été placé n'est pas le domino actuel on ne se charge pas de le discard ou autre car il était déjà sur le terrain
         if (GameManager.Instance.CurrentDomino == null)
         {
             return;
         }
+
         if (dominoPiece.PieceUniqueId != GameManager.Instance.CurrentDomino.PieceUniqueId) return;
 
         GameManager.Instance.CurrentDomino = null;
