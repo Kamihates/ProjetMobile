@@ -154,8 +154,7 @@ public class DominoCombos : MonoBehaviour
 
         if (combosOfAdjacentDomino.Count >= 2)
         {
-            List<Vector2Int> temp = combosOfAdjacentDomino;
-            OnComboChain?.Invoke(temp);
+            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino));
         }
 
         return (combosOfAdjacentDomino.Count);

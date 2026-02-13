@@ -10712,6 +10712,7 @@ MonoBehaviour:
   comboPopupPrefab: {fileID: 4846678280592017890, guid: b67ec35b48f0b444ba356d46182ebbb7, type: 3}
   totalDamageCG: {fileID: 1577383069}
   totalDamageText: {fileID: 1230640185}
+  initialComboPopupQueueSize: 10
   popupDelay: 0.3
   popupFadeDuration: 0.5
   totalDamageDisplayedSecond: 2
