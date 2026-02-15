@@ -9,6 +9,8 @@ public class DominoCombosPopup : MonoBehaviour
     [SerializeField, Foldout("Reference"), Required] private DominoCombos combos;
 
     [SerializeField, Foldout("UI")] private CanvasGroup comboPopupPrefab;
+    [SerializeField, Foldout("UI")] private CanvasGroup weaknessTxt;
+    [SerializeField, Foldout("UI")] private CanvasGroup resistanceTxt;
     [SerializeField, Foldout("UI")] private CanvasGroup totalDamageCG;
     [SerializeField, Foldout("UI")] private TMP_Text totalDamageText;
 
@@ -98,9 +100,18 @@ public class DominoCombosPopup : MonoBehaviour
 
     #region Desaffichage des combos en chaine
 
-    private void FinishCombo(float totalDamage, float T1Multiplier = 0)
+    private void FinishCombo(float totalDamage, float T1Multiplier, bool weakness, bool resistance)
     {
         StartCoroutine(DisplayForXSecondsTotalDamage(totalDamage, T1Multiplier));
+
+        if (weakness)
+        {
+            ShowWeaknessAndResistance(true);
+        }
+        else if (resistance)
+        {
+            ShowWeaknessAndResistance(false);
+        }
     }
 
     #endregion
@@ -120,6 +131,17 @@ public class DominoCombosPopup : MonoBehaviour
         yield return UIAnimations.Instance.DisplayForXSeconds(totalDamageDisplayedSecond, popupFadeDuration, totalDamageCG);
         totalDamageText.text = ""; // On reset le text une fois le total de dégâts affiché
     }
+
+    #endregion
+
+    #region Affichage Resistance ou faiblesse
+
+    private void ShowWeaknessAndResistance(bool isweakness)
+    {
+        StartCoroutine(UIAnimations.Instance.DisplayForXSeconds(2, 0.1f, isweakness ? weaknessTxt : resistanceTxt));
+    }
+
+
 
     #endregion
 }

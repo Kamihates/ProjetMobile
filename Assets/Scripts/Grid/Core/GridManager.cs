@@ -48,10 +48,30 @@ public class GridManager : MonoBehaviour
     {
         gridDrawer.DrawGrid(_row, Column, _cellSize, _gridOrigin);
         ResetGridData();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnInfiniteGameStarted += ResetGridData;
+        }
     }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnInfiniteGameStarted -= ResetGridData;
+        }
+    }
+
+
 
     private void ResetGridData()
     {
+        foreach (GameObject go in _disableCells.Values)
+        {
+            Destroy(go);
+        }
+
         _disableCells.Clear();
         _gridData.Clear();
 
