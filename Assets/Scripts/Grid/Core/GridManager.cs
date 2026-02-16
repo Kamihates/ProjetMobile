@@ -48,10 +48,30 @@ public class GridManager : MonoBehaviour
     {
         gridDrawer.DrawGrid(_row, Column, _cellSize, _gridOrigin);
         ResetGridData();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnInfiniteGameStarted += ResetGridData;
+        }
     }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnInfiniteGameStarted -= ResetGridData;
+        }
+    }
+
+
 
     private void ResetGridData()
     {
+        foreach (GameObject go in _disableCells.Values)
+        {
+            Destroy(go);
+        }
+
         _disableCells.Clear();
         _gridData.Clear();
 
@@ -72,7 +92,8 @@ public class GridManager : MonoBehaviour
         if (cell.TryGetComponent(out SpriteRenderer spriteRenderer))
         {
             GeneralVisualController.Instance.FitSpriteInCell(spriteRenderer);
-            cell.transform.position = GetCellPositionAtIndex(index);
+            Vector2Int vec = new Vector2Int(index.y, index.x);
+            cell.transform.position = GetCellPositionAtIndex(vec);
             spriteRenderer.sortingOrder = index.x;
         }
 
@@ -162,6 +183,7 @@ public class GridManager : MonoBehaviour
         if (GetIndexFromPosition(domino.transform.GetChild(0).position) != domino.FallController.LastIndex)
             OnDominoPlaced?.Invoke(domino);
 
+        domino.FallController.LastIndex = GetIndexFromPosition(domino.transform.GetChild(0).position);
 
     }
 

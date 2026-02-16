@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     public Action OnInfiniteGameStarted;
 
 
+
+
     private void Awake() { Instance = this; }
 
     private void Start()

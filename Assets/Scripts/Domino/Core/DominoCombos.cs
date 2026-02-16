@@ -12,11 +12,8 @@ public class DominoCombos : MonoBehaviour
     [SerializeField, Label("un t1 basique multiplie par combien ? (basique = 4)")] private float T1multipicator = 2;
     public float T1Multipicator => T1multipicator;
 
-    [SerializeField, Foldout("Debug"), ReadOnly] private int combosCount = 0;
-    [SerializeField, Foldout("Debug"), ReadOnly] private int t1Count = 0;
 
     [SerializeField] private DominoFusion dominoFusion;
-    public int CombosCount => combosCount;
 
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentDomino;
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentR1;
@@ -24,12 +21,14 @@ public class DominoCombos : MonoBehaviour
 
     public Action<float> OnComboDamage;
     public Action<List<Vector2Int>> OnComboChain;
-    public Action<float, float> OnComboFinished;
+    public Action<float, float, bool, bool> OnComboFinished;
 
     public Dictionary<RegionType, bool> _hascomboOf4 = new Dictionary<RegionType, bool>();
 
+    [SerializeField] private BossController _bossController;
 
 
+    private float _TotalDamageCounter = 0;
 
     private void Start()
     {
@@ -91,11 +90,9 @@ public class DominoCombos : MonoBehaviour
 
     public float CheckForCombos(DominoPiece piece)
     {
-        t1Count = 0;
-        combosCount = 0;
 
-        int combosOfAdjacentR1 = 0;
-        int combosOfAdjacentR2 = 0;
+        float combosOfAdjacentR1 = 0;
+        float combosOfAdjacentR2 = 0;
 
         RegionPiece regionPiece1 = piece.transform.GetChild(0).GetComponent<RegionPiece>();
         RegionPiece regionPiece2 = piece.transform.GetChild(1).GetComponent<RegionPiece>();
@@ -111,48 +108,20 @@ public class DominoCombos : MonoBehaviour
             combosOfAdjacentR2 = CheckForAdjacentDomino(regionPiece2);
         }
 
-        if (combosOfAdjacentR1 == 1) combosOfAdjacentR1 = 0;
-        if (combosOfAdjacentR2 == 1) combosOfAdjacentR2 = 0;
 
-        combosCount = combosOfAdjacentR1 + combosOfAdjacentR2;
-
-        if (combosCount < 2)
-        {
-            return 0;
-        }
-
-        float comboDamage = combosCount * damagePerCombo;
-        float multiplicator = 1f;
-        
-
-        
-
-
-        if (t1Count == 0)
-            return combosCount * damagePerCombo;
-
-        if(t1Count > 0)
-        {
-            if (t1Count/2 > 0)
-            {
-                multiplicator = (t1Count / 2) * T1Multipicator;
-                Debug.Log(multiplicator);
-            }
-        }
-
-        float totalDamage = comboDamage * multiplicator;
+        float totalDamage = combosOfAdjacentR1 + combosOfAdjacentR2;
             
-        //OnComboChain?.Invoke(GetAllComboRegions());
-        OnComboFinished?.Invoke(totalDamage, multiplicator);
+        if (GameManager.Instance.IsInfiniteState)
+            _TotalDamageCounter += totalDamage;
 
         return totalDamage;
     }
 
 
-    private int CheckForAdjacentDomino(RegionPiece regionPiece)
+    private float CheckForAdjacentDomino(RegionPiece regionPiece)
     {
         combosOfAdjacentDomino.Clear();
-
+        int t1Count = 0;
         // Donne l'index par rapport a la grille
         Vector2Int regionIndex = GridManager.Instance.GetIndexFromPosition(regionPiece.transform.position);
 
@@ -205,7 +174,7 @@ public class DominoCombos : MonoBehaviour
         }
 
         // pour le succes : avec une combo d'au moins 4 piece de tout les types
-        if (combosCount >= 4)
+        if (combosOfAdjacentDomino.Count >= 4)
         {
             _hascomboOf4[regionPiece.Region.Type] = true;
 
@@ -240,7 +209,44 @@ public class DominoCombos : MonoBehaviour
             });
         }
 
-        return (combosOfAdjacentDomino.Count);
+
+        // application des degats totaux de la region
+
+        float comboDmg = combosOfAdjacentDomino.Count;
+
+
+        if (comboDmg == 1) comboDmg = 0;
+
+        comboDmg *= damagePerCombo; // application des degat par piece
+
+
+
+        if (t1Count / 2 > 0)
+        {
+            comboDmg *= ((t1Count / 2) * T1Multipicator);
+        }
+
+        bool isWeakness = false;
+        bool isResistance = false;
+
+
+        // calcule selon les resistances
+        if (_bossController.Resistance == regionPiece.Region.Type)
+        {
+            // si il est resistant / 2
+            comboDmg /= 2;
+            isResistance = true;
+        }
+        if (_bossController.Weakness == regionPiece.Region.Type)
+        {
+            comboDmg *= 1.5f;
+            isWeakness = true;
+        }
+
+        if (comboDmg > 0)
+            OnComboFinished?.Invoke(comboDmg, T1Multipicator, isWeakness, isResistance);
+
+        return (comboDmg);
     }
 
     private Vector2Int[] GetRegionNeighbors(Vector2Int regionIndex)

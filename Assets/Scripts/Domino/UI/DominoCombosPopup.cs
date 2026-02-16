@@ -9,6 +9,8 @@ public class DominoCombosPopup : MonoBehaviour
     [SerializeField, Foldout("Reference"), Required] private DominoCombos combos;
 
     [SerializeField, Foldout("UI")] private CanvasGroup comboPopupPrefab;
+    [SerializeField, Foldout("UI")] private CanvasGroup weaknessTxt;
+    [SerializeField, Foldout("UI")] private CanvasGroup resistanceTxt;
     [SerializeField, Foldout("UI")] private CanvasGroup totalDamageCG;
     [SerializeField, Foldout("UI")] private TMP_Text totalDamageText;
 
@@ -84,7 +86,7 @@ public class DominoCombosPopup : MonoBehaviour
             popupCG.transform.position = GridManager.Instance.GetCellPositionAtIndex(Index);
 
             TMP_Text tmpText = popupCG.GetComponentInChildren<TMP_Text>();
-            tmpText.text = $"+{combos.DamagePerCombo}";
+            tmpText.text = $"+{(int)combos.DamagePerCombo}";
 
             StartCoroutine(popupCG.gameObject.GetComponent<DominoCombosPopupSelfFade>().StartPopupFade(this));
 
@@ -98,9 +100,18 @@ public class DominoCombosPopup : MonoBehaviour
 
     #region Desaffichage des combos en chaine
 
-    private void FinishCombo(float totalDamage, float T1Multiplier = 0)
+    private void FinishCombo(float totalDamage, float T1Multiplier, bool weakness, bool resistance)
     {
         StartCoroutine(DisplayForXSecondsTotalDamage(totalDamage, T1Multiplier));
+
+        if (weakness)
+        {
+            ShowWeaknessAndResistance(true);
+        }
+        else if (resistance)
+        {
+            ShowWeaknessAndResistance(false);
+        }
     }
 
     #endregion
@@ -112,14 +123,25 @@ public class DominoCombosPopup : MonoBehaviour
         if (T1Multiplier > 1f)
         {
             float comboDamage = totalDamage / (T1Multiplier * combos.T1Multipicator); 
-            totalDamageText.text = $"-{comboDamage} (x{T1Multiplier})"; 
+            totalDamageText.text = $"-{(int)comboDamage} (x{T1Multiplier})"; 
             yield return new WaitForSeconds(1f); 
         }
 
-        totalDamageText.text = $"-{totalDamage}"; // On affiche le total de dégâts du combo
+        totalDamageText.text = $"-{(int)totalDamage}"; // On affiche le total de dégâts du combo
         yield return UIAnimations.Instance.DisplayForXSeconds(totalDamageDisplayedSecond, popupFadeDuration, totalDamageCG);
         totalDamageText.text = ""; // On reset le text une fois le total de dégâts affiché
     }
+
+    #endregion
+
+    #region Affichage Resistance ou faiblesse
+
+    private void ShowWeaknessAndResistance(bool isweakness)
+    {
+        StartCoroutine(UIAnimations.Instance.DisplayForXSeconds(2, 0.1f, isweakness ? weaknessTxt : resistanceTxt));
+    }
+
+
 
     #endregion
 }

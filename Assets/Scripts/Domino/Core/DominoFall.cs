@@ -7,7 +7,7 @@ public class DominoFall : MonoBehaviour
     [SerializeField] DominoPiece _piece;
 
     private Vector2Int _lastIndex;
-    public Vector2Int LastIndex => _lastIndex;
+    public Vector2Int LastIndex { get => _lastIndex; set => _lastIndex = value; }
 
     private float _baseFallingSpeed; 
     private float _baseStepSpeed;
@@ -30,6 +30,11 @@ public class DominoFall : MonoBehaviour
             ApplySpeed();
         } }
 
+
+    private void Start()
+    {
+        _lastIndex = new Vector2Int(-1, -1);
+    }
 
     /// <summary>
     /// Initialisation des vitesses
@@ -115,8 +120,8 @@ public class DominoFall : MonoBehaviour
             IgnoreCurrentDomino = false;
             enabled = false;
 
-            // on recupere l'index
-            _lastIndex = GridManager.Instance.GetIndexFromPosition(transform.GetChild(0).position);
+            //// on recupere l'index
+            //_lastIndex = GridManager.Instance.GetIndexFromPosition(transform.GetChild(0).position);
         }
     }
 
