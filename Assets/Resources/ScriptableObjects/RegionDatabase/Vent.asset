@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4bcfd5daecb4cb45af6c2c038063faa, type: 3}
-  m_Name: Mer
+  m_Name: Vent
   m_EditorClassIdentifier: Assembly-CSharp::RegionDatabase
-  RegionID: 1
-  Type: 1
-  RegionTerrain: {fileID: 4388778113202226822, guid: 0903715b49cbde04682d0d733eb0fd43, type: 3}
+  RegionID: 3
+  Type: 4
+  RegionTerrain: {fileID: -88188513938930178, guid: f88aa4b65bbaffe4483ba4094d224854, type: 3}
   RegionOverlay: {fileID: 0}
