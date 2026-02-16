@@ -90,8 +90,12 @@ public class DominoFusion : MonoBehaviour
                 });
             }
 
-            ManageFusion(AllFusionIndex);
-            return GetBonus(AllFusionIndex.Count);
+            if (AllFusionIndex.Count >= 4)
+            {
+                ManageFusion(AllFusionIndex);
+                return GetBonus(AllFusionIndex.Count);
+            }
+            
         }
         return 0;
     }

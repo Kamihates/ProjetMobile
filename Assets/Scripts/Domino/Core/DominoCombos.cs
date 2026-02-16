@@ -20,12 +20,15 @@ public class DominoCombos : MonoBehaviour
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentR2;
 
     public Action<float> OnComboDamage;
-    public Action<List<Vector2Int>> OnComboChain;
+    public Action<List<Vector2Int>, float, float> OnComboChain;
     public Action<float, float, bool, bool> OnComboFinished;
 
     public Dictionary<RegionType, bool> _hascomboOf4 = new Dictionary<RegionType, bool>();
 
     [SerializeField] private BossController _bossController;
+
+    [SerializeField] float _reductionDivisor = 2;
+    [SerializeField] float _weaknessMultiplicator = 2;
 
 
     private float _TotalDamageCounter = 0;
@@ -79,9 +82,9 @@ public class DominoCombos : MonoBehaviour
             PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQCQ", 100.0f, (bool success) =>
             {
                 if (success)
-                    Debug.Log("Succ�s d�bloqu� !");
+                    Debug.Log("Succès débloqué !");
                 else
-                    Debug.Log("�chec du d�blocage du succ�s.");
+                    Debug.Log("échec du déblocage du succès.");
             });
         }
 
@@ -112,7 +115,37 @@ public class DominoCombos : MonoBehaviour
         float totalDamage = combosOfAdjacentR1 + combosOfAdjacentR2;
             
         if (GameManager.Instance.IsInfiniteState)
+        {
             _TotalDamageCounter += totalDamage;
+
+
+            PlayerPrefs.SetFloat("MaxDamage", _TotalDamageCounter);
+
+            if (_TotalDamageCounter >= 1000)
+            {
+                // succes 1000 degats
+                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQBw", 100.0f, (bool success) =>
+                {
+                    if (success)
+                        Debug.Log("Succès débloqué !");
+                    else
+                        Debug.Log("Échec du déblocage du succès.");
+                });
+            }
+            if (_TotalDamageCounter >= 2000)
+            {
+                // succes 2000 degats
+                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQCA", 100.0f, (bool success) =>
+                {
+                    if (success)
+                        Debug.Log("Succès débloqué !");
+                    else
+                        Debug.Log("Échec du déblocage du succès.");
+                });
+            }
+        }
+
+
 
         return totalDamage;
     }
@@ -142,6 +175,7 @@ public class DominoCombos : MonoBehaviour
 
                 if (GridManager.Instance.GetRegionAtIndex(currentIndex).DominoParent.Data.IsDominoFusion)
                 {
+
                     t1Count++;
                 }
             }
@@ -168,10 +202,7 @@ public class DominoCombos : MonoBehaviour
             }
         }
 
-        if (combosOfAdjacentDomino.Count >= 2)
-        {
-            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino));
-        }
+        
 
         // pour le succes : avec une combo d'au moins 4 piece de tout les types
         if (combosOfAdjacentDomino.Count >= 4)
@@ -214,38 +245,56 @@ public class DominoCombos : MonoBehaviour
 
         float comboDmg = combosOfAdjacentDomino.Count;
 
+        // 1) application des degat par piece
 
-        if (comboDmg == 1) comboDmg = 0;
-
-        comboDmg *= damagePerCombo; // application des degat par piece
-
-
-
-        if (t1Count / 2 > 0)
+        if (comboDmg == 1)
         {
-            comboDmg *= ((t1Count / 2) * T1Multipicator);
+            comboDmg = 0;
+            return (comboDmg);
         }
+        
 
+        // si resistance 
         bool isWeakness = false;
         bool isResistance = false;
 
+        // application des t1
+        if (t1Count / 2 > 0)
+        {
+            comboDmg *= ((t1Count / 2) * T1Multipicator);
 
-        // calcule selon les resistances
+        }
+
         if (_bossController.Resistance == regionPiece.Region.Type)
         {
-            // si il est resistant / 2
-            comboDmg /= 2;
+            comboDmg *= damagePerCombo / _reductionDivisor;
             isResistance = true;
+
+            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino), damagePerCombo / _reductionDivisor, ((t1Count / 2) * T1Multipicator));
         }
-        if (_bossController.Weakness == regionPiece.Region.Type)
+        else if (_bossController.Weakness == regionPiece.Region.Type)
         {
-            comboDmg *= 1.5f;
+            comboDmg *= damagePerCombo * _weaknessMultiplicator;
             isWeakness = true;
+
+            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino), damagePerCombo * _weaknessMultiplicator, ((t1Count / 2) * T1Multipicator));
         }
+        else
+        {
+            comboDmg *= damagePerCombo;
+            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino), damagePerCombo, ((t1Count / 2) * T1Multipicator));
+        }
+
+
+        
+
+
+
 
         if (comboDmg > 0)
             OnComboFinished?.Invoke(comboDmg, T1Multipicator, isWeakness, isResistance);
 
+        
         return (comboDmg);
     }
 

@@ -15,7 +15,6 @@ public class RegionPiece : MonoBehaviour
     public DominoPiece DominoParent => _dominoInfos;
 
     [SerializeField] private SpriteRenderer _terrainRenderer;
-    [SerializeField] private SpriteRenderer _overlayRenderer;
 
     public void Init(RegionData data, bool t1, DominoPiece domino = null)
     {
@@ -41,8 +40,6 @@ public class RegionPiece : MonoBehaviour
     {
         if (_terrainRenderer != null)
             _terrainRenderer.sortingOrder = layerOrder;
-        if (_overlayRenderer != null)
-            _overlayRenderer.sortingOrder = layerOrder + 1;
     }
 
 
