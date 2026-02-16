@@ -151,7 +151,5 @@ public class GameManager : MonoBehaviour
         gameConfig.LoopAfterBoss = true;
         SceneManager.LoadScene(1);
 
-        // on vide la grille et restart le jeu en mode infini
-        //OnInfiniteGameStarted.Invoke();
     }
 }
