@@ -434,7 +434,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 36642355}
   m_Enabled: 1
-  m_Alpha: 0.05
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -3495,8 +3495,8 @@ RectTransform:
   m_GameObject: {fileID: 582996579}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1516437637}
   m_Father: {fileID: 2033170914}
@@ -5046,10 +5046,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 719330300}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 443.15, y: 887.61}
-  m_SizeDelta: {x: 137.7, y: 129.2}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -133, y: -115}
+  m_SizeDelta: {x: 137.70001, y: 129.19995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &894256615
 MonoBehaviour:
@@ -5629,8 +5629,8 @@ RectTransform:
   m_GameObject: {fileID: 998963508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1654175284}
   m_Father: {fileID: 2033170914}
@@ -8485,7 +8485,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -122.1, y: -159.20001}
+  m_AnchoredPosition: {x: -157, y: -218}
   m_SizeDelta: {x: 160, y: 135.98706}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1682336714
@@ -9771,7 +9771,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -10.122925, y: 6.7818604}
+  m_AnchoredPosition: {x: -8.3, y: 1.81}
   m_SizeDelta: {x: 195.32, y: 61.68994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2033170915
@@ -9792,7 +9792,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 5
-  m_Spacing: 0
+  m_Spacing: 16.73
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
