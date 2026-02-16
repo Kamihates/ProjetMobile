@@ -43,6 +43,18 @@ public class GeneralVisualController : MonoBehaviour
         return center / allPieces.Count;
     }
 
+    public Vector2 GetCenterPosition(List<Vector2Int> allPieces)
+    {
+        List<RegionPiece> pieces = new List<RegionPiece>();
+
+        foreach (Vector2Int piece in allPieces)
+        {
+            pieces.Add(GridManager.Instance.GetRegionAtIndex(piece));
+        }
+
+        return GetCenterPosition(pieces);
+    }
+
 
     public void FallAtoB(Transform transform, float duration, Vector2 startingPos, Vector2 destination)
     {

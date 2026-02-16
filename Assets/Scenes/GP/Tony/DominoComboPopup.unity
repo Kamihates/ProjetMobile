@@ -10505,12 +10505,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DominoCombos
   damagePerCombo: 5
   T1multipicator: 2
-  combosCount: 0
-  t1Count: 0
   dominoFusion: {fileID: 104440528}
   combosOfAdjacentDomino: []
   combosOfAdjacentR1: []
   combosOfAdjacentR2: []
+  _bossController: {fileID: 0}
 --- !u!1 &2057294352
 GameObject:
   m_ObjectHideFlags: 0
@@ -11046,6 +11045,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DominoCombosPopup
   combos: {fileID: 2001327692}
   comboPopupPrefab: {fileID: 4846678280592017890, guid: b67ec35b48f0b444ba356d46182ebbb7, type: 3}
+  weaknessTxt: {fileID: 0}
+  resistanceTxt: {fileID: 0}
   totalDamageCG: {fileID: 1577383069}
   totalDamageText: {fileID: 1230640185}
   initialComboPopupQueueSize: 10

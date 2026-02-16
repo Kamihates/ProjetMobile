@@ -73,13 +73,20 @@ public class DominoCombosPopup : MonoBehaviour
 
     #region Affichage des combos en chaine
 
-    private void StartComboChain(List<Vector2Int> regions)
+    private void StartComboChain(List<Vector2Int> regions, float value)
     {
-        StartCoroutine(ComboChainCoroutine(regions));
+        StartCoroutine(ComboChainCoroutine(regions, value));
     }
 
-    private IEnumerator ComboChainCoroutine(List<Vector2Int> regions)
+    private IEnumerator ComboChainCoroutine(List<Vector2Int> regions, float value)
     {
+        Vector2 targetPos = GeneralVisualController.Instance.GetCenterPosition(regions);
+        CanvasGroup popupTotal = GetPopupFromQueue();
+
+        popupTotal.transform.position = targetPos;
+
+
+
         foreach (Vector2Int Index in regions)
         {
             CanvasGroup popupCG = GetPopupFromQueue();
@@ -88,7 +95,7 @@ public class DominoCombosPopup : MonoBehaviour
             TMP_Text tmpText = popupCG.GetComponentInChildren<TMP_Text>();
             tmpText.text = $"+{(int)combos.DamagePerCombo}";
 
-            StartCoroutine(popupCG.gameObject.GetComponent<DominoCombosPopupSelfFade>().StartPopupFade(this));
+            StartCoroutine(popupCG.gameObject.GetComponent<DominoCombosPopupSelfFade>().StartPopupFade(this, popupTotal.gameObject.GetComponent<DominoCombosPopupSelfFade>(), value));
 
             yield return new WaitForSeconds(popupDelay);
         }

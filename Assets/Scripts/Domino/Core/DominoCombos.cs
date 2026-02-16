@@ -20,7 +20,7 @@ public class DominoCombos : MonoBehaviour
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentR2;
 
     public Action<float> OnComboDamage;
-    public Action<List<Vector2Int>> OnComboChain;
+    public Action<List<Vector2Int>, float> OnComboChain;
     public Action<float, float, bool, bool> OnComboFinished;
 
     public Dictionary<RegionType, bool> _hascomboOf4 = new Dictionary<RegionType, bool>();
@@ -168,10 +168,7 @@ public class DominoCombos : MonoBehaviour
             }
         }
 
-        if (combosOfAdjacentDomino.Count >= 2)
-        {
-            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino));
-        }
+        
 
         // pour le succes : avec une combo d'au moins 4 piece de tout les types
         if (combosOfAdjacentDomino.Count >= 4)
@@ -246,6 +243,10 @@ public class DominoCombos : MonoBehaviour
         if (comboDmg > 0)
             OnComboFinished?.Invoke(comboDmg, T1Multipicator, isWeakness, isResistance);
 
+        if (combosOfAdjacentDomino.Count >= 2)
+        {
+            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino), damagePerCombo);
+        }
         return (comboDmg);
     }
 
