@@ -244,7 +244,7 @@ public class DominoCombos : MonoBehaviour
         }
 
         if (comboDmg > 0)
-            OnComboFinished?.Invoke(comboDmg, t1Count, isWeakness, isResistance);
+            OnComboFinished?.Invoke(comboDmg, T1Multipicator, isWeakness, isResistance);
 
         return (comboDmg);
     }

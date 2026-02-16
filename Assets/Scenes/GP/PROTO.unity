@@ -4686,8 +4686,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossController
   _bossEffects:
   - {fileID: 584843653}
-  _minTimerBetweenEffects: 10
-  _maxTimerBetweenEffects: 25
+  _minTimerBetweenEffects: 20
+  _maxTimerBetweenEffects: 30
   _windIcon: {fileID: 21300000, guid: def4de0560faecd4391f9c8db825de08, type: 3}
   _earthIcon: {fileID: 21300000, guid: d9c311d7992686046ad97297f5aaf0b7, type: 3}
   _fireIcon: {fileID: 21300000, guid: 0a42d22be67a37d4fa5bfc7470b1eb11, type: 3}
@@ -7199,8 +7199,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000091552734, y: 0.00018310547}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 13.7, y: -10}
+  m_SizeDelta: {x: 317, y: 58.94}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1230640185
 MonoBehaviour:
@@ -9059,8 +9059,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 311, y: 740.9999}
-  m_SizeDelta: {x: 210.36, y: 50}
+  m_AnchoredPosition: {x: 364.32, y: 749.9399}
+  m_SizeDelta: {x: 317, y: 67.88}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1577383069
 CanvasGroup:
@@ -9725,7 +9725,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -122.1, y: -159.20001}
+  m_AnchoredPosition: {x: -122.1001, y: -159.19995}
   m_SizeDelta: {x: 160, y: 135.98706}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1682336714

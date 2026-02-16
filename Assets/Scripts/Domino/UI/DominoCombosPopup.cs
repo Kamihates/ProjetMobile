@@ -86,7 +86,7 @@ public class DominoCombosPopup : MonoBehaviour
             popupCG.transform.position = GridManager.Instance.GetCellPositionAtIndex(Index);
 
             TMP_Text tmpText = popupCG.GetComponentInChildren<TMP_Text>();
-            tmpText.text = $"+{combos.DamagePerCombo}";
+            tmpText.text = $"+{(int)combos.DamagePerCombo}";
 
             StartCoroutine(popupCG.gameObject.GetComponent<DominoCombosPopupSelfFade>().StartPopupFade(this));
 
@@ -123,11 +123,11 @@ public class DominoCombosPopup : MonoBehaviour
         if (T1Multiplier > 1f)
         {
             float comboDamage = totalDamage / (T1Multiplier * combos.T1Multipicator); 
-            totalDamageText.text = $"-{comboDamage} (x{T1Multiplier})"; 
+            totalDamageText.text = $"-{(int)comboDamage} (x{T1Multiplier})"; 
             yield return new WaitForSeconds(1f); 
         }
 
-        totalDamageText.text = $"-{totalDamage}"; // On affiche le total de dégâts du combo
+        totalDamageText.text = $"-{(int)totalDamage}"; // On affiche le total de dégâts du combo
         yield return UIAnimations.Instance.DisplayForXSeconds(totalDamageDisplayedSecond, popupFadeDuration, totalDamageCG);
         totalDamageText.text = ""; // On reset le text une fois le total de dégâts affiché
     }
