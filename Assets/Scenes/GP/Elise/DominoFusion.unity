@@ -163,11 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 136a1387e649d7c49938240465113b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoMovementController
+  dominoPlacement: {fileID: 2058347780}
   _holdTime: 0.2
   _dragDistance: 0.5
   _fallingSpeed: 0.5
   _stepSpeed: 1
-  dominoPlacement: {fileID: 2058347780}
   _holdTapTime: 0.2
 --- !u!1 &104440526
 GameObject:
@@ -214,6 +214,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoFusion
   _deckManager: {fileID: 1081684069}
+  _bonusFor4: 2
+  _bonusFor6: 4
+  _bonusFor8: 6
+  _bonusFor9: 8
+  _bonusBasique: 10
 --- !u!1 &201307350
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,12 +248,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2fd5c43a8bf6b941a23e4ce6be867e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridManager
+  gridDrawer: {fileID: 751515613}
+  _disableCellPrefab: {fileID: 0}
   _column: 8
   _row: 10
   _gridOrigin: {fileID: 751515612}
   _cellSize: 0.6
   _tileDepth: 0
-  gridDrawer: {fileID: 751515613}
 --- !u!4 &201307352
 Transform:
   m_ObjectHideFlags: 0
@@ -577,9 +583,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DominoSpawner
   dominoController: {fileID: 93427302}
   _rotationRandom: 0
+  _waitingTime: 1
   dominoData: {fileID: 11400000, guid: 4398ad35494bbcf4aab6296ee01d56f9, type: 2}
   deckManager: {fileID: 1081684069}
-  _currentDomino: {fileID: 0}
 --- !u!1 &1056009629
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,10 +839,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd4175d95622f5d4989102227dbc38a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  gameConfig: {fileID: 0}
+  defaultState: 0
   deckManager: {fileID: 1081684069}
   dominoSpawner: {fileID: 954746999}
   dominoMouvement: {fileID: 93427302}
-  _currentDomino: {fileID: 0}
+  <CurrentState>k__BackingField: 0
+  currentRound: 0
+  isBossRound: 0
 --- !u!4 &1504924591
 Transform:
   m_ObjectHideFlags: 0
@@ -1063,8 +1073,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac3180c18e969f14795d03c65991198b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoCombos
-  combosCount: 0
+  damagePerCombo: 5
+  T1multipicator: 2
+  dominoFusion: {fileID: 0}
   combosOfAdjacentDomino: []
+  combosOfAdjacentR1: []
+  combosOfAdjacentR2: []
+  _bossController: {fileID: 0}
+  _reductionDivisor: 2
+  _weaknessMultiplicator: 2
 --- !u!1 &2058347778
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,6 @@ public class GameConfig : ScriptableObject
     //public int RoundsBeforeShop => roundsBeforeShop;
     public int RoundsBeforeBoss => roundsBeforeBoss;
 
-    [SerializeField, Foldout("Debug"), ReadOnly] private bool loopAfterBoss = true;
-    public bool LoopAfterBoss => loopAfterBoss;
+    [SerializeField, Foldout("Debug")] private bool loopAfterBoss = false;
+    public bool LoopAfterBoss {get => loopAfterBoss; set => loopAfterBoss =  value;}
 }

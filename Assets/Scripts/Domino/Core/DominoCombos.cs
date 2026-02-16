@@ -20,7 +20,7 @@ public class DominoCombos : MonoBehaviour
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentR2;
 
     public Action<float> OnComboDamage;
-    public Action<List<Vector2Int>> OnComboChain;
+    public Action<List<Vector2Int>, float, float> OnComboChain;
     public Action<float, float, bool, bool> OnComboFinished;
 
     public Dictionary<RegionType, bool> _hascomboOf4 = new Dictionary<RegionType, bool>();
@@ -175,6 +175,7 @@ public class DominoCombos : MonoBehaviour
 
                 if (GridManager.Instance.GetRegionAtIndex(currentIndex).DominoParent.Data.IsDominoFusion)
                 {
+
                     t1Count++;
                 }
             }
@@ -201,10 +202,7 @@ public class DominoCombos : MonoBehaviour
             }
         }
 
-        if (combosOfAdjacentDomino.Count >= 2)
-        {
-            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino));
-        }
+        
 
         // pour le succes : avec une combo d'au moins 4 piece de tout les types
         if (combosOfAdjacentDomino.Count >= 4)
@@ -249,38 +247,54 @@ public class DominoCombos : MonoBehaviour
 
         // 1) application des degat par piece
 
-        if (comboDmg == 1) comboDmg = 0;
+        if (comboDmg == 1)
+        {
+            comboDmg = 0;
+            return (comboDmg);
+        }
+        
 
         // si resistance 
         bool isWeakness = false;
         bool isResistance = false;
 
+        // application des t1
+        if (t1Count / 2 > 0)
+        {
+            comboDmg *= ((t1Count / 2) * T1Multipicator);
+
+        }
+
         if (_bossController.Resistance == regionPiece.Region.Type)
         {
             comboDmg *= damagePerCombo / _reductionDivisor;
             isResistance = true;
+
+            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino), damagePerCombo / _reductionDivisor, ((t1Count / 2) * T1Multipicator));
         }
         else if (_bossController.Weakness == regionPiece.Region.Type)
         {
             comboDmg *= damagePerCombo * _weaknessMultiplicator;
             isWeakness = true;
+
+            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino), damagePerCombo * _weaknessMultiplicator, ((t1Count / 2) * T1Multipicator));
         }
         else
         {
             comboDmg *= damagePerCombo;
+            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino), damagePerCombo, ((t1Count / 2) * T1Multipicator));
         }
 
 
-        // application des t1
-        if (t1Count / 2 > 0)
-        {
-            comboDmg *= ((t1Count / 2) * T1Multipicator);
-        }
+        
+
+
 
 
         if (comboDmg > 0)
             OnComboFinished?.Invoke(comboDmg, T1Multipicator, isWeakness, isResistance);
 
+        
         return (comboDmg);
     }
 

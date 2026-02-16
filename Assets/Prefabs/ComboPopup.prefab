@@ -65,7 +65,6 @@ MonoBehaviour:
   popup: {fileID: 4846678280592017890}
   popupDelay: 0.3
   popupFadeDuration: 0.5
-  totalDamageDisplayedSecond: 2
 --- !u!1 &8676544416599527466
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,7 +164,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
