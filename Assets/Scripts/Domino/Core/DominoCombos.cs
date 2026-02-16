@@ -115,7 +115,34 @@ public class DominoCombos : MonoBehaviour
         float totalDamage = combosOfAdjacentR1 + combosOfAdjacentR2;
             
         if (GameManager.Instance.IsInfiniteState)
+        {
             _TotalDamageCounter += totalDamage;
+
+            if (_TotalDamageCounter >= 1000)
+            {
+                // succes 1000 degats
+                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQBw", 100.0f, (bool success) =>
+                {
+                    if (success)
+                        Debug.Log("Succès débloqué !");
+                    else
+                        Debug.Log("Échec du déblocage du succès.");
+                });
+            }
+            if (_TotalDamageCounter >= 2000)
+            {
+                // succes 2000 degats
+                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQCA", 100.0f, (bool success) =>
+                {
+                    if (success)
+                        Debug.Log("Succès débloqué !");
+                    else
+                        Debug.Log("Échec du déblocage du succès.");
+                });
+            }
+        }
+
+
 
         return totalDamage;
     }
