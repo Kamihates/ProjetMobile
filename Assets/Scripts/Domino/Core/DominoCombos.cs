@@ -27,6 +27,9 @@ public class DominoCombos : MonoBehaviour
 
     [SerializeField] private BossController _bossController;
 
+    [SerializeField] float _reductionDivisor = 2;
+    [SerializeField] float _weaknessMultiplicator = 2;
+
 
     private float _TotalDamageCounter = 0;
 
@@ -214,34 +217,36 @@ public class DominoCombos : MonoBehaviour
 
         float comboDmg = combosOfAdjacentDomino.Count;
 
+        // 1) application des degat par piece
 
         if (comboDmg == 1) comboDmg = 0;
 
-        comboDmg *= damagePerCombo; // application des degat par piece
+        // si resistance 
+        bool isWeakness = false;
+        bool isResistance = false;
+
+        if (_bossController.Resistance == regionPiece.Region.Type)
+        {
+            comboDmg *= damagePerCombo / _reductionDivisor;
+            isResistance = true;
+        }
+        else if (_bossController.Weakness == regionPiece.Region.Type)
+        {
+            comboDmg *= damagePerCombo * _weaknessMultiplicator;
+            isWeakness = true;
+        }
+        else
+        {
+            comboDmg *= damagePerCombo;
+        }
 
 
-
+        // application des t1
         if (t1Count / 2 > 0)
         {
             comboDmg *= ((t1Count / 2) * T1Multipicator);
         }
 
-        bool isWeakness = false;
-        bool isResistance = false;
-
-
-        // calcule selon les resistances
-        if (_bossController.Resistance == regionPiece.Region.Type)
-        {
-            // si il est resistant / 2
-            comboDmg /= 2;
-            isResistance = true;
-        }
-        if (_bossController.Weakness == regionPiece.Region.Type)
-        {
-            comboDmg *= 1.5f;
-            isWeakness = true;
-        }
 
         if (comboDmg > 0)
             OnComboFinished?.Invoke(comboDmg, T1Multipicator, isWeakness, isResistance);

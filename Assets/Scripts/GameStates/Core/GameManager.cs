@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
     {
         _isInInfiniteState = true;
 
-        // on vide la grille et restart le jeu en mode infini
-        OnInfiniteGameStarted.Invoke();
+        // on restart le jeu en mode infini
+        //OnInfiniteGameStarted.Invoke();
     }
 }
