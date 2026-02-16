@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.InGameState);
         currentRound = 0;
         isBossRound = false;
+        _isInInfiniteState = gameConfig.LoopAfterBoss;
     }
 
     public void OnMobDefeated()
@@ -145,9 +146,10 @@ public class GameManager : MonoBehaviour
 
     public void GoInInfiniteState()
     {
-        _isInInfiniteState = true;
+        gameConfig.LoopAfterBoss = true;
+        SceneManager.LoadScene(1);
 
         // on vide la grille et restart le jeu en mode infini
-        OnInfiniteGameStarted.Invoke();
+        //OnInfiniteGameStarted.Invoke();
     }
 }
