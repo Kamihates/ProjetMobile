@@ -4688,10 +4688,10 @@ MonoBehaviour:
   - {fileID: 584843653}
   _minTimerBetweenEffects: 20
   _maxTimerBetweenEffects: 30
-  _windIcon: {fileID: 21300000, guid: def4de0560faecd4391f9c8db825de08, type: 3}
-  _earthIcon: {fileID: 21300000, guid: d9c311d7992686046ad97297f5aaf0b7, type: 3}
-  _fireIcon: {fileID: 21300000, guid: 0a42d22be67a37d4fa5bfc7470b1eb11, type: 3}
-  _waterIcon: {fileID: 21300000, guid: 5938bd5d018267a45aa0962f00fbabe7, type: 3}
+  _windIcon: {fileID: 419767005985074004, guid: 7fa4d818eb8c37741ae0a9e54887fe04, type: 3}
+  _earthIcon: {fileID: 6321168886044702295, guid: c5b49d683c592da40a94a9220b402213, type: 3}
+  _fireIcon: {fileID: 1172271885341474923, guid: 6b6e7b7424616e14d848bd3252789fb6, type: 3}
+  _waterIcon: {fileID: -4520698843885000264, guid: 482d94274201d11458d88043298a5a81, type: 3}
   _weaknessIcon: {fileID: 1155281090}
   _resistanceIcon: {fileID: 167001861}
 --- !u!1 &759088880
@@ -8033,10 +8033,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: def4f45896f7c5f48bc67f6c04645c88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FusionVisualEffects
-  ParticleWater: {fileID: 1506681185900047364, guid: b0d13baf56be81b4cb9b40403de1cbf7, type: 3}
-  ParticleRock: {fileID: 1506681185900047364, guid: b0d13baf56be81b4cb9b40403de1cbf7, type: 3}
-  ParticleFire: {fileID: 1506681185900047364, guid: b0d13baf56be81b4cb9b40403de1cbf7, type: 3}
-  ParticleWind: {fileID: 1506681185900047364, guid: b0d13baf56be81b4cb9b40403de1cbf7, type: 3}
+  ParticleWater: {fileID: 477889705640841299, guid: a33ea9ba53a8bc9479c48085fe5322e1, type: 3}
+  ParticleRock: {fileID: 453168537965507440, guid: 85832317ec49b7544b980da529f4411b, type: 3}
+  ParticleFire: {fileID: 606915327292396522, guid: 9164a7dccba1f0346acb7ab24fb8ebab, type: 3}
+  ParticleWind: {fileID: 8577006538683185598, guid: 232aca63d11b5844382338a024982605, type: 3}
   visuPrefabT1: {fileID: 8783512509234915931, guid: c12cd7bbf7e32114cb2b679c74f7be4c, type: 3}
   deckPos: {fileID: 1291614984}
   curve:

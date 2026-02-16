@@ -32,19 +32,8 @@ public class RegionPiece : MonoBehaviour
             GeneralVisualController.Instance.FitSpriteInCell(_terrainRenderer);
             _terrainRenderer.sortingOrder = 1;
         }
-           
-
-        if (_overlayRenderer != null && data.RegionOverlay != null)
-        {
-            _overlayRenderer.sprite = data.RegionOverlay;
-            GeneralVisualController.Instance.FitSpriteInCell(_overlayRenderer);
-            _overlayRenderer.sortingOrder = 2;
-        }
+          
             
-
-        
-        
-
         UpdateLayer(-1);
     }
 

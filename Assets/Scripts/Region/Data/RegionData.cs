@@ -15,7 +15,6 @@ public class RegionData : ScriptableObject
     public RegionType Type;
 
     public Sprite RegionTerrain;
-    public Sprite RegionOverlay;
 
 }
 
