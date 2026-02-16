@@ -10510,6 +10510,8 @@ MonoBehaviour:
   combosOfAdjacentR1: []
   combosOfAdjacentR2: []
   _bossController: {fileID: 0}
+  _reductionDivisor: 2
+  _weaknessMultiplicator: 2
 --- !u!1 &2057294352
 GameObject:
   m_ObjectHideFlags: 0

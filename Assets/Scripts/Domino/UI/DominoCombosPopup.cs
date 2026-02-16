@@ -73,32 +73,39 @@ public class DominoCombosPopup : MonoBehaviour
 
     #region Affichage des combos en chaine
 
-    private void StartComboChain(List<Vector2Int> regions, float value)
+    private void StartComboChain(List<Vector2Int> regions, float value, float t1Multiplicator)
     {
-        StartCoroutine(ComboChainCoroutine(regions, value));
+        StartCoroutine(ComboChainCoroutine(regions, value, t1Multiplicator));
     }
 
-    private IEnumerator ComboChainCoroutine(List<Vector2Int> regions, float value)
+    private IEnumerator ComboChainCoroutine(List<Vector2Int> regions, float value, float t1Multiplicator)
     {
-        Vector2 targetPos = GeneralVisualController.Instance.GetCenterPosition(regions);
-        CanvasGroup popupTotal = GetPopupFromQueue();
-
-        popupTotal.transform.position = targetPos;
-
-
-
+        
         foreach (Vector2Int Index in regions)
         {
             CanvasGroup popupCG = GetPopupFromQueue();
             popupCG.transform.position = GridManager.Instance.GetCellPositionAtIndex(Index);
 
-            TMP_Text tmpText = popupCG.GetComponentInChildren<TMP_Text>();
-            tmpText.text = $"+{(int)combos.DamagePerCombo}";
+            
 
-            StartCoroutine(popupCG.gameObject.GetComponent<DominoCombosPopupSelfFade>().StartPopupFade(this, popupTotal.gameObject.GetComponent<DominoCombosPopupSelfFade>(), value));
+            StartCoroutine(popupCG.gameObject.GetComponent<DominoCombosPopupSelfFade>().StartPopupFade(this, /*selfFadePopUp,*/ value.ToString()));
 
             yield return new WaitForSeconds(popupDelay);
         }
+
+        if (t1Multiplicator > 0)
+        {
+            yield return new WaitForSeconds(0.3f);
+
+            Vector2 targetPos = GeneralVisualController.Instance.GetCenterPosition(regions);
+            CanvasGroup popupTotal = GetPopupFromQueue();
+
+            popupTotal.transform.position = targetPos;
+
+            DominoCombosPopupSelfFade selfFadePopUp = popupTotal.gameObject.GetComponent<DominoCombosPopupSelfFade>();
+            StartCoroutine(selfFadePopUp.StartPopupFade(this, "x " + t1Multiplicator));
+        }
+        
 
         yield break;
     }
