@@ -1,6 +1,5 @@
 public enum GameState
 {
-    SplashScreenState,
     TitleScreenState,
     MenuState,
     SettingsState,

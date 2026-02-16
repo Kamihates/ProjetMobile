@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField, Foldout("Config"), Required] private GameConfig gameConfig;
-    [SerializeField, Foldout("Config")] private GameState defaultState = GameState.SplashScreenState;
+    [SerializeField, Foldout("Config")] private GameState defaultState = GameState.TitleScreenState;
 
     [SerializeField, Foldout("Références"), Required] private DeckManager deckManager;
     [SerializeField, Foldout("Références"), Required] private DominoSpawner dominoSpawner;

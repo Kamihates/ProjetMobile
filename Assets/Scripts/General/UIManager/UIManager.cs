@@ -7,7 +7,6 @@ public class UIManager : MonoBehaviour
     [SerializeField, Foldout("Settings")] private float _menuFadeDuration = 1;
     [SerializeField, Foldout("Settings")] private float displayedSeconds = 2;
 
-    [SerializeField, Foldout("Panel"), Required] private CanvasGroup splashScreenPanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup titlePanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup menuPanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup pausePanel;
@@ -45,13 +44,6 @@ public class UIManager : MonoBehaviour
 
         switch(gameState)
         {
-            case GameState.SplashScreenState:
-                if(splashScreenPanel == null)
-                {
-                    Debug.LogWarning("SplashScreenPanel is not assigned in the inspector"); return;
-                }
-                StartCoroutine(SplashScreen());
-                break;
             case GameState.TitleScreenState:
                 if (titlePanel == null)
                 {
@@ -106,12 +98,6 @@ public class UIManager : MonoBehaviour
                 break;
         }
         
-    }
-
-    private IEnumerator SplashScreen()
-    {
-        yield return UIAnimations.Instance.DisplayForXSeconds(displayedSeconds, _menuFadeDuration, splashScreenPanel);
-        GameManager.Instance.ChangeState(GameState.TitleScreenState);
     }
 
     //private void DeactivatePanel(CanvasGroup canvas)
