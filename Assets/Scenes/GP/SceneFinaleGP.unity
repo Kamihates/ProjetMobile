@@ -804,11 +804,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoFusion
   _deckManager: {fileID: 1081684069}
-  _bonusFor4: 0
-  _bonusFor6: 0
-  _bonusFor8: 0
-  _bonusFor9: 0
-  _bonusBasique: 0
+  _bonusFor4: 2
+  _bonusFor6: 4
+  _bonusFor8: 6
+  _bonusFor9: 8
+  _bonusBasique: 10
 --- !u!1 &128457332
 GameObject:
   m_ObjectHideFlags: 0

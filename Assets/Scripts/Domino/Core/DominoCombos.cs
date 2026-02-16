@@ -82,9 +82,9 @@ public class DominoCombos : MonoBehaviour
             PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQCQ", 100.0f, (bool success) =>
             {
                 if (success)
-                    Debug.Log("Succ�s d�bloqu� !");
+                    Debug.Log("Succès débloqué !");
                 else
-                    Debug.Log("�chec du d�blocage du succ�s.");
+                    Debug.Log("échec du déblocage du succès.");
             });
         }
 
@@ -117,6 +117,9 @@ public class DominoCombos : MonoBehaviour
         if (GameManager.Instance.IsInfiniteState)
         {
             _TotalDamageCounter += totalDamage;
+
+
+            PlayerPrefs.SetFloat("MaxDamage", _TotalDamageCounter);
 
             if (_TotalDamageCounter >= 1000)
             {
