@@ -1,21 +1,34 @@
+using System.Collections;
 using UnityEngine;
 
 public class AccelerationEffect : BossEffect
 {
-    public override void Activate()
+
+    [SerializeField] private float _effectDuration = 10;
+
+    protected override void OnActivated()
     {
         // on accelere la chute du current domino
         if (GameManager.Instance != null)
         {
             if (GameManager.Instance.CurrentDomino != null)
             {
-                //GameManager.Instance.CurrentDomino.FallController.Init();
+                Debug.Log("boss acceleration");
+                GameManager.Instance.CurrentDomino.FallController.IsAccelerating = true;
+                StartCoroutine(WaitForDeactivate());
             }
         }
     }
 
-    public override void Deactivate()
+    private IEnumerator WaitForDeactivate()
     {
-       
+        yield return new WaitForSeconds(_effectDuration);
+        OnDeactivated();
+    }
+
+    protected override void OnDeactivated()
+    {
+        if (GameManager.Instance.CurrentDomino != null)
+            GameManager.Instance.CurrentDomino.FallController.IsAccelerating = false;
     }
 }

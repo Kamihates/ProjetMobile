@@ -26,26 +26,26 @@ public class DominoPieceVisual : MonoBehaviour
             if (targetRotation > 3)
                 targetRotation = 0;
 
-            Vector2 tagetPos = transform.GetChild(1).localPosition;
+            Vector2 targetPos = transform.GetChild(1).localPosition;
 
             switch (targetRotation)
             {
                 case 0:
                     // on trourne vers le haut
-                    tagetPos = new Vector2(0, +GridManager.Instance.CellSize);
+                    targetPos = new Vector2(0, +GridManager.Instance.CellSize);
 
                     break;
                 case 1:
                     // on trourne vers la droite
-                    tagetPos = new Vector2(+GridManager.Instance.CellSize, 0);
+                    targetPos = new Vector2(+GridManager.Instance.CellSize, 0);
                     break;
                 case 2:
                     // on trourne vers le bas
-                    tagetPos = new Vector2(0, -GridManager.Instance.CellSize);
+                    targetPos = new Vector2(0, -GridManager.Instance.CellSize);
                     break;
                 case 3:
                     // on trourne vers la gauche
-                    tagetPos = new Vector2(-GridManager.Instance.CellSize, 0);
+                    targetPos = new Vector2(-GridManager.Instance.CellSize, 0);
                     break;
                 default:
                     break;
@@ -57,7 +57,7 @@ public class DominoPieceVisual : MonoBehaviour
             {
                 if (GameManager.Instance.CurrentDomino == null || GameManager.Instance.CurrentDomino.PieceUniqueId != _piece.PieceUniqueId)
                 {
-                    transform.GetChild(1).localPosition = tagetPos;
+                    transform.GetChild(1).localPosition = targetPos;
                     _piece.Rotation = targetRotation;
                     return;
                 }
@@ -66,15 +66,18 @@ public class DominoPieceVisual : MonoBehaviour
             // on regarde si la rotation ne depace pas de la grille : 
             if (transform.GetChild(1).TryGetComponent(out RegionPiece piece))
             {
-                if (!GridManager.Instance.IsRegionInGrid(tagetPos + (Vector2)piece.transform.position))
-                {
-                    // on peut pas tourner, on essaye la rotation suivante
+                Vector2Int Index = GridManager.Instance.GetIndexFromPosition(targetPos + (Vector2)piece.transform.position);
+
+                if (!GridManager.Instance.IsRegionInGrid(targetPos + (Vector2)piece.transform.position))
                     continue;
-                }
+                else if (GridManager.Instance.GetRegionAtIndex(GridManager.Instance.GetIndexFromPosition(targetPos + (Vector2)piece.transform.position)) != null)
+                    continue;                
+                else if (!CheckForFrozenCell(Index, targetRotation))
+                    continue;
                 // si ca depasse pas la grille, on regarde si il n'y a pas d'elements genant mais de base ca devrait deja fonctionner avec le calcul de position final
                 else
                 {
-                    transform.GetChild(1).localPosition = tagetPos;
+                    transform.GetChild(1).localPosition = targetPos;
                     _piece.Rotation = targetRotation;
                     return;
                 }
@@ -82,6 +85,32 @@ public class DominoPieceVisual : MonoBehaviour
             }
         }        
     }
+
+    private bool CheckForFrozenCell(Vector2Int Index, int targetRotation)
+    {
+        // on regarde pour les 4 adjacentes
+        Vector2Int baseIndex = new Vector2Int(Index.y, Index.x);
+
+        if (GridManager.Instance.DisableCells.ContainsKey(baseIndex)) return false;
+
+        if (targetRotation == 1 || targetRotation == 3)
+        {
+            if (GridManager.Instance.DisableCells.ContainsKey(new Vector2Int(Index.y - 1, Index.x))) return false;
+            if (GridManager.Instance.DisableCells.ContainsKey(new Vector2Int(Index.y + 1, Index.x))) return false;
+        }
+        else
+        {
+            if (GridManager.Instance.DisableCells.ContainsKey(new Vector2Int(Index.y, Index.x + 1))) return false;
+            if (GridManager.Instance.DisableCells.ContainsKey(new Vector2Int(Index.y, Index.x - 1))) return false;
+        }
+
+        
+
+        return true;
+
+    }
+
+
     public void UpdateVisual()
     {
         for (int r = 0; r < _piece.Data.Regions.Count; r++)
@@ -197,6 +226,8 @@ public class DominoPieceVisual : MonoBehaviour
         {
             if (GridManager.Instance.GetRegionAtIndex(GridManager.Instance.GetIndexFromPosition(position)) != null)
                 return false;
+            if (GridManager.Instance.DisableCells.ContainsKey(new Vector2Int(GridManager.Instance.GetIndexFromPosition(position).y, GridManager.Instance.GetIndexFromPosition(position).x)))
+                return false;
         }
         if (_piece.transform.GetChild(1).gameObject.activeSelf)
         {
@@ -204,6 +235,9 @@ public class DominoPieceVisual : MonoBehaviour
             Vector2 RegionPosSimulation = position + (Vector2)_piece.transform.GetChild(1).transform.localPosition;
 
             if (GridManager.Instance.GetRegionAtIndex(GridManager.Instance.GetIndexFromPosition(RegionPosSimulation)) != null)
+                return false;
+
+            if (GridManager.Instance.DisableCells.ContainsKey(new Vector2Int(GridManager.Instance.GetIndexFromPosition(RegionPosSimulation).y, GridManager.Instance.GetIndexFromPosition(RegionPosSimulation).x)))
                 return false;
         }
 

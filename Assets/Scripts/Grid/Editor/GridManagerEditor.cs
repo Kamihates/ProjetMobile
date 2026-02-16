@@ -31,6 +31,10 @@ public class GridManagerEditor : Editor
                     if (grid.GridData[row][col].Region != null)
                         GUILayout.Button(grid.GridData[row][col].Region.Type.ToString()[0].ToString(), GUILayout.Width(20), GUILayout.Height(20));
                 }
+                else if (grid.DisableCells.ContainsKey(new Vector2Int(row, col)))
+                {
+                    GUILayout.Button("[*]", GUILayout.Width(20), GUILayout.Height(20));
+                }
                 else
                 {
                     if (GUILayout.Button("/", GUILayout.Width(20), GUILayout.Height(20)))

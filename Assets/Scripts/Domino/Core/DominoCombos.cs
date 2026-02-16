@@ -2,60 +2,97 @@ using NaughtyAttributes;
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using GooglePlayGames;
+using System.Linq;
 
 public class DominoCombos : MonoBehaviour
 {
     [SerializeField] private float damagePerCombo = 5;
+    public float DamagePerCombo => damagePerCombo;
     [SerializeField, Label("un t1 basique multiplie par combien ? (basique = 4)")] private float T1multipicator = 2;
-    [SerializeField, Label("on ajoute combien au multiplicateur selon la force du t1 ? (4/6/8/9)")] private float gapDmgT1 = 1.5f;
-
-    [SerializeField, Foldout("Debug"), ReadOnly] private int combosCount = 0;
+    public float T1Multipicator => T1multipicator;
 
 
     [SerializeField] private DominoFusion dominoFusion;
-    public int CombosCount => combosCount;
 
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentDomino;
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentR1;
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentR2;
 
     public Action<float> OnComboDamage;
+    public Action<List<Vector2Int>> OnComboChain;
+    public Action<float, float, bool, bool> OnComboFinished;
+
+    public Dictionary<RegionType, bool> _hascomboOf4 = new Dictionary<RegionType, bool>();
+
+    [SerializeField] private BossController _bossController;
+
+
+    private float _TotalDamageCounter = 0;
 
     private void Start()
     {
         GridManager.Instance.OnDominoPlaced += CheckForReaction;
+
+        resetCounters();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnInfiniteGameStarted += resetCounters;
+        }
+
     }
 
     private void OnDestroy()
     {
         if (GridManager.Instance != null) 
             GridManager.Instance.OnDominoPlaced -= CheckForReaction;
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnInfiniteGameStarted -= resetCounters;
+        }
     }
 
-    private float t1Count = 0;
+    private void resetCounters()
+    {
+        _hascomboOf4[RegionType.Fire] = false;
+        _hascomboOf4[RegionType.Wind] = false;
+        _hascomboOf4[RegionType.Rock] = false;
+        _hascomboOf4[RegionType.Water] = false;
+    }
 
 
     public void CheckForReaction(DominoPiece piece)
     {
         // d'abord on check les combos.
         // si ya une ou des fusions, on calcule leurs bonus pour les ajouter aux degats
-        float totalDamage = 0;  
+
         float comboDamages = CheckForCombos(piece);
         float fusionBonusDamage = dominoFusion.CheckForFusion(piece);
 
-        totalDamage = comboDamages + fusionBonusDamage;
+        float totalDamage = comboDamages + fusionBonusDamage;
+
+        if (totalDamage >= 25)
+        {
+            // succes "Critical Spell"
+            PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQCQ", 100.0f, (bool success) =>
+            {
+                if (success)
+                    Debug.Log("Succ�s d�bloqu� !");
+                else
+                    Debug.Log("�chec du d�blocage du succ�s.");
+            });
+        }
 
         OnComboDamage?.Invoke(totalDamage);
     }
 
-
-
     public float CheckForCombos(DominoPiece piece)
     {
-        t1Count = 0;
 
-        int combosOfAdjacentR1 = 0;
-        int combosOfAdjacentR2 = 0;
+        float combosOfAdjacentR1 = 0;
+        float combosOfAdjacentR2 = 0;
 
         RegionPiece regionPiece1 = piece.transform.GetChild(0).GetComponent<RegionPiece>();
         RegionPiece regionPiece2 = piece.transform.GetChild(1).GetComponent<RegionPiece>();
@@ -71,31 +108,24 @@ public class DominoCombos : MonoBehaviour
             combosOfAdjacentR2 = CheckForAdjacentDomino(regionPiece2);
         }
 
-        if (combosOfAdjacentR1 == 1) combosOfAdjacentR1 = 0;
-        if (combosOfAdjacentR2 == 1) combosOfAdjacentR2 = 0;
 
-        combosCount = combosOfAdjacentR1 + combosOfAdjacentR2;
+        float totalDamage = combosOfAdjacentR1 + combosOfAdjacentR2;
+            
+        if (GameManager.Instance.IsInfiniteState)
+            _TotalDamageCounter += totalDamage;
 
-        if (combosCount < 2)
-            return 0;
-
-        if (t1Count == 0)
-            return combosCount * damagePerCombo;
-
-        return (combosCount * damagePerCombo) * (t1Count * T1multipicator);
+        return totalDamage;
     }
 
 
-    private int CheckForAdjacentDomino(RegionPiece regionPiece)
+    private float CheckForAdjacentDomino(RegionPiece regionPiece)
     {
         combosOfAdjacentDomino.Clear();
-
+        int t1Count = 0;
         // Donne l'index par rapport a la grille
         Vector2Int regionIndex = GridManager.Instance.GetIndexFromPosition(regionPiece.transform.position);
 
-
         List<Vector2Int> regionToCheck = new List<Vector2Int> { regionIndex };
-
 
         while(regionToCheck.Count> 0)
         {
@@ -109,7 +139,6 @@ public class DominoCombos : MonoBehaviour
             if (!combosOfAdjacentDomino.Contains(currentIndex))
             {
                 combosOfAdjacentDomino.Add(currentIndex);
-
 
                 if (GridManager.Instance.GetRegionAtIndex(currentIndex).DominoParent.Data.IsDominoFusion)
                 {
@@ -139,8 +168,85 @@ public class DominoCombos : MonoBehaviour
             }
         }
 
+        if (combosOfAdjacentDomino.Count >= 2)
+        {
+            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino));
+        }
 
-        return (combosOfAdjacentDomino.Count);
+        // pour le succes : avec une combo d'au moins 4 piece de tout les types
+        if (combosOfAdjacentDomino.Count >= 4)
+        {
+            _hascomboOf4[regionPiece.Region.Type] = true;
+
+
+            bool allTrue = _hascomboOf4.Values.All(v => v);
+
+            if (allTrue)
+            {
+                // succes "Arcane Harmony"
+                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQBA", 100.0f, (bool success) =>
+                {
+                    if (success)
+                        Debug.Log("Succ�s d�bloqu� !");
+                    else
+                        Debug.Log("�chec du d�blocage du succ�s.");
+                });
+            }
+
+
+
+        }
+
+        if (combosOfAdjacentDomino.Count >= 8 && !GameManager.Instance.IsInfiniteState)
+        {
+            // succes "major convergence"
+            PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQAw", 100.0f, (bool success) =>
+            {
+                if (success)
+                    Debug.Log("Succ�s d�bloqu� !");
+                else
+                    Debug.Log("�chec du d�blocage du succ�s.");
+            });
+        }
+
+
+        // application des degats totaux de la region
+
+        float comboDmg = combosOfAdjacentDomino.Count;
+
+
+        if (comboDmg == 1) comboDmg = 0;
+
+        comboDmg *= damagePerCombo; // application des degat par piece
+
+
+
+        if (t1Count / 2 > 0)
+        {
+            comboDmg *= ((t1Count / 2) * T1Multipicator);
+        }
+
+        bool isWeakness = false;
+        bool isResistance = false;
+
+
+        // calcule selon les resistances
+        if (_bossController.Resistance == regionPiece.Region.Type)
+        {
+            // si il est resistant / 2
+            comboDmg /= 2;
+            isResistance = true;
+        }
+        if (_bossController.Weakness == regionPiece.Region.Type)
+        {
+            comboDmg *= 1.5f;
+            isWeakness = true;
+        }
+
+        if (comboDmg > 0)
+            OnComboFinished?.Invoke(comboDmg, T1Multipicator, isWeakness, isResistance);
+
+        return (comboDmg);
     }
 
     private Vector2Int[] GetRegionNeighbors(Vector2Int regionIndex)

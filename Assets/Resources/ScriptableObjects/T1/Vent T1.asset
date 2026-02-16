@@ -15,4 +15,3 @@ MonoBehaviour:
   RegionID: 8
   Type: 4
   RegionTerrain: {fileID: 419767005985074004, guid: 7fa4d818eb8c37741ae0a9e54887fe04, type: 3}
-  RegionOverlay: {fileID: 419767005985074004, guid: 7fa4d818eb8c37741ae0a9e54887fe04, type: 3}

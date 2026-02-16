@@ -6,6 +6,12 @@ public class DominoFall : MonoBehaviour
 
     [SerializeField] DominoPiece _piece;
 
+    private Vector2Int _lastIndex;
+    public Vector2Int LastIndex { get => _lastIndex; set => _lastIndex = value; }
+
+    private float _baseFallingSpeed; 
+    private float _baseStepSpeed;
+
     // case par case
     private float _fallingStepChrono = 0; // chrono entre chaque step
     private bool _canDoOneStep = true;
@@ -18,15 +24,48 @@ public class DominoFall : MonoBehaviour
     public bool CanFall { get => _canFall; set => _canFall = value; }
     public bool IgnoreCurrentDomino { get; set; }
 
+    private bool _isAccelerating = false;
+    public bool IsAccelerating { get=> _isAccelerating; set {
+            _isAccelerating = value;
+            ApplySpeed();
+        } }
+
+
+    private void Start()
+    {
+        _lastIndex = new Vector2Int(-1, -1);
+    }
+
     /// <summary>
     /// Initialisation des vitesses
     /// </summary>
     public void Init(float speed, float StepTimer)
     {
         IgnoreCurrentDomino = false;
-        _currentFallingSpeed = speed;
-        _currentStepSpeed = StepTimer;
+
+        _baseFallingSpeed = speed;
+        _baseStepSpeed = StepTimer;
+
+        ApplySpeed();
+
     }
+
+    private void ApplySpeed()
+    {
+        if (_isAccelerating)
+        {
+            _currentFallingSpeed = _baseFallingSpeed *= 2f;
+            _currentStepSpeed = _baseStepSpeed /= 2f;
+        }
+        else
+        {
+            _currentFallingSpeed = _baseFallingSpeed;
+            _currentStepSpeed = _baseStepSpeed;
+        }
+
+    }
+            
+
 
     private void FixedUpdate()
     {
@@ -62,7 +101,7 @@ public class DominoFall : MonoBehaviour
             // si la position finale depasse de la grille c'est game over
            
             transform.position = targetPos; // on snap au cas ou
-            
+           
 
             if (!GridManager.Instance.IsDominoInGrid(_piece, false))
             {
@@ -80,6 +119,9 @@ public class DominoFall : MonoBehaviour
             GridManager.Instance.AddDominoDataInGrid(domino);
             IgnoreCurrentDomino = false;
             enabled = false;
+
+            //// on recupere l'index
+            //_lastIndex = GridManager.Instance.GetIndexFromPosition(transform.GetChild(0).position);
         }
     }
 

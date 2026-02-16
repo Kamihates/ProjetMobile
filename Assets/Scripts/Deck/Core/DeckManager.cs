@@ -1,6 +1,8 @@
 using NaughtyAttributes;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class DeckManager : MonoBehaviour
 {
@@ -22,6 +24,8 @@ public class DeckManager : MonoBehaviour
     private List<RegionData> regionDataT1;
 
     [SerializeField, Required] private DominoSpawner dominoSpawner;
+
+    public Action OnT1InHand;
 
     private void OnEnable()
     {
@@ -70,7 +74,7 @@ public class DeckManager : MonoBehaviour
 
         for(int i=0; i < deckSize && dominosInDeck.Count > 0; i++)
         {
-            int randomDominosFromDeck = Random.Range(0, dominosInDeck.Count);
+            int randomDominosFromDeck = UnityEngine.Random.Range(0, dominosInDeck.Count);
             deck.Add(dominosInDeck[randomDominosFromDeck]);
             dominosInDeck.RemoveAt(randomDominosFromDeck);
         }
@@ -101,9 +105,16 @@ public class DeckManager : MonoBehaviour
             return;
 
         dominoInHand.Add(deck[0]);
+
+        if (deck[0].IsDominoFusion)
+            OnT1InHand.Invoke();
+
+
         deck.RemoveAt(0);
 
         dominoUID++;
+
+        
 
         int newIndex = dominoUID;
         dominoHandVisual.SpawnDominoHandVisual(newIndex, dominoInHand.Count - 1);
@@ -217,7 +228,7 @@ public class DeckManager : MonoBehaviour
     {
         for (int i = 0; i < list.Count; i++)
         {
-            int random = Random.Range(i, list.Count);
+            int random = UnityEngine.Random.Range(i, list.Count);
             DominoInfos dominoInfos = list[i]; // on stock temporairement le domino a la position actuelle
             list[i] = list[random]; // On met le domino al�atoire � la place de celui actuel
             list[random] = dominoInfos; // Et on met le domino initial � la place du domino al�atoire
@@ -238,11 +249,13 @@ public class DeckManager : MonoBehaviour
 
     private void HandleNextDomino(DominoPiece dominoPiece)
     {
+        Debug.Log("current domino = " + GameManager.Instance.CurrentDomino);
         // si le domino qui à été placé n'est pas le domino actuel on ne se charge pas de le discard ou autre car il était déjà sur le terrain
         if (GameManager.Instance.CurrentDomino == null)
         {
             return;
         }
+
         if (dominoPiece.PieceUniqueId != GameManager.Instance.CurrentDomino.PieceUniqueId) return;
 
         GameManager.Instance.CurrentDomino = null;

@@ -11,6 +11,10 @@ public class GridManager : MonoBehaviour
     [SerializeField]
     private List<List<RegionPiece>> _gridData = new();
 
+    private Dictionary<Vector2Int, GameObject> _disableCells = new();
+    public Dictionary<Vector2Int, GameObject> DisableCells => _disableCells;
+
+    [SerializeField] private GameObject _disableCellPrefab;
 
 
     [HorizontalLine(color: EColor.Blue)]
@@ -44,10 +48,31 @@ public class GridManager : MonoBehaviour
     {
         gridDrawer.DrawGrid(_row, Column, _cellSize, _gridOrigin);
         ResetGridData();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnInfiniteGameStarted += ResetGridData;
+        }
     }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnInfiniteGameStarted -= ResetGridData;
+        }
+    }
+
+
 
     private void ResetGridData()
     {
+        foreach (GameObject go in _disableCells.Values)
+        {
+            Destroy(go);
+        }
+
+        _disableCells.Clear();
         _gridData.Clear();
 
         for (int row = 0; row < _row; row++)
@@ -59,6 +84,20 @@ public class GridManager : MonoBehaviour
                 _gridData[row].Add(null);
             }
         }
+    }
+
+    public void DisableCell(Vector2Int index)
+    {
+        GameObject cell = Instantiate(_disableCellPrefab);
+        if (cell.TryGetComponent(out SpriteRenderer spriteRenderer))
+        {
+            GeneralVisualController.Instance.FitSpriteInCell(spriteRenderer);
+            Vector2Int vec = new Vector2Int(index.y, index.x);
+            cell.transform.position = GetCellPositionAtIndex(vec);
+            spriteRenderer.sortingOrder = index.x;
+        }
+
+        _disableCells[index] = cell;
     }
 
     public bool IsDominoInGrid(DominoPiece domino, bool ignoreTop)
@@ -138,7 +177,14 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        OnDominoPlaced?.Invoke(domino);
+
+        // si le domino n'avait pas changé de position, on ne recalcule pas ses degats...
+
+        if (GetIndexFromPosition(domino.transform.GetChild(0).position) != domino.FallController.LastIndex)
+            OnDominoPlaced?.Invoke(domino);
+
+        domino.FallController.LastIndex = GetIndexFromPosition(domino.transform.GetChild(0).position);
+
     }
 
     /// <summary>
@@ -237,13 +283,11 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        
 
         // 2) on fait tomber 1 par 1
 
 
-        if (_currentCoroutine == null)
-            _currentCoroutine = StartCoroutine(WaitToFall(dominosToFall));
+        _currentCoroutine = StartCoroutine(WaitToFall(dominosToFall));
     }
 
     private IEnumerator WaitToFall(List<DominoPiece> dominosToFall)
@@ -256,10 +300,11 @@ public class GridManager : MonoBehaviour
             fallController.IgnoreCurrentDomino = true;
             fallController.enabled = true;
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitUntil(() => fallController.enabled == false);
+            yield return new WaitForEndOfFrame();
+
         }
 
-        
         _currentCoroutine = null;
     }
 }
