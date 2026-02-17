@@ -30,6 +30,8 @@ public class DominoFall : MonoBehaviour
             ApplySpeed();
         } }
 
+    private bool _isTapToFall = false;
+    public bool IsTapToFall { get => _isTapToFall; set => _isTapToFall = value; }
 
     private void Start()
     {
@@ -56,6 +58,7 @@ public class DominoFall : MonoBehaviour
         {
             _currentFallingSpeed = _baseFallingSpeed *= 2f;
             _currentStepSpeed = _baseStepSpeed /= 2f;
+
         }
         else
         {
@@ -82,7 +85,8 @@ public class DominoFall : MonoBehaviour
 
         Vector2 targetPos = DominoPlacementController.Instance.GetDestination(_piece);
 
-        if (TEST_GD.Instance != null)
+
+        if (TEST_GD.Instance != null && (!GameManager.Instance.NoGravityMode || _isTapToFall))
         {
             if (TEST_GD.Instance.FallPerCase) // déplacements case par case
             {

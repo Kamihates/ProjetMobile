@@ -19,8 +19,10 @@ public class GameManager : MonoBehaviour
     [SerializeField, Foldout("Debug"), ReadOnly] private bool isBossRound = false;
 
     private bool _isInInfiniteState = false;
+    private bool _noGravityMode = false;
+    public bool NoGravityMode => _noGravityMode;
     public bool IsInfiniteState => _isInInfiniteState;
-    public DominoPiece CurrentDomino { get => _currentDomino; set { _currentDomino = value; dominoMouvement.CurrentDomino = value; } }
+    public DominoPiece CurrentDomino { get => _currentDomino; set { _currentDomino = value; dominoMouvement.CurrentDomino = value; OnCurrentDominoChanged?.Invoke(); } }
 
     private DominoPiece _currentDomino;
 
@@ -28,15 +30,14 @@ public class GameManager : MonoBehaviour
     //public Action OnWin;
     public Action<GameState> OnStateChanged; // Nouvelle action principale pour les gérer les states 
     public Action OnInfiniteGameStarted;
+    public Action OnCurrentDominoChanged;
 
-
-
-
-    private void Awake() { Instance = this; }
+    private void Awake() { Instance = this; _isInInfiniteState = gameConfig.LoopAfterBoss; _noGravityMode = gameConfig.NoGravityMode; }
 
     private void Start()
     {
         ChangeState(defaultState); // On change la scene par defaut au lancement du jeu (par default c'est le splash screen)
+
     }
 
     public void ChangeState(GameState newState)
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        gameConfig.LoopAfterBoss = false;
         SceneManager.LoadSceneAsync(1);
         ChangeState(GameState.InGameState);
         currentRound = 0;
@@ -71,19 +73,6 @@ public class GameManager : MonoBehaviour
                 ChangeState(GameState.WinState);
         }
 
-        if (currentRound % gameConfig.RoundsBeforeBoss == 0)
-        {
-            isBossRound = true;
-            Pause(false);
-            ChangeState(GameState.BossState);
-            return;
-        }
-
-        //if(currentRound % gameConfig.RoundsBeforeShop == 0)
-        //{
-        //    ChangeState(GameState.TutoState);
-        //    return;
-        //}
 
         ChangeState(GameState.InGameState);
         Pause(false);
@@ -148,6 +137,7 @@ public class GameManager : MonoBehaviour
 
     public void GoInInfiniteState()
     {
+        Time.timeScale = 1;
         gameConfig.LoopAfterBoss = true;
         SceneManager.LoadScene(1);
 

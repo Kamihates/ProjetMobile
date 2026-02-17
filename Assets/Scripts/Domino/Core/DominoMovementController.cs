@@ -102,7 +102,13 @@ public class DominoMovementController : MonoBehaviour
 
             if (_LongTapChrono >= _holdTapTime)
             {
-                _currentDomino.FallController.Init(_fallingSpeed * 4, _stepSpeed / 2);
+                if (GameManager.Instance.NoGravityMode)
+                {
+                    _currentDomino.FallController.IsTapToFall = true;
+                }
+               _currentDomino.FallController.Init(_fallingSpeed * 4, _stepSpeed / 2);
+
+
                 _startLongTap = false;
                 _LongTapChrono = 0f;
             }
@@ -150,6 +156,7 @@ public class DominoMovementController : MonoBehaviour
         {
             _isDragged = false;
             _currentDomino.FallController.Init(_fallingSpeed, _stepSpeed);
+            CurrentDomino.FallController.IsTapToFall = false;
         }
 
         // si je drag mon domino, je le bouge
