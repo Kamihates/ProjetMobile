@@ -3415,6 +3415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a4027a7f7096445a92b2f57a326951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AccelerationEffect
+  _visualController: {fileID: 0}
   _effectDuration: 10
 --- !u!1 &619394800
 GameObject:
@@ -3546,6 +3547,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterHealth
   maxHealth: 1000
   currentHealth: 0
+  _visualController: {fileID: 0}
   dominoCombos: {fileID: 2001327692}
 --- !u!1 &679968572
 GameObject:
@@ -4117,7 +4119,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   _menuFadeDuration: 1
   displayedSeconds: 2
-  splashScreenPanel: {fileID: 0}
   titlePanel: {fileID: 0}
   menuPanel: {fileID: 2057294353}
   pausePanel: {fileID: 0}
@@ -4314,6 +4315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff4aa5936cb5e0e49bb4a39e0c40b393, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrozenEffect
+  _visualController: {fileID: 0}
 --- !u!1 &889063551
 GameObject:
   m_ObjectHideFlags: 0
@@ -8395,6 +8397,8 @@ MonoBehaviour:
   combosOfAdjacentR1: []
   combosOfAdjacentR2: []
   _bossController: {fileID: 0}
+  _reductionDivisor: 2
+  _weaknessMultiplicator: 2
 --- !u!1 &2057294352
 GameObject:
   m_ObjectHideFlags: 0
