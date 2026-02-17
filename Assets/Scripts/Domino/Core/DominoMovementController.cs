@@ -27,7 +27,7 @@ public class DominoMovementController : MonoBehaviour
     private float _draggingChrono = 0; // chrono du temps qu'on reste appuyer sur le domino pour detecter un drag
     private bool _isDragged = false; // est ce que je suis en train de deplacer mon domino ?
     private bool _startDrag = false; // est ce que je suis en train de detecter un drag ?
-    private Vector2 _pressStartPos; // position de la souris quand je clique sur le domino pour verifier si j'ai bougé pour detecter un drag plus vite que le timer
+    private Vector2 _pressStartPos; // position de la souris quand je clique sur le domino pour verifier si j'ai bougÃ© pour detecter un drag plus vite que le timer
 
     [HorizontalLine(color: EColor.Blue)]
     [BoxGroup("Vitesse du domino"), SerializeField, Label("Vitesse de fall d'un domino")] private float _fallingSpeed;
@@ -43,7 +43,7 @@ public class DominoMovementController : MonoBehaviour
 
 
 
-    // A RESTRUCTURER pour lisibilité
+    // A RESTRUCTURER pour lisibilitÃ©
     private void Update()
     {
         if (_currentDomino == null) return;
@@ -54,11 +54,13 @@ public class DominoMovementController : MonoBehaviour
             // est ce que je clique sur mon domino ? 
 
             Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
 
-            if (hit.collider != null)
+            float clickRadius = 0.3f; // ajuste selon ton jeu
+            Collider2D hit = Physics2D.OverlapCircle(pos, clickRadius);
+
+            if (hit != null)
             {
-                DominoPiece domino = hit.collider.gameObject.GetComponentInParent<DominoPiece>();
+                DominoPiece domino = hit.gameObject.GetComponentInParent<DominoPiece>();
                 if (domino != null)
                 {
                     // mon domino est celui qui est en train de tomber ? 
@@ -123,22 +125,23 @@ public class DominoMovementController : MonoBehaviour
             Vector2 currentPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             float distance = Vector2.Distance(currentPos, _pressStartPos);
 
-            // si j'ai bougé ma souris, c'est que j'ai commencé à drag, on peut deplacer
+            // si j'ai bougÃ© ma souris, c'est que j'ai commencÃ© Ã  drag, on peut deplacer
             if (distance > _dragDistance)
             {
                 _startDrag = false;
                 _isDragged = true;
                 _draggingChrono = 0;
+                return;
             }
 
-            // si j'ai relaché ma souris, c'etait un slique simple, je tourne le domino
+            // si j'ai relachÃ© ma souris, c'etait un slique simple, je tourne le domino
             if (Input.GetMouseButtonUp(0))
             {
                 _currentDomino.Visual.Rotate();
                 _startDrag = false;
             }
 
-            // si le temps de drag est atteint, je commence à drag
+            // si le temps de drag est atteint, je commence Ã  drag
             if (_draggingChrono >= _holdTime)
             {
                 _draggingChrono = 0f;

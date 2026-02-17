@@ -58,11 +58,17 @@ public class RegionPiece : MonoBehaviour
             //on deplace le parent vers le pivot
             parent.position += offset;
 
+            bool alldisable = true;
             // on deplace tt les enfants dans l'autre sens
             foreach (Transform child in parent)
             {
+                if (child.gameObject.activeSelf)
+                    alldisable = false;
                 child.position -= offset;
             }
+
+            if (alldisable)
+                Destroy(parent.gameObject);
         }
     }
 
