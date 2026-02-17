@@ -117,6 +117,11 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.MenuState);
     }
 
+    public void GoToSettings()
+    {
+        ChangeState(GameState.SettingsState);
+    }
+
     public void ReturnToMainMenu()
     {
         SceneManager.LoadScene(0);
