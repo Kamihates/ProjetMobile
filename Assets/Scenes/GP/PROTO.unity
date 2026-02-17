@@ -4201,7 +4201,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   _menuFadeDuration: 1
   displayedSeconds: 2
-  splashScreenPanel: {fileID: 0}
   titlePanel: {fileID: 0}
   menuPanel: {fileID: 2057294353}
   pausePanel: {fileID: 0}
@@ -8561,6 +8560,8 @@ MonoBehaviour:
   combosOfAdjacentR1: []
   combosOfAdjacentR2: []
   _bossController: {fileID: 0}
+  _reductionDivisor: 2
+  _weaknessMultiplicator: 2
 --- !u!1 &2057294352
 GameObject:
   m_ObjectHideFlags: 0
