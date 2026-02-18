@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,9 +6,9 @@ using UnityEngine;
 [System.Serializable]
 public class SceneMusic
 {
-    private string sceneName; // Nom de la scène
+    [SerializeField, Scene] private string sceneName; // Nom de la scène
     public string SceneName => sceneName;
-    private AudioClip musicClip; // Clip de musique associé
+    [SerializeField]  private AudioClip musicClip; // Clip de musique associé
     public AudioClip MusicClip => musicClip;
 }
 
@@ -15,25 +16,29 @@ public class SceneMusic
 [System.Serializable]
 public class TriggerSound
 {
-    private string objectName; // Nom de l'objet trigger
+    [SerializeField] private string objectName; // Nom de l'objet trigger
     public string ObjectName => objectName;
-    private AudioClip soundClip; // Son associé à l'objet
+    [SerializeField] private AudioClip soundClip; // Son associé à l'objet
     public AudioClip SoundClip => soundClip;
 }
 
 [System.Serializable]
 public class AudioData
 {
-    [Header("Musiques de scènes")]
-    private List<SceneMusic> sceneMusics = new();
+    [Foldout("Musiques de scènes"), SerializeField] private List<SceneMusic> sceneMusics = new();
     public List<SceneMusic> SceneMusics => sceneMusics;
 
-    [Header("Sons de triggers")]
-    private List<TriggerSound> triggerSounds = new();
+    [Foldout("Sons de triggers"), SerializeField] private List<TriggerSound> triggerSounds = new();
     public List<TriggerSound> TriggerSounds => triggerSounds;
 
-    [Header("Autres sons")]
-    private AudioClip typingSound;
+    [Header("Autres sons"), HorizontalLine(color:EColor.Blue)]
+    [SerializeField] private AudioClip comboSound;
+    [SerializeField] private AudioClip dominoPlaced;
+    [SerializeField, HorizontalLine(color: EColor.Blue)] private AudioClip waterFusion;
+    [SerializeField] private AudioClip earthFusion;
+    [SerializeField] private AudioClip fireFusion;
+    [SerializeField] private AudioClip windFusion;
+
 
 
     public AudioClip GetSceneMusic(string sceneName)

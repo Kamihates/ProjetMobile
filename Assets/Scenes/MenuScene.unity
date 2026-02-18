@@ -9787,6 +9787,14 @@ MonoBehaviour:
   masterSlider: {fileID: 1035056235}
   musicSlider: {fileID: 743419874}
   sfxSlider: {fileID: 309880750}
+  audioData:
+    sceneMusics:
+    - sceneName: MenuScene
+      musicClip: {fileID: 0}
+    - sceneName: GPGameScene
+      musicClip: {fileID: 0}
+    triggerSounds: []
+    comboSound: {fileID: 0}
 --- !u!1 &1826218759
 GameObject:
   m_ObjectHideFlags: 0
