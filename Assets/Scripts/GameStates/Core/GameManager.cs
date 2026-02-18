@@ -1,6 +1,7 @@
-using UnityEngine;
+using GooglePlayGames;
 using NaughtyAttributes;
 using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -10,9 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField, Foldout("Config"), Required] private GameConfig gameConfig;
     [SerializeField, Foldout("Config")] private GameState defaultState = GameState.TitleScreenState;
 
-    [SerializeField, Foldout("Références"), Required] private DeckManager deckManager;
-    [SerializeField, Foldout("Références"), Required] private DominoSpawner dominoSpawner;
-    [SerializeField, Foldout("Références"), Required] private DominoMovementController dominoMouvement;
+    [SerializeField, Foldout("Rï¿½fï¿½rences"), Required] private DeckManager deckManager;
+    [SerializeField, Foldout("Rï¿½fï¿½rences"), Required] private DominoSpawner dominoSpawner;
+    [SerializeField, Foldout("Rï¿½fï¿½rences"), Required] private DominoMovementController dominoMouvement;
 
     [SerializeField, Foldout("ToggleSettings"), Required] private ToggleSwitch noGravityToggle;
     [SerializeField, Foldout("ToggleSettings"), Required] private ToggleSwitch fallPerCaseToggle;
@@ -29,9 +30,9 @@ public class GameManager : MonoBehaviour
 
     private DominoPiece _currentDomino;
 
-    //public Action OnGameLost; // action quand un domino est placé en haut de la grille
+    //public Action OnGameLost; // action quand un domino est placï¿½ en haut de la grille
     //public Action OnWin;
-    public Action<GameState> OnStateChanged; // Nouvelle action principale pour les gérer les states 
+    public Action<GameState> OnStateChanged; // Nouvelle action principale pour les gï¿½rer les states 
     public Action OnInfiniteGameStarted;
     public Action OnCurrentDominoChanged;
 
@@ -74,6 +75,15 @@ public class GameManager : MonoBehaviour
         currentRound = 0;
         isBossRound = false;
         _isInInfiniteState = gameConfig.LoopAfterBoss;
+
+        // succes "Critical Spell"
+        PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_major_convergence, 100.0f, (bool success) =>
+        {
+            if (success)
+                Debug.Log("Succï¿½s dï¿½bloquï¿½ !");
+            else
+                Debug.Log("ï¿½chec du dï¿½blocage du succï¿½s.");
+        });
     }
 
     public void OnMobDefeated()
@@ -101,6 +111,7 @@ public class GameManager : MonoBehaviour
     public void GameLost()
     {
         //OnGameLost?.Invoke();
+        StatsVisual.Instance.DisplayStatsOnDeath();
         ChangeState(GameState.LoseState);
         CurrentDomino = null;
         //Pause(true);
@@ -109,6 +120,7 @@ public class GameManager : MonoBehaviour
     public void GameWon()
     {
         //OnWin?.Invoke();
+        StatsVisual.Instance.DisplayStatsOnWin();
         ChangeState(GameState.WinState);
         Pause(true);
     }
@@ -186,4 +198,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(1);
 
     }
+
+
+
 }
