@@ -44,24 +44,21 @@ public class DominoMovementController : MonoBehaviour
     public float FallingStepStoppingTime = 1f;
 
 
-
-
-    // A RESTRUCTURER pour lisibilité
     private void Update()
     {
         if (_currentDomino == null) return;
         if (GameManager.Instance.CurrentState != GameState.InGameState) return;
 
+        Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        float clickRadius = 0.3f; // ajuste selon ton jeu
+        //Collider2D hit = Physics2D.OverlapCircle(pos, clickRadius);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, clickRadius);
+
+
         if (Input.GetMouseButtonDown(0))
         {
             // est ce que je clique sur mon domino ? 
-
-            Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            float clickRadius = 0.3f; // ajuste selon ton jeu
-            Collider2D hit = Physics2D.OverlapCircle(pos, clickRadius);
-
-            if (hit != null)
+            foreach (Collider2D hit in hits)
             {
                 DominoPiece domino = hit.gameObject.GetComponentInParent<DominoPiece>();
                 if (domino != null)
@@ -73,6 +70,8 @@ public class DominoMovementController : MonoBehaviour
                         _startDrag = true;
                         _startLongTap = false;
                         _pressStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                        return;
                     }
                 }
             }
@@ -93,7 +92,7 @@ public class DominoMovementController : MonoBehaviour
             }
         }
 
-        if (_startLongTap)
+        if (_startLongTap && !_isDragged)
         {
             _LongTapChrono += Time.deltaTime;
 
