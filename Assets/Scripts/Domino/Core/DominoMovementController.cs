@@ -24,10 +24,10 @@ public class DominoMovementController : MonoBehaviour
     [BoxGroup("Gestion du drag"), SerializeField, Label("distance minimal avant de detecter un drag")] private float _dragDistance = 0.2f;
 
 
-    private float _draggingChrono = 0; // chrono du temps qu'on reste appuyer sur le domino pour detecter un drag
-    private bool _isDragged = false; // est ce que je suis en train de deplacer mon domino ?
-    private bool _startDrag = false; // est ce que je suis en train de detecter un drag ?
-    private Vector2 _pressStartPos; // position de la souris quand je clique sur le domino pour verifier si j'ai bougé pour detecter un drag plus vite que le timer
+    //private float _draggingChrono = 0; // chrono du temps qu'on reste appuyer sur le domino pour detecter un drag
+    //private bool _isDragged = false; // est ce que je suis en train de deplacer mon domino ?
+    //private bool _startDrag = false; // est ce que je suis en train de detecter un drag ?
+    //private Vector2 _pressStartPos; // position de la souris quand je clique sur le domino pour verifier si j'ai bougé pour detecter un drag plus vite que le timer
 
     [HorizontalLine(color: EColor.Blue)]
     [BoxGroup("Vitesse du domino"), SerializeField, Label("Vitesse de fall d'un domino")] private float _fallingSpeed;
