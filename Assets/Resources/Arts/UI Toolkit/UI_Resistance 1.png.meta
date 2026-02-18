@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4a6cb40eb841a64479d42efebcdc0208
+guid: b320682ebfe8aef4c8098610530eadaa
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8500534371374987172
-    second: UI_Resistance_0
+      213: 3697208757201166424
+    second: UI_Resistance 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI_Resistance_0
+      name: UI_Resistance 1_0
       rect:
         serializedVersion: 2
         x: 67
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c580239e609080a80800000000000000
-      internalID: -8500534371374987172
+      spriteID: 8506079a6cf1f4330800000000000000
+      internalID: 3697208757201166424
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      UI_Resistance_0: -8500534371374987172
+      UI_Resistance 1_0: 3697208757201166424
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

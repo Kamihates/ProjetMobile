@@ -2086,34 +2086,6 @@ PrefabInstance:
       propertyPath: combos
       value: 
       objectReference: {fileID: 2001327692}
-    - target: {fileID: 1620069330493585055, guid: 7a0f26d7fae435a45892d371d7caf831, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1620069330493585055, guid: 7a0f26d7fae435a45892d371d7caf831, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1620069330493585055, guid: 7a0f26d7fae435a45892d371d7caf831, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1620069330493585055, guid: 7a0f26d7fae435a45892d371d7caf831, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1620069330493585055, guid: 7a0f26d7fae435a45892d371d7caf831, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1620069330493585055, guid: 7a0f26d7fae435a45892d371d7caf831, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2168773962089324387, guid: 7a0f26d7fae435a45892d371d7caf831, type: 3}
-      propertyPath: deckManager
-      value: 
-      objectReference: {fileID: 1081684069}
     - target: {fileID: 3406356352751472920, guid: 7a0f26d7fae435a45892d371d7caf831, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2198,10 +2170,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas - Camera
       objectReference: {fileID: 0}
-    - target: {fileID: 5505417707488510053, guid: 7a0f26d7fae435a45892d371d7caf831, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7343631520281783683, guid: 7a0f26d7fae435a45892d371d7caf831, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2247,8 +2215,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 5505417707488510053, guid: 7a0f26d7fae435a45892d371d7caf831, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a0f26d7fae435a45892d371d7caf831, type: 3}
