@@ -5,6 +5,7 @@ public class DominoFall : MonoBehaviour
 {
 
     [SerializeField] DominoPiece _piece;
+    [SerializeField] private GameConfig _gameConfig;
 
     private Vector2Int _lastIndex;
     public Vector2Int LastIndex { get => _lastIndex; set => _lastIndex = value; }
@@ -88,7 +89,7 @@ public class DominoFall : MonoBehaviour
 
         if (TEST_GD.Instance != null && (!GameManager.Instance.NoGravityMode || _isTapToFall))
         {
-            if (TEST_GD.Instance.FallPerCase) // déplacements case par case
+            if (_gameConfig.FallPerCase) // déplacements case par case
             {
                 FallPerCase();
             }

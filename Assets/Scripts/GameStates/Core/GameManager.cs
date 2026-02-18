@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     [SerializeField, Foldout("Références"), Required] private DominoSpawner dominoSpawner;
     [SerializeField, Foldout("Références"), Required] private DominoMovementController dominoMouvement;
 
+    [SerializeField, Foldout("ToggleSettings"), Required] private ToggleSwitch noGravityToggle;
+    [SerializeField, Foldout("ToggleSettings"), Required] private ToggleSwitch fallPerCaseToggle;
+
     [field: SerializeField, Foldout("Debug"), ReadOnly] public GameState CurrentState { get; private set; }
     [SerializeField, Foldout("Debug"), ReadOnly] private int currentRound = 0;
     [SerializeField, Foldout("Debug"), ReadOnly] private bool isBossRound = false;
@@ -32,11 +35,28 @@ public class GameManager : MonoBehaviour
     public Action OnInfiniteGameStarted;
     public Action OnCurrentDominoChanged;
 
-    private void Awake() { Instance = this; _isInInfiniteState = gameConfig.LoopAfterBoss; _noGravityMode = gameConfig.NoGravityMode; }
+    private void Awake() 
+    { 
+        Instance = this; 
+        _isInInfiniteState = gameConfig.LoopAfterBoss; 
+        _noGravityMode = gameConfig.NoGravityMode;
+
+        if (PlayerPrefs.HasKey("NoGravityMode"))
+            _noGravityMode = PlayerPrefs.GetInt("NoGravityMode") == 1;
+        else
+            _noGravityMode = gameConfig.NoGravityMode;
+
+        if (PlayerPrefs.HasKey("FallPerCase"))
+            gameConfig.FallPerCase = PlayerPrefs.GetInt("FallPerCase") == 1;
+
+    }
 
     private void Start()
     {
         ChangeState(defaultState); // On change la scene par defaut au lancement du jeu (par default c'est le splash screen)
+
+        fallPerCaseToggle.SetInitialState(gameConfig.FallPerCase);
+        noGravityToggle.SetInitialState(gameConfig.NoGravityMode);
 
     }
 
@@ -125,6 +145,20 @@ public class GameManager : MonoBehaviour
     public void DisableAutoFall(bool activate)
     {
         gameConfig.NoGravityMode = activate;
+        _noGravityMode = activate;
+
+        PlayerPrefs.SetInt("NoGravityMode", activate ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+
+    public void DisableFallPerCase(bool activate)
+    {
+        gameConfig.FallPerCase = activate;
+
+        PlayerPrefs.SetInt("FallPerCase", activate ? 1 : 0);
+        PlayerPrefs.Save();
+
     }
 
     public void ReturnToMainMenu()

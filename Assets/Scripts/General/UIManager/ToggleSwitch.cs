@@ -9,7 +9,7 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
 {
     [Header("Slider setup")]
     [SerializeField, Range(0, 1f)]
-    protected float sliderValue;
+    private float sliderValue;
     public bool CurrentValue { get; private set; }
 
     private bool _previousValue;
@@ -27,27 +27,25 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
     [SerializeField] private UnityEvent onToggleOn;
     [SerializeField] private UnityEvent onToggleOff;
 
-    private ToggleSwitchGroupManager _toggleSwitchGroupManager;
-
     protected Action transitionEffect;
 
     protected virtual void OnValidate()
     {
-        SetupToggleComponents();
-
-        _slider.value = sliderValue;
+        SetupSliderComponent();
+        if (_slider != null)
+            _slider.value = sliderValue;
     }
 
-    private void SetupToggleComponents()
+    protected virtual void Awake()
     {
-        if (_slider != null)
-            return;
-
         SetupSliderComponent();
     }
 
     private void SetupSliderComponent()
     {
+        if (_slider != null)
+            return;
+
         _slider = GetComponent<Slider>();
 
         if (_slider == null)
@@ -63,36 +61,15 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
         _slider.transition = Selectable.Transition.None;
     }
 
-    public void SetupForManager(ToggleSwitchGroupManager manager)
-    {
-        _toggleSwitchGroupManager = manager;
-    }
-
-
-    protected virtual void Awake()
-    {
-        SetupSliderComponent();
-    }
-
     public void OnPointerClick(PointerEventData eventData)
     {
         Toggle();
     }
 
-
     private void Toggle()
     {
-        if (_toggleSwitchGroupManager != null)
-            _toggleSwitchGroupManager.ToggleGroup(this);
-        else
-            SetStateAndStartAnimation(!CurrentValue);
+        SetStateAndStartAnimation(!CurrentValue);
     }
-
-    public void ToggleByGroupManager(bool valueToSetTo)
-    {
-        SetStateAndStartAnimation(valueToSetTo);
-    }
-
 
     private void SetStateAndStartAnimation(bool state)
     {
@@ -112,7 +89,6 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
 
         _animateSliderCoroutine = StartCoroutine(AnimateSlider());
     }
-
 
     private IEnumerator AnimateSlider()
     {
@@ -137,4 +113,16 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
 
         _slider.value = endValue;
     }
+
+    public void SetInitialState(bool state)
+    {
+        CurrentValue = state;
+        sliderValue = state ? 1f : 0f;
+
+        if (_slider == null)
+            SetupSliderComponent();
+
+        _slider.value = sliderValue;
+    }
+
 }

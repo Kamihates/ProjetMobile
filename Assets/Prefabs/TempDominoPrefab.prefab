@@ -227,6 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoFall
   _piece: {fileID: 2150986522567306349}
+  _gameConfig: {fileID: 11400000, guid: 57d968f94ceda824eaff73e54063df84, type: 2}
 --- !u!1 &8015922835270771272
 GameObject:
   m_ObjectHideFlags: 0

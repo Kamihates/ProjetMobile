@@ -40,6 +40,9 @@ public class DominoMovementController : MonoBehaviour
     [HorizontalLine(color: EColor.Blue)]
     [BoxGroup("Chute rapide"),SerializeField, Label("temps du hold en seconde pour activer la descente rapide")] private float _holdTapTime = 0.2f;
 
+    [BoxGroup("-- deplacement d'un domino --"), EnableIf("FallPerCase"), Header("temps entre chaque step en secondes")]
+    public float FallingStepStoppingTime = 1f;
+
 
 
 
