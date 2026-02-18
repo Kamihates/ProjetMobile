@@ -1,6 +1,7 @@
 using GooglePlayGames;
 using NaughtyAttributes;
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +11,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField, Foldout("Config"), Required] private GameConfig gameConfig;
     [SerializeField, Foldout("Config")] private GameState defaultState = GameState.TitleScreenState;
+
+    [SerializeField, Foldout("ToggleSettings"), Required] private ToggleSwitch noGravityToggle;
+    [SerializeField, Foldout("ToggleSettings"), Required] private ToggleSwitch fallPerCaseToggle;
 
     [SerializeField, Foldout("Références"), Required] private DeckManager deckManager;
     [SerializeField, Foldout("Références"), Required] private DominoSpawner dominoSpawner;
@@ -33,11 +37,34 @@ public class GameManager : MonoBehaviour
     public Action OnInfiniteGameStarted;
     public Action OnCurrentDominoChanged;
 
-    private void Awake() { Instance = this; _isInInfiniteState = gameConfig.LoopAfterBoss; _noGravityMode = gameConfig.NoGravityMode; }
+    private void Awake()
+    {
+        Instance = this;
+        _isInInfiniteState = gameConfig.LoopAfterBoss;
+        _noGravityMode = gameConfig.NoGravityMode;
+
+        if (PlayerPrefs.HasKey("NoGravityMode"))
+            _noGravityMode = PlayerPrefs.GetInt("NoGravityMode") == 1;
+        else
+            _noGravityMode = gameConfig.NoGravityMode;
+
+        if (PlayerPrefs.HasKey("FallPerCase"))
+            gameConfig.FallPerCase = PlayerPrefs.GetInt("FallPerCase") == 1;
+
+    }
 
     private void Start()
     {
+        Debug.Log("current scene index = " + SceneManager.GetActiveScene().buildIndex);
+
+        if (gameConfig.SkipTitleScreens && SceneManager.GetActiveScene().buildIndex == 0)
+            defaultState = GameState.MenuState;
+
         ChangeState(defaultState); // On change la scene par defaut au lancement du jeu (par default c'est le splash screen)
+
+        fallPerCaseToggle.SetInitialState(gameConfig.FallPerCase);
+        noGravityToggle.SetInitialState(gameConfig.NoGravityMode);
+
     }
 
     public void ChangeState(GameState newState)
@@ -46,8 +73,15 @@ public class GameManager : MonoBehaviour
         OnStateChanged?.Invoke(newState);
     }
 
+    public void OnApplicationQuit()
+    {
+        gameConfig.SkipTitleScreens = false;
+    }
+
     public void StartGame()
     {
+        gameConfig.SkipTitleScreens = true;
+
         gameConfig.LoopAfterBoss = false;
         SceneManager.LoadSceneAsync(1);
         ChangeState(GameState.InGameState);
@@ -105,7 +139,7 @@ public class GameManager : MonoBehaviour
 
     public void ReturnToGame()
     {
-        Time.timeScale = 1;
+        Pause(false);
         ChangeState(GameState.InGameState);
     }
 
@@ -124,6 +158,7 @@ public class GameManager : MonoBehaviour
 
     public void GoToMenu()
     {
+        Pause(false);
         ChangeState(GameState.MenuState);
     }
 
@@ -135,6 +170,20 @@ public class GameManager : MonoBehaviour
     public void DisableAutoFall(bool activate)
     {
         gameConfig.NoGravityMode = activate;
+        _noGravityMode = activate;
+
+        PlayerPrefs.SetInt("NoGravityMode", activate ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+
+    public void EnableFallPerCase(bool activate)
+    {
+        gameConfig.FallPerCase = activate;
+
+        PlayerPrefs.SetInt("FallPerCase", activate ? 1 : 0);
+        PlayerPrefs.Save();
+
     }
 
     public void ReturnToMainMenu()
@@ -162,7 +211,5 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(1);
 
     }
-
-
 
 }

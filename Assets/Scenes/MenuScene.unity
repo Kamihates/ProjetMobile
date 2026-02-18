@@ -1807,7 +1807,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 483220771}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: DisableFallPerCase
+        m_MethodName: EnableFallPerCase
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1822,7 +1822,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 483220771}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: DisableFallPerCase
+        m_MethodName: EnableFallPerCase
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4000,11 +4000,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   gameConfig: {fileID: 11400000, guid: 57d968f94ceda824eaff73e54063df84, type: 2}
   defaultState: 0
+  noGravityToggle: {fileID: 944718171}
+  fallPerCaseToggle: {fileID: 246580039}
   deckManager: {fileID: 0}
   dominoSpawner: {fileID: 0}
   dominoMouvement: {fileID: 0}
-  noGravityToggle: {fileID: 944718171}
-  fallPerCaseToggle: {fileID: 246580039}
   <CurrentState>k__BackingField: 0
   currentRound: 0
   isBossRound: 0
@@ -9795,6 +9795,11 @@ MonoBehaviour:
       musicClip: {fileID: 0}
     triggerSounds: []
     comboSound: {fileID: 0}
+    dominoPlaced: {fileID: 0}
+    waterFusion: {fileID: 0}
+    earthFusion: {fileID: 0}
+    fireFusion: {fileID: 0}
+    windFusion: {fileID: 0}
 --- !u!1 &1826218759
 GameObject:
   m_ObjectHideFlags: 0

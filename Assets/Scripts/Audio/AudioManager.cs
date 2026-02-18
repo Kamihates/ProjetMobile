@@ -16,9 +16,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField, Foldout("Mixing Group")] private AudioMixerGroup sfxMixer; // Groupe pour les effets sonores
 
     [SerializeField, Foldout("Setting"), Range(0f, 1f)] private float defaultVolume = 0.5f;
-    [SerializeField, Foldout("Silder"), ReadOnly] private Slider masterSlider;
-    [SerializeField, Foldout("Silder"), ReadOnly] private Slider musicSlider;
-    [SerializeField, Foldout("Silder"), ReadOnly] private Slider sfxSlider;
+    [SerializeField, Foldout("Silder")] private Slider masterSlider;
+    [SerializeField, Foldout("Silder")] private Slider musicSlider;
+    [SerializeField, Foldout("Silder")] private Slider sfxSlider;
 
     [SerializeField] private AudioData audioData;
 
