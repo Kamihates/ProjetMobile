@@ -28,8 +28,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.6952291, y: 0.1290602, z: -0.1290602, w: 0.6952291}
   m_LocalPosition: {x: 0.56, y: -0.31, z: 0}
-  m_LocalScale: {x: 0.4359661, y: 0.4359661, z: 0.4359661}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 56.29, y: 56.29, z: 56.29}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -68.967, y: 90, z: -90}
@@ -4779,7 +4779,7 @@ ParticleSystemRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: ed7cd9fe1feb1de40a4365acdb2c4cc9, type: 2}
@@ -4801,8 +4801,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -399065025
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_RenderMode: 0
