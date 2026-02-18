@@ -18,6 +18,8 @@ public class MonsterVisualControlller : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _Score;
     private float _totalScore = 0;
 
+    [SerializeField] private GameObject _attackVfx;
+
 
     private void Awake()
     {
@@ -102,6 +104,14 @@ public class MonsterVisualControlller : MonoBehaviour
         {
             nametxt.text = attackName;
             StartCoroutine(UIAnimations.Instance.DisplayForXSeconds(2, 0.1f, _attackNameCG));
+        }
+
+        foreach (Transform t in _attackVfx.transform)
+        {
+            if (t.TryGetComponent(out ParticleSystem ps))
+            {
+                ps.Play();
+            }
         }
     }
 
