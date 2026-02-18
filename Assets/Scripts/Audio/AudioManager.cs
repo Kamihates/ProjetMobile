@@ -21,6 +21,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField, Foldout("Silder")] private Slider sfxSlider;
 
     [SerializeField] private AudioData audioData;
+    public AudioData DataAudio => audioData;
 
     private AudioSource musicSource;
     private AudioSource sfxSource;

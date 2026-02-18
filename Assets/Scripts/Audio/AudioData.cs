@@ -25,6 +25,7 @@ public class TriggerSound
 [System.Serializable]
 public class AudioData
 {
+
     [Foldout("Musiques de scènes"), SerializeField] private List<SceneMusic> sceneMusics = new();
     public List<SceneMusic> SceneMusics => sceneMusics;
 
@@ -34,12 +35,24 @@ public class AudioData
     [Header("Autres sons"), HorizontalLine(color:EColor.Blue)]
     [SerializeField] private AudioClip comboSound;
     [SerializeField] private AudioClip dominoPlaced;
+    [SerializeField] private AudioClip dominoDash;
     [SerializeField, HorizontalLine(color: EColor.Blue)] private AudioClip waterFusion;
     [SerializeField] private AudioClip earthFusion;
     [SerializeField] private AudioClip fireFusion;
     [SerializeField] private AudioClip windFusion;
 
+    #region Propriétes
 
+    public AudioClip ComboSound => comboSound;
+    public AudioClip DominoPlaced => dominoPlaced;
+    public AudioClip DominoDash => dominoDash;
+    public AudioClip WaterFusion => waterFusion;
+    public AudioClip FireFusion => fireFusion;
+
+    public AudioClip EarthFusion => earthFusion;
+    public AudioClip WindFusion => windFusion;
+
+    #endregion
 
     public AudioClip GetSceneMusic(string sceneName)
     {

@@ -66,6 +66,11 @@ public class FusionVisualEffects : MonoBehaviour
 
     public void PlayFusionParticule(List<RegionPiece> allPieces, RegionType type)
     {
+
+
+        PlayFusionSound(type);
+
+
         Vector2 targertPos = GeneralVisualController.Instance.GetCenterPosition(allPieces);
         AnimationT1ToDeck(targertPos, type);
 
@@ -85,6 +90,27 @@ public class FusionVisualEffects : MonoBehaviour
             StartCoroutine(WaitForDestroyParticle(particleGO));
         }
         
+    }
+
+    private void PlayFusionSound(RegionType type)
+    {
+        switch (type)
+        {
+            case RegionType.Wind:
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.DataAudio.WindFusion);
+                break;
+            case RegionType.Fire:
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.DataAudio.FireFusion);
+                break;
+            case RegionType.Water:
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.DataAudio.WaterFusion);
+                break;
+            case RegionType.Rock:
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.DataAudio.EarthFusion);
+                break;
+            default:
+                break;
+        }
     }
 
     private IEnumerator WaitForDestroyParticle(GameObject particle)
