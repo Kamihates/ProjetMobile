@@ -122,6 +122,11 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.SettingsState);
     }
 
+    public void DisableAutoFall(bool activate)
+    {
+        gameConfig.NoGravityMode = activate;
+    }
+
     public void ReturnToMainMenu()
     {
         SceneManager.LoadScene(0);
