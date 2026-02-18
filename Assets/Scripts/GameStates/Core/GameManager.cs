@@ -1,6 +1,7 @@
-using UnityEngine;
+using GooglePlayGames;
 using NaughtyAttributes;
 using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -37,7 +38,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         ChangeState(defaultState); // On change la scene par defaut au lancement du jeu (par default c'est le splash screen)
-
     }
 
     public void ChangeState(GameState newState)
@@ -54,6 +54,15 @@ public class GameManager : MonoBehaviour
         currentRound = 0;
         isBossRound = false;
         _isInInfiniteState = gameConfig.LoopAfterBoss;
+
+        // succes "Critical Spell"
+        PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_major_convergence, 100.0f, (bool success) =>
+        {
+            if (success)
+                Debug.Log("Succès débloqué !");
+            else
+                Debug.Log("échec du déblocage du succès.");
+        });
     }
 
     public void OnMobDefeated()
@@ -81,6 +90,7 @@ public class GameManager : MonoBehaviour
     public void GameLost()
     {
         //OnGameLost?.Invoke();
+        StatsVisual.Instance.DisplayStatsOnDeath();
         ChangeState(GameState.LoseState);
         CurrentDomino = null;
         //Pause(true);
@@ -89,6 +99,7 @@ public class GameManager : MonoBehaviour
     public void GameWon()
     {
         //OnWin?.Invoke();
+        StatsVisual.Instance.DisplayStatsOnWin();
         ChangeState(GameState.WinState);
         Pause(true);
     }
@@ -152,4 +163,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(1);
 
     }
+
+
+
 }

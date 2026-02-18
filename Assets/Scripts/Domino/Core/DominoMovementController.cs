@@ -84,7 +84,6 @@ public class DominoMovementController : MonoBehaviour
                         _startLongTap = true;
 
                     }
-
                 }
             }
         }

@@ -20,6 +20,7 @@ public class DominoFusion : MonoBehaviour
     [SerializeField] private float _bonusBasique;
 
     private int _fusionCount = 0;
+    public int FusionCount => _fusionCount;
 
     private void Start()
     {
