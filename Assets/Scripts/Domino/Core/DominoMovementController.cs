@@ -24,10 +24,10 @@ public class DominoMovementController : MonoBehaviour
     [BoxGroup("Gestion du drag"), SerializeField, Label("distance minimal avant de detecter un drag")] private float _dragDistance = 0.2f;
 
 
-    private float _draggingChrono = 0; // chrono du temps qu'on reste appuyer sur le domino pour detecter un drag
-    private bool _isDragged = false; // est ce que je suis en train de deplacer mon domino ?
-    private bool _startDrag = false; // est ce que je suis en train de detecter un drag ?
-    private Vector2 _pressStartPos; // position de la souris quand je clique sur le domino pour verifier si j'ai bougé pour detecter un drag plus vite que le timer
+    //private float _draggingChrono = 0; // chrono du temps qu'on reste appuyer sur le domino pour detecter un drag
+    //private bool _isDragged = false; // est ce que je suis en train de deplacer mon domino ?
+    //private bool _startDrag = false; // est ce que je suis en train de detecter un drag ?
+    //private Vector2 _pressStartPos; // position de la souris quand je clique sur le domino pour verifier si j'ai bougé pour detecter un drag plus vite que le timer
 
     [HorizontalLine(color: EColor.Blue)]
     [BoxGroup("Vitesse du domino"), SerializeField, Label("Vitesse de fall d'un domino")] private float _fallingSpeed;
@@ -36,6 +36,8 @@ public class DominoMovementController : MonoBehaviour
 
     private bool _startLongTap = false; // est ce que je suis en train de detecter un drag ?
     private float _LongTapChrono = 0;
+    private bool _isMoving = false;
+    private bool _isAccelerating = false;
     
     [HorizontalLine(color: EColor.Blue)]
     [BoxGroup("Chute rapide"),SerializeField, Label("temps du hold en seconde pour activer la descente rapide")] private float _holdTapTime = 0.2f;
@@ -44,138 +46,210 @@ public class DominoMovementController : MonoBehaviour
     public float FallingStepStoppingTime = 1f;
 
 
+
+    Vector2 _mousePos = Vector2.zero;
     private void Update()
     {
         if (_currentDomino == null) return;
         if (GameManager.Instance.CurrentState != GameState.InGameState) return;
 
-        Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        float clickRadius = 0.3f; // ajuste selon ton jeu
-        //Collider2D hit = Physics2D.OverlapCircle(pos, clickRadius);
-        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, clickRadius);
-
+        // detection d'un appuie
 
         if (Input.GetMouseButtonDown(0))
         {
-            // est ce que je clique sur mon domino ? 
-            foreach (Collider2D hit in hits)
+            _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            if (GridManager.Instance != null)
             {
-                DominoPiece domino = hit.gameObject.GetComponentInParent<DominoPiece>();
-                if (domino != null)
+                if (GridManager.Instance.IsInGrid(new List<Vector2> { _mousePos }, false))
                 {
-                    // mon domino est celui qui est en train de tomber ? 
-                    if (domino.PieceUniqueId == _currentDomino.PieceUniqueId)
-                    {
-                        // je me prepare a drag
-                        _startDrag = true;
-                        _startLongTap = false;
-                        _pressStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-                        return;
-                    }
-                }
-            }
-
-            // je suis pas sur mon domino, est ce que je suis dans la grille ? 
-            if (!_startDrag)
-            {
-                if (GridManager.Instance != null)
-                {
-                    if (GridManager.Instance.IsInGrid(new List<Vector2> { pos }, false))
-                    {
-                        // est ce que je maintient ? 
-                        _startLongTap = true;
-
-                    }
+                    // est ce que je maintient ? 
+                    _startLongTap = true;
                 }
             }
         }
 
-        if (_startLongTap && !_isDragged)
+        if (_startLongTap)
         {
+            // si ma souris bouge a droite ou gauche, on deplace le domino
             _LongTapChrono += Time.deltaTime;
+            Vector2 currentMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            if (Input.GetMouseButtonUp(0))
+
+            // si ma souris bouge, de deplace
+            if (Vector2.Distance(currentMousePos, _mousePos) > 0.03f && !_isAccelerating)
             {
-                _currentDomino.Visual.Rotate();
-                _startLongTap = false;
-                _LongTapChrono = 0f;
-
+                if (_currentDomino.Visual.MoveOnX())
+                {
+                    _isMoving = true;
+                    return;
+                }
             }
-
-
-            if (_LongTapChrono >= _holdTapTime)
+               
+            // si le timer depasse, on applique le fall x2
+            if (_LongTapChrono >= _holdTapTime && !_isMoving)
             {
                 if (GameManager.Instance.NoGravityMode)
                 {
                     _currentDomino.FallController.IsTapToFall = true;
                 }
-               _currentDomino.FallController.Init(_fallingSpeed * 4, _stepSpeed / 2);
+                _currentDomino.FallController.Init(_fallingSpeed * 4, _stepSpeed / 2);
+                _isAccelerating = true;
+                _LongTapChrono = 0;
 
-
-                _startLongTap = false;
-                _LongTapChrono = 0f;
-            }
-        }
-
-
-        // Si je suis en phase de detection de drag
-        if (_startDrag)
-        {
-            _draggingChrono += Time.deltaTime;
-
-            Vector2 currentPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            float distance = Vector2.Distance(currentPos, _pressStartPos);
-
-            // si j'ai bougé ma souris, c'est que j'ai commencé à drag, on peut deplacer
-            if (distance > _dragDistance)
-            {
-                _startDrag = false;
-                _isDragged = true;
-                _draggingChrono = 0;
-
-                _startLongTap = false; 
-                _LongTapChrono = 0f;
                 return;
             }
 
-            // si j'ai relaché ma souris, c'etait un slique simple, je tourne le domino
-            if (Input.GetMouseButtonUp(0))
-            {
-                _currentDomino.Visual.Rotate();
-                _startDrag = false;
-            }
-
-            // si le temps de drag est atteint, je commence à drag
-            if (_draggingChrono >= _holdTime)
-            {
-                _draggingChrono = 0f;
-                if (_startDrag)
-                {
-                    _startDrag = false;
-                    _isDragged = true;
-
-                    _startLongTap = false; 
-                    _LongTapChrono = 0f;
-                    return;
-                }
-            }
         }
 
-
-        // si je relache la souris, j'arrete de drag mon domino si je le draggait
         if (Input.GetMouseButtonUp(0))
         {
-            _isDragged = false;
+            // on rotate et desatcive le long tap
+            if (!_isMoving && !_isAccelerating)
+                _currentDomino.Visual.Rotate();
+
+            _isAccelerating = false;
+            _startLongTap = false;
+            _LongTapChrono = 0;
+            _isMoving = false;
+
             _currentDomino.FallController.Init(_fallingSpeed, _stepSpeed);
             CurrentDomino.FallController.IsTapToFall = false;
         }
 
-        // si je drag mon domino, je le bouge
-        if (_isDragged)
-        {
-            _currentDomino.Visual.MoveOnX();
-        }
     }
+
+    //private void Update()
+    //{
+    //    if (_currentDomino == null) return;
+    //    if (GameManager.Instance.CurrentState != GameState.InGameState) return;
+
+    //    Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //    float clickRadius = 0.3f;
+    //    //Collider2D hit = Physics2D.OverlapCircle(pos, clickRadius);
+    //    Collider2D[] hits = Physics2D.OverlapCircleAll(pos, clickRadius);
+
+
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        // est ce que je clique sur mon domino ? 
+    //        foreach (Collider2D hit in hits)
+    //        {
+    //            DominoPiece domino = hit.gameObject.GetComponentInParent<DominoPiece>();
+    //            if (domino != null)
+    //            {
+    //                // mon domino est celui qui est en train de tomber ? 
+    //                if (domino.PieceUniqueId == _currentDomino.PieceUniqueId)
+    //                {
+    //                    // je me prepare a drag
+    //                    _startDrag = true;
+    //                    _startLongTap = false;
+    //                    _pressStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+    //                    return;
+    //                }
+    //            }
+    //        }
+
+    //        // je suis pas sur mon domino, est ce que je suis dans la grille ? 
+    //        if (!_startDrag)
+    //        {
+    //            if (GridManager.Instance != null)
+    //            {
+    //                if (GridManager.Instance.IsInGrid(new List<Vector2> { pos }, false))
+    //                {
+    //                    // est ce que je maintient ? 
+    //                    _startLongTap = true;
+    //                }
+    //            }
+    //        }
+    //    }
+
+    //    if (_startLongTap && !_isDragged)
+    //    {
+    //        _LongTapChrono += Time.deltaTime;
+
+    //        if (Input.GetMouseButtonUp(0))
+    //        {
+    //            _currentDomino.Visual.Rotate();
+    //            _startLongTap = false;
+    //            _LongTapChrono = 0f;
+
+    //        }
+
+
+    //        if (_LongTapChrono >= _holdTapTime)
+    //        {
+    //            if (GameManager.Instance.NoGravityMode)
+    //            {
+    //                _currentDomino.FallController.IsTapToFall = true;
+    //            }
+    //           _currentDomino.FallController.Init(_fallingSpeed * 4, _stepSpeed / 2);
+
+
+    //            _startLongTap = false;
+    //            _LongTapChrono = 0f;
+    //        }
+    //    }
+
+
+    //    // Si je suis en phase de detection de drag
+    //    if (_startDrag)
+    //    {
+    //        _draggingChrono += Time.deltaTime;
+
+    //        Vector2 currentPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //        float distance = Vector2.Distance(currentPos, _pressStartPos);
+
+    //        // si j'ai bougé ma souris, c'est que j'ai commencé à drag, on peut deplacer
+    //        if (distance > _dragDistance)
+    //        {
+    //            _startDrag = false;
+    //            _isDragged = true;
+    //            _draggingChrono = 0;
+
+    //            _startLongTap = false; 
+    //            _LongTapChrono = 0f;
+    //            return;
+    //        }
+
+    //        // si j'ai relaché ma souris, c'etait un slique simple, je tourne le domino
+    //        if (Input.GetMouseButtonUp(0))
+    //        {
+    //            _currentDomino.Visual.Rotate();
+    //            _startDrag = false;
+    //        }
+
+    //        // si le temps de drag est atteint, je commence à drag
+    //        if (_draggingChrono >= _holdTime)
+    //        {
+    //            _draggingChrono = 0f;
+    //            if (_startDrag)
+    //            {
+    //                _startDrag = false;
+    //                _isDragged = true;
+
+    //                _startLongTap = false; 
+    //                _LongTapChrono = 0f;
+    //                return;
+    //            }
+    //        }
+    //    }
+
+
+    //    // si je relache la souris, j'arrete de drag mon domino si je le draggait
+    //    if (Input.GetMouseButtonUp(0))
+    //    {
+    //        _isDragged = false;
+    //        _currentDomino.FallController.Init(_fallingSpeed, _stepSpeed);
+    //        CurrentDomino.FallController.IsTapToFall = false;
+    //    }
+
+    //    // si je drag mon domino, je le bouge
+    //    if (_isDragged)
+    //    {
+    //        _currentDomino.Visual.MoveOnX();
+    //    }
+    //}
 
 }
