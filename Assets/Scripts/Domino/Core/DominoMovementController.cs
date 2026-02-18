@@ -68,6 +68,7 @@ public class DominoMovementController : MonoBehaviour
                     {
                         // je me prepare a drag
                         _startDrag = true;
+                        _startLongTap = false;
                         _pressStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     }
                 }
@@ -131,6 +132,9 @@ public class DominoMovementController : MonoBehaviour
                 _startDrag = false;
                 _isDragged = true;
                 _draggingChrono = 0;
+
+                _startLongTap = false; 
+                _LongTapChrono = 0f;
                 return;
             }
 
@@ -149,6 +153,10 @@ public class DominoMovementController : MonoBehaviour
                 {
                     _startDrag = false;
                     _isDragged = true;
+
+                    _startLongTap = false; 
+                    _LongTapChrono = 0f;
+                    return;
                 }
             }
         }
