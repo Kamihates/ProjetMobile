@@ -33,7 +33,7 @@ public class RegionPiece : MonoBehaviour
         }
           
             
-        UpdateLayer(-1);
+        UpdateLayer(0);
     }
 
     public void UpdateLayer(int layerOrder)
