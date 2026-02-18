@@ -96,6 +96,7 @@ public class DominoMovementController : MonoBehaviour
                 _currentDomino.FallController.Init(_fallingSpeed * 4, _stepSpeed / 2);
                 _isAccelerating = true;
                 _LongTapChrono = 0;
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.DataAudio.DominoDash);
 
                 return;
             }
