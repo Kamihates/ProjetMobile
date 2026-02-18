@@ -803,6 +803,7 @@ MonoBehaviour:
   _fallingSpeed: 0.5
   _stepSpeed: 1
   _holdTapTime: 0.2
+  FallingStepStoppingTime: 1
 --- !u!1 &99456577
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,11 +986,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DominoFusion
   _deckManager: {fileID: 1081684069}
-  _bonusFor4: 0
-  _bonusFor6: 0
-  _bonusFor8: 0
-  _bonusFor9: 0
-  _bonusBasique: 0
+  _bonusFor4: 2
+  _bonusFor6: 4
+  _bonusFor8: 6
+  _bonusFor9: 8
+  _bonusBasique: 10
 --- !u!1 &128457332
 GameObject:
   m_ObjectHideFlags: 0
@@ -8727,8 +8728,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TEST_GD
   dominoMvtController: {fileID: 93427302}
   spawner: {fileID: 954746999}
-  FallPerCase: 0
-  FallingStepStoppingTime: 1
 --- !u!4 &1480473143
 Transform:
   m_ObjectHideFlags: 0

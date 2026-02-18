@@ -11,12 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField, Foldout("Config"), Required] private GameConfig gameConfig;
     [SerializeField, Foldout("Config")] private GameState defaultState = GameState.TitleScreenState;
 
-    [SerializeField, Foldout("Rï¿½fï¿½rences"), Required] private DeckManager deckManager;
-    [SerializeField, Foldout("Rï¿½fï¿½rences"), Required] private DominoSpawner dominoSpawner;
-    [SerializeField, Foldout("Rï¿½fï¿½rences"), Required] private DominoMovementController dominoMouvement;
-
-    [SerializeField, Foldout("ToggleSettings"), Required] private ToggleSwitch noGravityToggle;
-    [SerializeField, Foldout("ToggleSettings"), Required] private ToggleSwitch fallPerCaseToggle;
+    [SerializeField, Foldout("Références"), Required] private DeckManager deckManager;
+    [SerializeField, Foldout("Références"), Required] private DominoSpawner dominoSpawner;
+    [SerializeField, Foldout("Références"), Required] private DominoMovementController dominoMouvement;
 
     [field: SerializeField, Foldout("Debug"), ReadOnly] public GameState CurrentState { get; private set; }
     [SerializeField, Foldout("Debug"), ReadOnly] private int currentRound = 0;
@@ -30,35 +27,17 @@ public class GameManager : MonoBehaviour
 
     private DominoPiece _currentDomino;
 
-    //public Action OnGameLost; // action quand un domino est placï¿½ en haut de la grille
+    //public Action OnGameLost; // action quand un domino est placé en haut de la grille
     //public Action OnWin;
-    public Action<GameState> OnStateChanged; // Nouvelle action principale pour les gï¿½rer les states 
+    public Action<GameState> OnStateChanged; // Nouvelle action principale pour les gérer les states 
     public Action OnInfiniteGameStarted;
     public Action OnCurrentDominoChanged;
 
-    private void Awake() 
-    { 
-        Instance = this; 
-        _isInInfiniteState = gameConfig.LoopAfterBoss; 
-        _noGravityMode = gameConfig.NoGravityMode;
-
-        if (PlayerPrefs.HasKey("NoGravityMode"))
-            _noGravityMode = PlayerPrefs.GetInt("NoGravityMode") == 1;
-        else
-            _noGravityMode = gameConfig.NoGravityMode;
-
-        if (PlayerPrefs.HasKey("FallPerCase"))
-            gameConfig.FallPerCase = PlayerPrefs.GetInt("FallPerCase") == 1;
-
-    }
+    private void Awake() { Instance = this; _isInInfiniteState = gameConfig.LoopAfterBoss; _noGravityMode = gameConfig.NoGravityMode; }
 
     private void Start()
     {
         ChangeState(defaultState); // On change la scene par defaut au lancement du jeu (par default c'est le splash screen)
-
-        fallPerCaseToggle.SetInitialState(gameConfig.FallPerCase);
-        noGravityToggle.SetInitialState(gameConfig.NoGravityMode);
-
     }
 
     public void ChangeState(GameState newState)
@@ -76,13 +55,12 @@ public class GameManager : MonoBehaviour
         isBossRound = false;
         _isInInfiniteState = gameConfig.LoopAfterBoss;
 
-        // succes "Critical Spell"
         PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_major_convergence, 100.0f, (bool success) =>
         {
             if (success)
-                Debug.Log("Succï¿½s dï¿½bloquï¿½ !");
+                Debug.Log("Succès débloqué !");
             else
-                Debug.Log("ï¿½chec du dï¿½blocage du succï¿½s.");
+                Debug.Log("échec du déblocage du succès.");
         });
     }
 
@@ -157,20 +135,6 @@ public class GameManager : MonoBehaviour
     public void DisableAutoFall(bool activate)
     {
         gameConfig.NoGravityMode = activate;
-        _noGravityMode = activate;
-
-        PlayerPrefs.SetInt("NoGravityMode", activate ? 1 : 0);
-        PlayerPrefs.Save();
-    }
-
-
-    public void DisableFallPerCase(bool activate)
-    {
-        gameConfig.FallPerCase = activate;
-
-        PlayerPrefs.SetInt("FallPerCase", activate ? 1 : 0);
-        PlayerPrefs.Save();
-
     }
 
     public void ReturnToMainMenu()
