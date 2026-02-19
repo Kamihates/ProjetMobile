@@ -157,6 +157,12 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.MenuState);
     }
 
+    public void GoToCredits()
+    {
+        ChangeState(GameState.CreditsState);
+        Pause(true);
+    }
+
     public void GoToSettings()
     {
         ChangeState(GameState.SettingsState);

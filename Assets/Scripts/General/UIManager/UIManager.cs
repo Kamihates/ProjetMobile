@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup tutoPanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup lostPanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup winPanel;
+    [SerializeField, Foldout("Panel"), Required] private CanvasGroup creditPanel;
 
     [SerializeField, Foldout("Debug"), ReadOnly] private CanvasGroup _currentPanel = null;
 
@@ -49,7 +50,7 @@ public class UIManager : MonoBehaviour
                 {
                     Debug.LogWarning("Title Panel is not assigned in the inspector"); return;
                 }
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.DataAudio.TitleScreenSound);
+                //if (AudioManager.Instance.DataAudio.TitleScreenSound != AudioManager.Instance.PlaySFX(AudioManager.Instance.DataAudio.TitleScreenSound);
                 OpenMenu(titlePanel);
                 break;
             case GameState.MenuState:
@@ -96,6 +97,13 @@ public class UIManager : MonoBehaviour
                     Debug.LogWarning("Win Panel is not assigned in the inspector"); return;
                 }
                 OpenMenu(winPanel);
+                break;
+            case GameState.CreditsState:
+                if (creditPanel == null)
+                {
+                    Debug.LogWarning("creditPanel is not assigned in the inspector"); return;
+                }
+                OpenMenu(creditPanel);
                 break;
         }
         

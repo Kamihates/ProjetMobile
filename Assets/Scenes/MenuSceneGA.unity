@@ -4736,13 +4736,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f83ca7b91fb7e9469b4f6c7ff6529a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  masterMixer: {fileID: 24300002, guid: 8fe0ec6d2434a2242812273146ada643, type: 2}
-  musicMixer: {fileID: 7685688909748346578, guid: 8fe0ec6d2434a2242812273146ada643, type: 2}
-  sfxMixer: {fileID: 3458384805291160483, guid: 8fe0ec6d2434a2242812273146ada643, type: 2}
   defaultVolume: 0.5
-  masterSlider: {fileID: 181762790}
-  musicSlider: {fileID: 906581020}
-  sfxSlider: {fileID: 140024867}
+  masterSlider:
+    exposedParameter: 
+    mixerGroup: {fileID: 0}
+    slider: {fileID: 0}
+    icon: {fileID: 0}
+    onVolumeSprite: {fileID: 0}
+    offVolumeSprite: {fileID: 0}
+    lastVolume: 1
+    isMuted: 0
+  musicSlider:
+    exposedParameter: 
+    mixerGroup: {fileID: 0}
+    slider: {fileID: 0}
+    icon: {fileID: 0}
+    onVolumeSprite: {fileID: 0}
+    offVolumeSprite: {fileID: 0}
+    lastVolume: 1
+    isMuted: 0
+  sfxSlider:
+    exposedParameter: 
+    mixerGroup: {fileID: 0}
+    slider: {fileID: 0}
+    icon: {fileID: 0}
+    onVolumeSprite: {fileID: 0}
+    offVolumeSprite: {fileID: 0}
+    lastVolume: 1
+    isMuted: 0
   audioData:
     sceneMusics:
     - sceneName: MenuScene
@@ -4750,7 +4771,7 @@ MonoBehaviour:
     - sceneName: GameScene
       musicClip: {fileID: 8300000, guid: 877bafd7f92aaf74282fe2cb38acc420, type: 3}
     triggerSounds: []
-    titleScreenSound: {fileID: 8300000, guid: 6ba00fdfce9c221458f825ab3c5a5772, type: 3}
+    titleScreenSound: {fileID: 0}
     comboSound: {fileID: 0}
     dominoPlaced: {fileID: 8300000, guid: 19661e8cf9cf6714896bddbd340f7a3f, type: 3}
     dominoDash: {fileID: 0}

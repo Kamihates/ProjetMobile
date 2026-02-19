@@ -5235,6 +5235,7 @@ MonoBehaviour:
   tutoPanel: {fileID: 1594902277}
   lostPanel: {fileID: 416655916}
   winPanel: {fileID: 1177692831}
+  creditPanel: {fileID: 0}
   _currentPanel: {fileID: 0}
 --- !u!1 &868795703
 GameObject:

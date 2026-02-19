@@ -9,5 +9,6 @@ public enum GameState
     //ShopState,
     WinState,
     LoseState,
-    PauseState
+    PauseState,
+    CreditsState
 }
