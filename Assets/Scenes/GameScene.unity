@@ -465,7 +465,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Si tu d\xE9passes la grille, c\u2019est Game Over."
+  m_text: "If a domino exceeds the top of the grid, it\u2019s Game Over."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -474,7 +474,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190080
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -5226,7 +5226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72f1f9728f096544381ae223e2ea4d57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  _menuFadeDuration: 1
+  _menuFadeDuration: 0.3
   displayedSeconds: 2
   titlePanel: {fileID: 0}
   menuPanel: {fileID: 0}
@@ -5293,7 +5293,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Maintiens l'\xE9cran au niveau de la grille pour acc\xE9l\xE9rer sa chute."
+  m_text: Hold on the screen to make it fall faster.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -5362,7 +5362,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &868795706
@@ -5507,7 +5507,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Tape l'\xE9cran au niveau de la grille pour faire pivoter ton domino."
+  m_text: Tap the screen to rotate the domino.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -7760,18 +7760,18 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Regroupe plusieurs \xE9l\xE9ments identiques en un bloc pour d\xE9clencher
-    une fusion et obtiens un domino \xE9volu\xE9 qui multiplie les d\xE9g\xE2ts une
-    fois plac\xE9 dans un combo du m\xEAme type."
+  m_text: Combine multiple identical elements into a single block to trigger a fusion
+    and obtain an upgraded domino, which multiplies damage when placed in a combo
+    of the same type.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190080
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -7831,7 +7831,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1263133318
@@ -8534,7 +8534,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Glisse ton domino horizontalement pour le d\xE9placer de droite \xE0 gauche."
+  m_text: Slide your finger horizontally to move the domino.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -11911,17 +11911,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Assemble des \xE9l\xE9ments identiques pour cr\xE9er des combos et infliger
-    des d\xE9g\xE2ts \xE0 l\u2019ennemi."
+  m_text: Chain elemental types  to create powerful combos and attack the enemy.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190080
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -11981,7 +11980,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1961508970
@@ -12816,7 +12815,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000015259, y: 529.98126}
+  m_AnchoredPosition: {x: -0.000015259, y: 499}
   m_SizeDelta: {x: 503.714, y: 71.314}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2036424570
@@ -12839,7 +12838,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Comment jouer ?
+  m_text: How to play ?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -13718,8 +13717,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: " Vaincs le boss pour remporter la partie\u2026\n\n mais attention \xE0
-    ses manigances !"
+  m_text: "Defeat the boss to win the game\u2026 \n\nbut watch out for its tricks!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -13728,7 +13726,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190080
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -14053,8 +14051,8 @@ CanvasGroup:
   m_GameObject: {fileID: 2138294966}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &2143027199
 GameObject:
@@ -14246,6 +14244,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 257345679605408942, guid: 143b8e370a6ebb941940e5b53c9c23c8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -186
+      objectReference: {fileID: 0}
+    - target: {fileID: 257345679605408942, guid: 143b8e370a6ebb941940e5b53c9c23c8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -252
+      objectReference: {fileID: 0}
     - target: {fileID: 273728330267949393, guid: 143b8e370a6ebb941940e5b53c9c23c8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 2
@@ -14269,6 +14275,10 @@ PrefabInstance:
     - target: {fileID: 273728330267949393, guid: 143b8e370a6ebb941940e5b53c9c23c8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.AudioClip, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 572826693795823498, guid: 143b8e370a6ebb941940e5b53c9c23c8, type: 3}
+      propertyPath: m_text
+      value: Settings
       objectReference: {fileID: 0}
     - target: {fileID: 696623887132222950, guid: 143b8e370a6ebb941940e5b53c9c23c8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -14449,6 +14459,10 @@ PrefabInstance:
     - target: {fileID: 2608713220109902860, guid: 143b8e370a6ebb941940e5b53c9c23c8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.AudioClip, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2744211228604449665, guid: 143b8e370a6ebb941940e5b53c9c23c8, type: 3}
+      propertyPath: m_text
+      value: Restart
       objectReference: {fileID: 0}
     - target: {fileID: 2822013451659095360, guid: 143b8e370a6ebb941940e5b53c9c23c8, type: 3}
       propertyPath: m_AnchorMax.y
@@ -15197,6 +15211,10 @@ PrefabInstance:
     - target: {fileID: 8706773912460172796, guid: 143b8e370a6ebb941940e5b53c9c23c8, type: 3}
       propertyPath: m_Alpha
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9168111826754211769, guid: 143b8e370a6ebb941940e5b53c9c23c8, type: 3}
+      propertyPath: m_text
+      value: How to play ?
       objectReference: {fileID: 0}
     - target: {fileID: 9222872241151517165, guid: 143b8e370a6ebb941940e5b53c9c23c8, type: 3}
       propertyPath: m_Alpha

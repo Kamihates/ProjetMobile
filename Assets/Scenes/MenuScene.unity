@@ -1053,9 +1053,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Regroupe plusieurs \xE9l\xE9ments identiques en un bloc pour d\xE9clencher
-    une fusion et obtiens un domino \xE9volu\xE9 qui multiplie les d\xE9g\xE2ts une
-    fois plac\xE9 dans un combo du m\xEAme type."
+  m_text: Combine multiple identical elements into a single block to trigger a fusion
+    and obtain an upgraded domino, which multiplies damage when placed in a combo
+    of the same type.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1847,7 +1847,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Nouvelle partie
+  m_text: Play
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -3193,7 +3193,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Comment jouer?
+  m_text: How to play ?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -3988,7 +3988,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Maintiens l'\xE9cran au niveau de la grille pour acc\xE9l\xE9rer sa chute."
+  m_text: Hold on the screen to make it fall faster.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -4378,7 +4378,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Touchez pour commencer
+  m_text: Tap to start
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -4760,7 +4760,7 @@ MonoBehaviour:
     - sceneName: GameScene
       musicClip: {fileID: 8300000, guid: 877bafd7f92aaf74282fe2cb38acc420, type: 3}
     triggerSounds: []
-    titleScreenSound: {fileID: 8300000, guid: 6ba00fdfce9c221458f825ab3c5a5772, type: 3}
+    titleScreenSound: {fileID: 0}
     comboSound: {fileID: 0}
     dominoPlaced: {fileID: 8300000, guid: 19661e8cf9cf6714896bddbd340f7a3f, type: 3}
     dominoDash: {fileID: 0}
@@ -5251,7 +5251,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Si tu d\xE9passes la grille, c\u2019est Game Over."
+  m_text: "If a domino exceeds the top of the grid, it\u2019s Game Over."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -6438,7 +6438,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Comment jouer ?
+  m_text: How to play ?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -7161,7 +7161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72f1f9728f096544381ae223e2ea4d57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  _menuFadeDuration: 1
+  _menuFadeDuration: 0.3
   displayedSeconds: 2
   titlePanel: {fileID: 838238554}
   menuPanel: {fileID: 2057294353}
@@ -7487,7 +7487,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Tape l'\xE9cran au niveau de la grille pour faire pivoter ton domino."
+  m_text: Tap on the screen to rotate the domino.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -7941,8 +7941,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Assemble des \xE9l\xE9ments identiques pour cr\xE9er des combos et infliger
-    des d\xE9g\xE2ts \xE0 l\u2019ennemi."
+  m_text: Chain elemental types  to create powerful combos and attack the enemy.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8901,7 +8900,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Glisse ton domino horizontalement pour le d\xE9placer de droite \xE0 gauche."
+  m_text: Slide your finger horizontally to move the domino.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -9689,7 +9688,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Cr\xE9dits\n"
+  m_text: Credits
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -10289,8 +10288,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: " Vaincs le boss pour remporter la partie\u2026\n\n mais attention \xE0
-    ses manigances !"
+  m_text: "Defeat the boss to win the game\u2026 \n\nbut watch out for its tricks!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -10809,7 +10807,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Options
+  m_text: Settings
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
   m_sharedMaterial: {fileID: 825203095796120185, guid: 3e3a315dc57541045bb6ccceea388ab6, type: 2}
@@ -11026,7 +11024,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2057294352}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0

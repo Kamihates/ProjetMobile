@@ -39,7 +39,8 @@ public class GeneralVisualController : MonoBehaviour
 
         foreach (RegionPiece piece in allPieces)
         {
-            center += (Vector2)piece.transform.position;
+            if (piece != null)
+                center += (Vector2)piece.transform.position;
         }
 
         return center / allPieces.Count;
