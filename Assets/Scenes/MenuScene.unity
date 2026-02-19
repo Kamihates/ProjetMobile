@@ -5623,7 +5623,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 838238552}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -11821,7 +11821,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1559583563951990726, guid: 6ced3298cac81df44965ad24efd32b81, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -727.7039
+      value: -727.7056
       objectReference: {fileID: 0}
     - target: {fileID: 1584935755571303284, guid: 6ced3298cac81df44965ad24efd32b81, type: 3}
       propertyPath: m_AnchorMax.y
@@ -11957,7 +11957,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4094180441280873765, guid: 6ced3298cac81df44965ad24efd32b81, type: 3}
       propertyPath: m_Alpha
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4109043434669297226, guid: 6ced3298cac81df44965ad24efd32b81, type: 3}
       propertyPath: m_Name
