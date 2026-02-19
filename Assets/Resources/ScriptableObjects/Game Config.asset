@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc1b4c16884eeca4bbec0dfad7066a46, type: 3}
   m_Name: Game Config
   m_EditorClassIdentifier: Assembly-CSharp::GameConfig
-  roundsBeforeShop: 2
-  roundsBeforeBoss: 3
-  loopAfterBoss: 1
+  loopAfterBoss: 0
+  _noGravityMode: 0
+  fallPerCase: 0

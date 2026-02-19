@@ -20,6 +20,7 @@ public class DominoFusion : MonoBehaviour
     [SerializeField] private float _bonusBasique;
 
     private int _fusionCount = 0;
+    public int FusionCount => _fusionCount;
 
     private void Start()
     {
@@ -69,7 +70,7 @@ public class DominoFusion : MonoBehaviour
             if (_fusionCount == 1)
             {
                 // succes sur la premiere fusion "First ritual"
-                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQAA", 100.0f, (bool success) =>
+                PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_first_ritual, 100.0f, (bool success) =>
                 {
                     if (success)
                         Debug.Log("Succès débloqué !");
@@ -81,7 +82,7 @@ public class DominoFusion : MonoBehaviour
             if (_fusionCount >= 8 && !GameManager.Instance.IsInfiniteState)
             {
                 // succes sur 8 fusions "Ritual Master"
-                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQBg", 100.0f, (bool success) =>
+                PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_ritual_master, 100.0f, (bool success) =>
                 {
                     if (success)
                         Debug.Log("Succès débloqué !");
@@ -112,7 +113,7 @@ public class DominoFusion : MonoBehaviour
                 return _bonusFor8;
             case 9:
                 // succes "perfect ritual"
-                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQBQ", 100.0f, (bool success) =>
+                PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_perfect_ritual, 100.0f, (bool success) =>
                 {
                     if (success)
                         Debug.Log("Succès débloqué !");

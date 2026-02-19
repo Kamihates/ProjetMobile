@@ -20,7 +20,7 @@ public class DominoCombos : MonoBehaviour
     [SerializeField, Foldout("Debug"), ReadOnly] private List<Vector2Int> combosOfAdjacentR2;
 
     public Action<float> OnComboDamage;
-    public Action<List<Vector2Int>, float, float> OnComboChain;
+    public Action<List<Vector2Int>, float, float, bool, bool> OnComboChain;
     public Action<float, float, bool, bool> OnComboFinished;
 
     public Dictionary<RegionType, bool> _hascomboOf4 = new Dictionary<RegionType, bool>();
@@ -32,6 +32,10 @@ public class DominoCombos : MonoBehaviour
 
 
     private float _TotalDamageCounter = 0;
+    public float CurrentTotalDamage => _TotalDamageCounter;
+
+    private float _maxComboDamage = 0;
+    public float MaxComboDamage => _maxComboDamage;
 
     private void Start()
     {
@@ -63,6 +67,8 @@ public class DominoCombos : MonoBehaviour
         _hascomboOf4[RegionType.Wind] = false;
         _hascomboOf4[RegionType.Rock] = false;
         _hascomboOf4[RegionType.Water] = false;
+
+        _maxComboDamage = 0;
     }
 
 
@@ -79,7 +85,7 @@ public class DominoCombos : MonoBehaviour
         if (totalDamage >= 25)
         {
             // succes "Critical Spell"
-            PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQCQ", 100.0f, (bool success) =>
+            PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_critical_spell, 100.0f, (bool success) =>
             {
                 if (success)
                     Debug.Log("Succès débloqué !");
@@ -118,13 +124,13 @@ public class DominoCombos : MonoBehaviour
         {
             _TotalDamageCounter += totalDamage;
 
-
-            PlayerPrefs.SetFloat("MaxDamage", _TotalDamageCounter);
+            if (!PlayerPrefs.HasKey("MaxDamage") || PlayerPrefs.GetFloat("MaxDamage") < _TotalDamageCounter)
+                PlayerPrefs.SetFloat("MaxDamage", _TotalDamageCounter);
 
             if (_TotalDamageCounter >= 1000)
             {
                 // succes 1000 degats
-                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQBw", 100.0f, (bool success) =>
+                PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_unleashed_power, 100.0f, (bool success) =>
                 {
                     if (success)
                         Debug.Log("Succès débloqué !");
@@ -135,7 +141,7 @@ public class DominoCombos : MonoBehaviour
             if (_TotalDamageCounter >= 2000)
             {
                 // succes 2000 degats
-                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQCA", 100.0f, (bool success) =>
+                PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_arcane_cataclysm, 100.0f, (bool success) =>
                 {
                     if (success)
                         Debug.Log("Succès débloqué !");
@@ -215,7 +221,7 @@ public class DominoCombos : MonoBehaviour
             if (allTrue)
             {
                 // succes "Arcane Harmony"
-                PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQBA", 100.0f, (bool success) =>
+                PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_arcane_harmony, 100.0f, (bool success) =>
                 {
                     if (success)
                         Debug.Log("Succ�s d�bloqu� !");
@@ -223,15 +229,12 @@ public class DominoCombos : MonoBehaviour
                         Debug.Log("�chec du d�blocage du succ�s.");
                 });
             }
-
-
-
         }
 
         if (combosOfAdjacentDomino.Count >= 8 && !GameManager.Instance.IsInfiniteState)
         {
             // succes "major convergence"
-            PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQAw", 100.0f, (bool success) =>
+            PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_major_convergence, 100.0f, (bool success) =>
             {
                 if (success)
                     Debug.Log("Succ�s d�bloqu� !");
@@ -270,31 +273,28 @@ public class DominoCombos : MonoBehaviour
             comboDmg *= damagePerCombo / _reductionDivisor;
             isResistance = true;
 
-            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino), damagePerCombo / _reductionDivisor, ((t1Count / 2) * T1Multipicator));
+            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino), damagePerCombo / _reductionDivisor, ((t1Count / 2) * T1Multipicator), isWeakness, isResistance);
         }
         else if (_bossController.Weakness == regionPiece.Region.Type)
         {
             comboDmg *= damagePerCombo * _weaknessMultiplicator;
             isWeakness = true;
 
-            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino), damagePerCombo * _weaknessMultiplicator, ((t1Count / 2) * T1Multipicator));
+            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino), damagePerCombo * _weaknessMultiplicator, ((t1Count / 2) * T1Multipicator), isWeakness, isResistance);
         }
         else
         {
             comboDmg *= damagePerCombo;
-            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino), damagePerCombo, ((t1Count / 2) * T1Multipicator));
+            OnComboChain?.Invoke(new List<Vector2Int>(combosOfAdjacentDomino), damagePerCombo, ((t1Count / 2) * T1Multipicator), isWeakness, isResistance);
         }
-
-
-        
-
-
-
 
         if (comboDmg > 0)
             OnComboFinished?.Invoke(comboDmg, T1Multipicator, isWeakness, isResistance);
 
-        
+        if (comboDmg > _maxComboDamage)
+            _maxComboDamage = comboDmg;
+
+
         return (comboDmg);
     }
 
