@@ -1,11 +1,13 @@
 using NaughtyAttributes;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField, Foldout("Settings")] private float _menuFadeDuration = 1;
     [SerializeField, Foldout("Settings")] private float displayedSeconds = 2;
+    [SerializeField, Foldout("Settings")] private VideoPlayer player;
 
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup titlePanel;
     [SerializeField, Foldout("Panel"), Required] private CanvasGroup menuPanel;
@@ -46,6 +48,8 @@ public class UIManager : MonoBehaviour
         switch(gameState)
         {
             case GameState.TitleScreenState:
+                if (player != null)
+                    player.Play();
                 if (titlePanel == null)
                 {
                     Debug.LogWarning("Title Panel is not assigned in the inspector"); return;
