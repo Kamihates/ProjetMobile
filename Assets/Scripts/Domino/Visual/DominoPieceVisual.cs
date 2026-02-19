@@ -110,7 +110,6 @@ public class DominoPieceVisual : MonoBehaviour
 
     }
 
-
     public void UpdateVisual()
     {
         for (int r = 0; r < _piece.Data.Regions.Count; r++)
@@ -135,6 +134,7 @@ public class DominoPieceVisual : MonoBehaviour
         }
 
     }
+
     public Vector2 GetCenter()
     {
 
@@ -165,20 +165,29 @@ public class DominoPieceVisual : MonoBehaviour
         return _currentCenter;
     }
 
-
-    public bool MoveOnX()
+    public bool MoveOnX(Vector2 clickMousePos)
     {
+        if (GridManager.Instance == null) return false;
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 center = GetCenter();
 
-        if (GridManager.Instance == null) return false;
+
+        // 1) On calcule le vecteur de la position au click a la current pos
+        Vector2 mvt = mousePos - clickMousePos;
+
+        // 2) on le met la ou ya le domino
+        Vector2 newPos = center + mvt;
+
+
+
+
 
         // on bouge à droite
         if (mousePos.x > center.x + 0.3f)
         {
             // ca c'est plus proche du point de doite que la position on le met a droite
-            if (Mathf.Abs(mousePos.x - (center.x + GridManager.Instance.CellSize)) < Mathf.Abs(mousePos.x - center.x))
+            if (Mathf.Abs(newPos.x - (center.x + GridManager.Instance.CellSize)) < Mathf.Abs(newPos.x - center.x))
             {
                 float ClampedX = Mathf.Clamp(transform.position.x + GridManager.Instance.CellSize, GridManager.Instance.Origin.position.x, GridManager.Instance.Origin.position.x + (GridManager.Instance.CellSize * (GridManager.Instance.Column - 1)));
 
@@ -190,8 +199,17 @@ public class DominoPieceVisual : MonoBehaviour
                 // On vérifie si la position est bonne
                 Vector2 targetPos = new Vector2(ClampedX, transform.position.y);
 
-                if (IsPositionValid(targetPos))
+                // si le domino est dans la grille
+                if (GridManager.Instance.IsDominoInGrid(_piece, false))
+                {
+                    if (IsPositionValid(targetPos))
+                        transform.position = targetPos;
+                }
+                else
+                {
                     transform.position = targetPos;
+                }
+
 
 
 
@@ -202,7 +220,7 @@ public class DominoPieceVisual : MonoBehaviour
         else if (mousePos.x < center.x - 0.3f)
         {
             // ca c'est plus proche du point de doite que la position on le met a droite
-            if (Mathf.Abs(mousePos.x - (center.x - GridManager.Instance.CellSize)) < Mathf.Abs(mousePos.x - center.x))
+            if (Mathf.Abs(newPos.x - (center.x - GridManager.Instance.CellSize)) < Mathf.Abs(newPos.x - center.x))
             {
                 float ClampedX = Mathf.Clamp(transform.position.x - GridManager.Instance.CellSize, GridManager.Instance.Origin.position.x, GridManager.Instance.Origin.position.x + (GridManager.Instance.CellSize *( GridManager.Instance.Column - 1)));
 
@@ -214,9 +232,15 @@ public class DominoPieceVisual : MonoBehaviour
                 // On vérifie si la position est bonne
                 Vector2 targetPos = new Vector2(ClampedX, transform.position.y);
 
-                if (IsPositionValid(targetPos))
+                if (GridManager.Instance.IsDominoInGrid(_piece, false))
+                {
+                    if (IsPositionValid(targetPos))
+                        transform.position = targetPos;
+                }
+                else
+                {
                     transform.position = targetPos;
-
+                }
                 return true;
             }
         }
@@ -230,8 +254,8 @@ public class DominoPieceVisual : MonoBehaviour
         {
             if (GridManager.Instance.GetRegionAtIndex(GridManager.Instance.GetIndexFromPosition(position)) != null)
                 return false;
-            if (GridManager.Instance.DisableCells.ContainsKey(new Vector2Int(GridManager.Instance.GetIndexFromPosition(position).y, GridManager.Instance.GetIndexFromPosition(position).x)))
-                return false;
+            //if (GridManager.Instance.DisableCells.ContainsKey(new Vector2Int(GridManager.Instance.GetIndexFromPosition(position).y, GridManager.Instance.GetIndexFromPosition(position).x)))
+            //    return false;
         }
         if (_piece.transform.GetChild(1).gameObject.activeSelf)
         {
@@ -241,8 +265,8 @@ public class DominoPieceVisual : MonoBehaviour
             if (GridManager.Instance.GetRegionAtIndex(GridManager.Instance.GetIndexFromPosition(RegionPosSimulation)) != null)
                 return false;
 
-            if (GridManager.Instance.DisableCells.ContainsKey(new Vector2Int(GridManager.Instance.GetIndexFromPosition(RegionPosSimulation).y, GridManager.Instance.GetIndexFromPosition(RegionPosSimulation).x)))
-                return false;
+            //if (GridManager.Instance.DisableCells.ContainsKey(new Vector2Int(GridManager.Instance.GetIndexFromPosition(RegionPosSimulation).y, GridManager.Instance.GetIndexFromPosition(RegionPosSimulation).x)))
+            //    return false;
         }
 
         return true;
