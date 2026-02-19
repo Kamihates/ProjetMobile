@@ -1,6 +1,7 @@
 using GooglePlayGames;
 using NaughtyAttributes;
 using System;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,6 +31,8 @@ public class GameManager : MonoBehaviour
     public DominoPiece CurrentDomino { get => _currentDomino; set { _currentDomino = value; dominoMouvement.CurrentDomino = value; OnCurrentDominoChanged?.Invoke(); } }
 
     private DominoPiece _currentDomino;
+
+    public TextMeshProUGUI _testAchievement;
 
     //public Action OnGameLost; // action quand un domino est placé en haut de la grille
     //public Action OnWin;
@@ -65,6 +68,8 @@ public class GameManager : MonoBehaviour
         fallPerCaseToggle.SetInitialState(gameConfig.FallPerCase);
         noGravityToggle.SetInitialState(gameConfig.NoGravityMode);
 
+
+        
     }
 
     public void ChangeState(GameState newState)
@@ -89,13 +94,6 @@ public class GameManager : MonoBehaviour
         isBossRound = false;
         _isInInfiniteState = gameConfig.LoopAfterBoss;
 
-        PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_major_convergence, 100.0f, (bool success) =>
-        {
-            if (success)
-                Debug.Log("Succès débloqué !");
-            else
-                Debug.Log("échec du déblocage du succès.");
-        });
     }
 
     public void OnMobDefeated()
@@ -211,5 +209,39 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(1);
 
     }
+
+    public void ShowAchievements()
+    {
+        //PlayGamesPlatform.Instance.ShowAchievementsUI();
+        Debug.Log("AUTH BEFORE UI = " + PlayGamesPlatform.Instance.localUser.authenticated); 
+
+        if (PlayGamesPlatform.Instance.localUser.authenticated)
+            PlayGamesPlatform.Instance.ShowAchievementsUI(); 
+        else 
+            Debug.Log("Impossible d'afficher les succès : non authentifié.");
+    }
+
+    //public void Unlock()
+    //{
+    //    if (PlayGamesPlatform.Instance.localUser.authenticated)
+    //        _testAchievement.text = "authentifié / " + PlayGamesPlatform.Instance.localUser.userName;
+    //    else
+    //    {
+    //        _testAchievement.text = "pas authentifié / ";
+    //        PlayGamesPlatform.Instance.Authenticate(authSuccess => Debug.Log("authentification..."));
+    //    }
+
+
+    //    PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_unleashed_power, 100.0f, (bool success) =>
+    //    {
+    //        if (success)
+    //            Debug.Log("succès dévérouillé");
+    //        else
+    //            Debug.Log("échec du déblocage du succès.");
+
+    //        _testAchievement.text += success ? " Succès débloqué !" : " echec..";
+
+    //    });
+    //}
 
 }

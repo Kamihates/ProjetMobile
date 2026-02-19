@@ -85,7 +85,7 @@ public class DominoCombos : MonoBehaviour
         if (totalDamage >= 25)
         {
             // succes "Critical Spell"
-            PlayGamesPlatform.Instance.ReportProgress("CgkIjP3qhoIaEAIQCQ", 100.0f, (bool success) =>
+            PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_critical_spell, 100.0f, (bool success) =>
             {
                 if (success)
                     Debug.Log("Succès débloqué !");
