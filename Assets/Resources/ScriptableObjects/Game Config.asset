@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Game Config
   m_EditorClassIdentifier: Assembly-CSharp::GameConfig
   loopAfterBoss: 0
-  _noGravityMode: 0
+  _noGravityMode: 1
   fallPerCase: 0
+  skipTitleScreens: 0

@@ -36,8 +36,9 @@ public class DominoMovementController : MonoBehaviour
 
     private bool _startLongTap = false; // est ce que je suis en train de detecter un drag ?
     private float _LongTapChrono = 0;
-    private bool _isMoving = false;
+    //private bool _isMoving = false;
     private bool _isAccelerating = false;
+    private bool _hasDragged = false;
     
     [HorizontalLine(color: EColor.Blue)]
     [BoxGroup("Chute rapide"),SerializeField, Label("temps du hold en seconde pour activer la descente rapide")] private float _holdTapTime = 0.2f;
@@ -45,9 +46,14 @@ public class DominoMovementController : MonoBehaviour
     [BoxGroup("-- deplacement d'un domino --"), EnableIf("FallPerCase"), Header("temps entre chaque step en secondes")]
     public float FallingStepStoppingTime = 1f;
 
-
+    private Camera _cam;
+    private void Awake()
+    {
+        _cam = Camera.main;
+    }
 
     Vector2 _mousePos = Vector2.zero;
+    Vector2 _stoppingMousePos = Vector2.zero;
     private void Update()
     {
         if (_currentDomino == null) return;
@@ -57,8 +63,8 @@ public class DominoMovementController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
+            _mousePos = _cam.ScreenToWorldPoint(Input.mousePosition);
+            _stoppingMousePos = _mousePos;
             if (GridManager.Instance != null)
             {
                 if (GridManager.Instance.IsInGrid(new List<Vector2> { _mousePos }, false))
@@ -77,17 +83,18 @@ public class DominoMovementController : MonoBehaviour
 
 
             // si ma souris bouge, de deplace
-            if (Vector2.Distance(currentMousePos, _mousePos) > 0.03f && !_isAccelerating)
+            if (Vector2.Distance(currentMousePos, _stoppingMousePos) > 0.03f && !_isAccelerating)
             {
-                if (_currentDomino.Visual.MoveOnX())
+                _hasDragged = true;
+                if (_currentDomino.Visual.MoveOnX(_stoppingMousePos))
                 {
-                    _isMoving = true;
-                    return;
+                    _stoppingMousePos = currentMousePos;
+                    _LongTapChrono = 0;      
                 }
             }
-               
+
             // si le timer depasse, on applique le fall x2
-            if (_LongTapChrono >= _holdTapTime && !_isMoving)
+            if (_LongTapChrono >= _holdTapTime && !_hasDragged && !_isAccelerating)
             {
                 if (GameManager.Instance.NoGravityMode)
                 {
@@ -97,26 +104,26 @@ public class DominoMovementController : MonoBehaviour
                 _isAccelerating = true;
                 _LongTapChrono = 0;
                 AudioManager.Instance.PlaySFX(AudioManager.Instance.DataAudio.DominoDash);
+            }
 
-                return;
+            if (Input.GetMouseButtonUp(0))
+            {
+                // on rotate et desatcive le long tap
+                if (!_isAccelerating && !_hasDragged)
+                    _currentDomino.Visual.Rotate();
+
+                _isAccelerating = false;
+                _startLongTap = false;
+                _LongTapChrono = 0;
+                _hasDragged = false;
+
+                _currentDomino.FallController.Init(_fallingSpeed, _stepSpeed);
+                CurrentDomino.FallController.IsTapToFall = false;
             }
 
         }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            // on rotate et desatcive le long tap
-            if (!_isMoving && !_isAccelerating)
-                _currentDomino.Visual.Rotate();
-
-            _isAccelerating = false;
-            _startLongTap = false;
-            _LongTapChrono = 0;
-            _isMoving = false;
-
-            _currentDomino.FallController.Init(_fallingSpeed, _stepSpeed);
-            CurrentDomino.FallController.IsTapToFall = false;
-        }
+        
 
     }
 
