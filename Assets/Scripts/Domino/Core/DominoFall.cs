@@ -89,18 +89,21 @@ public class DominoFall : MonoBehaviour
 
         if (TEST_GD.Instance != null && (!GameManager.Instance.NoGravityMode || _isTapToFall))
         {
-            if (_gameConfig.FallPerCase) // déplacements case par case
-            {
-                FallPerCase();
-            }
-            else // déplacements fluides
-            {
+            //if (_gameConfig.FallPerCase) // déplacements case par case
+            //{
+            //    FallPerCase();
+            //}
+            //else // déplacements fluides
+            //{
                 Fall();
-            }
+            //}
         }
 
+
+        float distanceGap = 0.08f;
+
         // si on arrive a destination
-        if ((Vector2.Distance(targetPos, transform.position) < 0.01f) || transform.position.y < targetPos.y) // evite un depassement
+        if ((Vector2.Distance(targetPos, transform.position) < distanceGap) || transform.position.y < targetPos.y) // evite un depassement
         {
             
             // si la position finale depasse de la grille c'est game over
@@ -110,6 +113,7 @@ public class DominoFall : MonoBehaviour
 
             if (!GridManager.Instance.IsDominoInGrid(_piece, false))
             {
+                Debug.Log("perdu");
                 GameManager.Instance.GameLost();
                 return;
             }
