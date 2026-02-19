@@ -32,7 +32,8 @@ public class AudioData
     [Foldout("Sons de triggers"), SerializeField] private List<TriggerSound> triggerSounds = new();
     public List<TriggerSound> TriggerSounds => triggerSounds;
 
-    [Header("Autres sons"), HorizontalLine(color:EColor.Blue)]
+    [Header("Autres sons"), HorizontalLine(color: EColor.Blue)]
+    [SerializeField] private AudioClip titleScreenSound;
     [SerializeField] private AudioClip comboSound;
     [SerializeField] private AudioClip dominoPlaced;
     [SerializeField] private AudioClip dominoDash;
@@ -42,7 +43,7 @@ public class AudioData
     [SerializeField] private AudioClip windFusion;
 
     #region Propriétes
-
+    public AudioClip TitleScreenSound => titleScreenSound;
     public AudioClip ComboSound => comboSound;
     public AudioClip DominoPlaced => dominoPlaced;
     public AudioClip DominoDash => dominoDash;

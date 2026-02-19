@@ -49,6 +49,7 @@ public class UIManager : MonoBehaviour
                 {
                     Debug.LogWarning("Title Panel is not assigned in the inspector"); return;
                 }
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.DataAudio.TitleScreenSound);
                 OpenMenu(titlePanel);
                 break;
             case GameState.MenuState:
