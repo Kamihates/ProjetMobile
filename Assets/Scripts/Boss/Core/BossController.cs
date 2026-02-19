@@ -12,12 +12,10 @@ public class BossController : MonoBehaviour
     [SerializeField] private float _minTimerBetweenEffects = 30f;
     [SerializeField] private float _maxTimerBetweenEffects = 120f;
 
-
     [SerializeField] private Sprite _windIcon;
     [SerializeField] private Sprite _earthIcon;
     [SerializeField] private Sprite _fireIcon;
     [SerializeField] private Sprite _waterIcon;
-
 
     [SerializeField] private Image _weaknessIcon;
     [SerializeField] private Image _resistanceIcon;
