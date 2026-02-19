@@ -4,7 +4,7 @@ public abstract class BossEffect : MonoBehaviour
 {
 
     protected bool _isActive = false;
-    [SerializeField] protected MonsterVisualControlller _visualController;
+
     public virtual void Activate()
     {
         _isActive = true;

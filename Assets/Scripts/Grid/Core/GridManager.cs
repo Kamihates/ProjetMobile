@@ -185,7 +185,6 @@ public class GridManager : MonoBehaviour
 
         domino.FallController.LastIndex = GetIndexFromPosition(domino.transform.GetChild(0).position);
 
-        AudioManager.Instance.PlaySFX(AudioManager.Instance.DataAudio.DominoPlaced);
     }
 
     /// <summary>

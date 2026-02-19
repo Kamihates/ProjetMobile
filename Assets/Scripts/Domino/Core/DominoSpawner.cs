@@ -18,8 +18,7 @@ public class DominoSpawner : MonoBehaviour
 
     [Header("Base Data")]
     [SerializeField] private CombinaisonData dominoData; 
-    [SerializeField] private DeckManager deckManager;
-    [SerializeField] private float _dominoCountY;
+    [SerializeField] private DeckManager deckManager; 
 
 
     private DominoPiece _currentDomino;
@@ -94,7 +93,7 @@ public class DominoSpawner : MonoBehaviour
         //int cell = GridManager.Instance.Column - 1;
 
         // on recupere sa position
-        Vector2 spawnPos = new Vector2(GridManager.Instance.Origin.position.x + ((cell - 1) * GridManager.Instance.CellSize), GridManager.Instance.Origin.position.y + (GridManager.Instance.CellSize * _dominoCountY));
+        Vector2 spawnPos = new Vector2(GridManager.Instance.Origin.position.x + ((cell - 1) * GridManager.Instance.CellSize), GridManager.Instance.Origin.position.y + (GridManager.Instance.CellSize * 2f));
         return spawnPos;
     }
     

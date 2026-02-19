@@ -1,4 +1,4 @@
-Ôªøusing System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -73,12 +73,12 @@ public class DominoCombosPopup : MonoBehaviour
 
     #region Affichage des combos en chaine
 
-    private void StartComboChain(List<Vector2Int> regions, float value, float t1Multiplicator, bool weakness, bool resistance)
+    private void StartComboChain(List<Vector2Int> regions, float value, float t1Multiplicator)
     {
-        StartCoroutine(ComboChainCoroutine(regions, value, t1Multiplicator, weakness, resistance));
+        StartCoroutine(ComboChainCoroutine(regions, value, t1Multiplicator));
     }
 
-    private IEnumerator ComboChainCoroutine(List<Vector2Int> regions, float value, float t1Multiplicator, bool weakness, bool resistance)
+    private IEnumerator ComboChainCoroutine(List<Vector2Int> regions, float value, float t1Multiplicator)
     {
         
         foreach (Vector2Int Index in regions)
@@ -86,21 +86,11 @@ public class DominoCombosPopup : MonoBehaviour
             CanvasGroup popupCG = GetPopupFromQueue();
             popupCG.transform.position = GridManager.Instance.GetCellPositionAtIndex(Index);
 
+            
 
-            if (weakness)
-            {
-                StartCoroutine(popupCG.gameObject.GetComponent<DominoCombosPopupSelfFade>().StartPopupFade(this, /*selfFadePopUp,*/"- " + value.ToString()));
-            }
-            else if (resistance)
-            {
-                StartCoroutine(popupCG.gameObject.GetComponent<DominoCombosPopupSelfFade>().StartPopupFade(this, /*selfFadePopUp,*/"- " + value.ToString()));
-            }
-            else
-            {
-                StartCoroutine(popupCG.gameObject.GetComponent<DominoCombosPopupSelfFade>().StartPopupFade(this, /*selfFadePopUp,*/"- " + value.ToString()));
-            }
+            StartCoroutine(popupCG.gameObject.GetComponent<DominoCombosPopupSelfFade>().StartPopupFade(this, /*selfFadePopUp,*/ value.ToString()));
 
-           yield return new WaitForSeconds(popupDelay);
+            yield return new WaitForSeconds(popupDelay);
         }
 
         if (t1Multiplicator > 0)
@@ -128,19 +118,19 @@ public class DominoCombosPopup : MonoBehaviour
     {
         StartCoroutine(DisplayForXSecondsTotalDamage(totalDamage, T1Multiplier));
 
-        //if (weakness)
-        //{
-        //    ShowWeaknessAndResistance(true);
-        //}
-        //else if (resistance)
-        //{
-        //    ShowWeaknessAndResistance(false);
-        //}
+        if (weakness)
+        {
+            ShowWeaknessAndResistance(true);
+        }
+        else if (resistance)
+        {
+            ShowWeaknessAndResistance(false);
+        }
     }
 
     #endregion
 
-    #region Affichage des d√©gats totaux
+    #region Affichage des dÈgats totaux
 
     private IEnumerator DisplayForXSecondsTotalDamage(float totalDamage, float T1Multiplier)
     {
@@ -151,19 +141,19 @@ public class DominoCombosPopup : MonoBehaviour
             yield return new WaitForSeconds(1f); 
         }
 
-        totalDamageText.text = $"-{(int)totalDamage}"; // On affiche le total de d√©g√¢ts du combo
+        totalDamageText.text = $"-{(int)totalDamage}"; // On affiche le total de dÈg‚ts du combo
         yield return UIAnimations.Instance.DisplayForXSeconds(totalDamageDisplayedSecond, popupFadeDuration, totalDamageCG);
-        totalDamageText.text = ""; // On reset le text une fois le total de d√©g√¢ts affich√©
+        totalDamageText.text = ""; // On reset le text une fois le total de dÈg‚ts affichÈ
     }
 
     #endregion
 
     #region Affichage Resistance ou faiblesse
 
-    //private void ShowWeaknessAndResistance(bool isweakness)
-    //{
-    //    StartCoroutine(UIAnimations.Instance.DisplayForXSeconds(2, 0.1f, isweakness ? weaknessTxt : resistanceTxt));
-    //}
+    private void ShowWeaknessAndResistance(bool isweakness)
+    {
+        StartCoroutine(UIAnimations.Instance.DisplayForXSeconds(2, 0.1f, isweakness ? weaknessTxt : resistanceTxt));
+    }
 
 
 

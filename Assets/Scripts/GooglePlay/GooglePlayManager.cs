@@ -7,8 +7,6 @@ public class GooglePlayManager : MonoBehaviour
     {
         PlayGamesPlatform.Activate();
         PlayGamesPlatform.Instance.localUser.Authenticate(ProcessAuthentication);
-
-        //Social.localUser.Authenticate(success => { Debug.Log("AUTH = " + success); });
     }
 
     void ProcessAuthentication(bool success)

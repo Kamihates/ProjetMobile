@@ -10,6 +10,14 @@ public class TEST_GD : MonoBehaviour
     [SerializeField] private DominoMovementController dominoMvtController;
     [BoxGroup("Références de scripts (ne pas retirer)")]
     [SerializeField] private DominoSpawner spawner;
+
+    [HorizontalLine(color: EColor.Blue)]
+    [BoxGroup("-- deplacement d'un domino --")]
+    [Header("Activer la tombée case par case")]
+    public bool FallPerCase;
+    [BoxGroup("-- deplacement d'un domino --"), EnableIf("FallPerCase"), Header("temps entre chaque step en secondes")]
+    public float FallingStepStoppingTime = 1f;
+
     
     [Button]
     private void RespawnUnAutreDomino() 

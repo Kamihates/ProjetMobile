@@ -7,7 +7,7 @@ public class MonsterHealth : MonoBehaviour
 {
     [Header("Health"), SerializeField] private float maxHealth = 100;
     [SerializeField, Foldout("Debug"), ReadOnly] private float currentHealth;
-    [SerializeField] private MonsterVisualControlller _visualController;
+
     [SerializeField] private DominoCombos dominoCombos;
 
     private float _chrono = 0;
@@ -20,13 +20,11 @@ public class MonsterHealth : MonoBehaviour
     private void Awake()
     {
         currentHealth = maxHealth;
-        
+        OnHealthUpdate?.Invoke(currentHealth, maxHealth);
     }
 
     private void Start()
     {
-        OnHealthUpdate?.Invoke(currentHealth, maxHealth);
-
         if (dominoCombos != null)
         {
             dominoCombos.OnComboDamage += TakeDamage;
@@ -47,18 +45,6 @@ public class MonsterHealth : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (damage <= 0) return;
-
-        if (GameManager.Instance.IsInfiniteState)
-        {
-            _visualController.AddScore(damage);
-            return;
-        }
-
-
-        StartCoroutine(_visualController.TakeVisualDamage());
-
-
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
         OnHealthUpdate?.Invoke(currentHealth, maxHealth);
 

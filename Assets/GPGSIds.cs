@@ -28,7 +28,6 @@ public static class GPGSIds
         public const string achievement_crushing_victory = "CgkIjP3qhoIaEAIQAQ"; // <GPGSID>
         public const string achievement_arcane_harmony = "CgkIjP3qhoIaEAIQBA"; // <GPGSID>
         public const string achievement_arcane_cataclysm = "CgkIjP3qhoIaEAIQCA"; // <GPGSID>
-        public const string achievement_critical_spell = "CgkIjP3qhoIaEAIQCQ"; // <GPGSID>
         public const string achievement_perfect_ritual = "CgkIjP3qhoIaEAIQBQ"; // <GPGSID>
         public const string achievement_first_ritual = "CgkIjP3qhoIaEAIQAA"; // <GPGSID>
         public const string achievement_ritual_master = "CgkIjP3qhoIaEAIQBg"; // <GPGSID>

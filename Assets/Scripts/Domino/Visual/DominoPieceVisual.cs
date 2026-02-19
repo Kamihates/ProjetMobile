@@ -164,15 +164,13 @@ public class DominoPieceVisual : MonoBehaviour
         }
         return _currentCenter;
     }
-
-
-    public bool MoveOnX()
+    public void MoveOnX()
     {
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 center = GetCenter();
 
-        if (GridManager.Instance == null) return false;
+        if (GridManager.Instance == null) return;
 
         // on bouge à droite
         if (mousePos.x > center.x + 0.3f)
@@ -195,7 +193,7 @@ public class DominoPieceVisual : MonoBehaviour
 
 
 
-                return true;
+                return;
             }
         }
         // on bouge à gauche
@@ -217,11 +215,9 @@ public class DominoPieceVisual : MonoBehaviour
                 if (IsPositionValid(targetPos))
                     transform.position = targetPos;
 
-                return true;
+                return;
             }
         }
-
-        return false;
     }
 
     private bool IsPositionValid(Vector2 position)

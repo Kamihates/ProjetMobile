@@ -14,18 +14,10 @@ public class DominoHandVisual : MonoBehaviour
     private List<DominoPiece> dominoInHandVisual = new();
     public List<DominoPiece> DominoInHandVisual => dominoInHandVisual;
 
-
-    private void Start()
-    {
-        handVisualParent.position = transform.position;
-    }
-
-
-
     public void SpawnDominoHandVisual(int uid, int index)
     {
         GameObject dominoGO = Instantiate(dominoPrefab, handVisualParent);
-        
+
         
         //dominoGO.transform.localPosition = new Vector2(index * spaceWithinDomino, 0f);
         dominoGO.transform.localPosition = new Vector2(index * - spaceWithinDomino, 0f);

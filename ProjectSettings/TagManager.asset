@@ -41,14 +41,8 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Monster
-    uniqueID: 3550992735
-    locked: 0
   - name: UI
     uniqueID: 3895902271
-    locked: 0
-  - name: UIOverlay
-    uniqueID: 279388787
     locked: 0
   m_RenderingLayers:
   - Default
