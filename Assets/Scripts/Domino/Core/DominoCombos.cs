@@ -80,6 +80,9 @@ public class DominoCombos : MonoBehaviour
         float comboDamages = CheckForCombos(piece);
         float fusionBonusDamage = dominoFusion.CheckForFusion(piece);
 
+        if(fusionBonusDamage <= 0)
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.DataAudio.DominoPlaced);
+
         float totalDamage = comboDamages + fusionBonusDamage;
 
         if (totalDamage >= 25)

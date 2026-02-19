@@ -6,19 +6,74 @@ using UnityEngine;
 using System.Collections;
 using NaughtyAttributes;
 
+[System.Serializable]
+public class VolumeControl
+{
+    [SerializeField, Foldout("AudioMixer")] private string exposedParameter;
+    [SerializeField, Foldout("AudioMixer")] private AudioMixerGroup mixerGroup;
+    [SerializeField, Foldout("AudioMixer")] private Slider slider;
+    [SerializeField, Foldout("Mute icon")] private Image icon;
+    [SerializeField, Foldout("Mute icon")] private Sprite onVolumeSprite;
+    [SerializeField, Foldout("Mute icon")] private Sprite offVolumeSprite;
+
+    [SerializeField, Foldout("Debug"), ReadOnly] private float lastVolume = 1f;
+    [SerializeField, Foldout("Debug"), ReadOnly] private bool isMuted = false;
+
+    public bool IsMuted => isMuted;
+    public float LastVolume => lastVolume;
+
+    public string ExposedParameter => exposedParameter;
+    public AudioMixerGroup MixerGroup => mixerGroup;
+
+    public void SetVolume(float value)
+    { 
+        lastVolume = value;
+
+        if(value <= 0f)
+        {
+            mixerGroup.audioMixer.SetFloat(exposedParameter, -80f);
+            isMuted = true;
+
+            if(icon != null) icon.sprite = offVolumeSprite;
+        }
+        else
+        {
+            mixerGroup.audioMixer.SetFloat(exposedParameter, Mathf.Log10(value) * 20);
+            isMuted = false;
+
+            if(icon != null)
+                icon.sprite = onVolumeSprite;
+        }    
+
+        if(slider != null)
+            slider.value = value;
+        PlayerPrefs.SetFloat(exposedParameter, value);
+    }
+
+    public void ToggleMute()
+    {
+        if(isMuted)
+            SetVolume(lastVolume);
+        else
+        {
+            lastVolume = slider != null ? slider.value : lastVolume;
+            mixerGroup.audioMixer.SetFloat(exposedParameter, -80f);
+            isMuted = true;
+            if (icon != null) icon.sprite = offVolumeSprite;
+            if (slider != null) slider.value = 0f;
+        }
+    }
+}
+
 public class AudioManager : MonoBehaviour
 {
     // Singleton pour pouvoir accéder à l'AudioManager depuis n'importe où
     public static AudioManager Instance;
 
-    [SerializeField, Foldout("Mixing Group")] private AudioMixerGroup masterMixer; // Groupe pour la musique
-    [SerializeField, Foldout("Mixing Group")] private AudioMixerGroup musicMixer; // Groupe pour la musique
-    [SerializeField, Foldout("Mixing Group")] private AudioMixerGroup sfxMixer; // Groupe pour les effets sonores
-
     [SerializeField, Foldout("Setting"), Range(0f, 1f)] private float defaultVolume = 0.5f;
-    [SerializeField, Foldout("Silder")] private Slider masterSlider;
-    [SerializeField, Foldout("Silder")] private Slider musicSlider;
-    [SerializeField, Foldout("Silder")] private Slider sfxSlider;
+    [SerializeField, Foldout("Silder")] private VolumeControl masterSlider;
+    [SerializeField, Foldout("Silder")] private VolumeControl musicSlider;
+    [SerializeField, Foldout("Silder")] private VolumeControl sfxSlider;
 
     [SerializeField] private AudioData audioData;
     public AudioData DataAudio => audioData;
@@ -48,36 +103,28 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        float savedMaster = PlayerPrefs.GetFloat("MasterVolume", defaultVolume);
-        float savedMusic = PlayerPrefs.GetFloat("MusicVolume", defaultVolume);
-        float savedSFX = PlayerPrefs.GetFloat("SFXVolume", defaultVolume);
-
-        SetMasterVolume(savedMaster);
-        SetMusicVolume(savedMusic);
-        SetSFXVolume(savedSFX);
-
-        masterSlider.value = savedMaster;
-        musicSlider.value = savedMusic;
-        sfxSlider.value = savedSFX;
+        masterSlider.SetVolume(PlayerPrefs.GetFloat(masterSlider.ExposedParameter, defaultVolume));
+        musicSlider.SetVolume(PlayerPrefs.GetFloat(musicSlider.ExposedParameter, defaultVolume));
+        sfxSlider.SetVolume(PlayerPrefs.GetFloat(sfxSlider.ExposedParameter, defaultVolume));
     }
 
     // Méthode pour initialiser les sources audio
     private void InitSources()
     {
         musicSource = gameObject.AddComponent<AudioSource>();
-        musicSource.outputAudioMixerGroup = musicMixer;
+        musicSource.outputAudioMixerGroup = musicSlider.MixerGroup;
         musicSource.loop = true; // Boucle la musique
         musicSource.playOnAwake = false; // Ne pas jouer la musique dès l'initialisation
 
         sfxSource = gameObject.AddComponent<AudioSource>();
-        sfxSource.outputAudioMixerGroup = sfxMixer;
+        sfxSource.outputAudioMixerGroup = sfxSlider.MixerGroup;
         sfxSource.playOnAwake = false;
     }
 
     // Méthode appelée à chaque chargement de scène
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        var music = audioData.GetSceneMusic(scene.name);
+        AudioClip music = audioData.GetSceneMusic(scene.name);
         if (music != null)
             PlayMusic(music); // Jouer la musique définie pour la scène
         else
@@ -106,7 +153,7 @@ public class AudioManager : MonoBehaviour
         PlayMusic(tempClip);
 
         // Revenir à la musique précédente après le délai
-        Instance.StartCoroutine(BackToPreviousMusic(duration));
+        StartCoroutine(BackToPreviousMusic(duration));
     }
 
     private IEnumerator BackToPreviousMusic(float delay)
@@ -131,31 +178,22 @@ public class AudioManager : MonoBehaviour
     {
         if (playedSounds.Contains(uniqueId)) return;
 
-        var clip = audioData.GetTriggerSound(objectName);
+        AudioClip clip = audioData.GetTriggerSound(objectName);
         if (clip != null)
         {
             sfxSource.PlayOneShot(clip);
             playedSounds.Add(uniqueId);
         }
     }
+    
+    public void OnMasterSliderUpdated(float value) => masterSlider.SetVolume(value);
+    public void OnMusicSliderUpdated(float value) => musicSlider.SetVolume(value);
+    public void OnSFXSliderUpdated(float value) => sfxSlider.SetVolume(value);
 
-    public void SetMasterVolume(float volume)
-    {
-        masterMixer.audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20);
-        PlayerPrefs.SetFloat("MasterVolume", volume);
-    }
+    public void OnMasterMuteClicked() => masterSlider.ToggleMute();
+    public void OnMusicMuteClicked() => musicSlider.ToggleMute();
+    public void OnSFXMuteClicked() => sfxSlider.ToggleMute();
 
-    public void SetMusicVolume(float volume)
-    {
-        musicMixer.audioMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20);
-        PlayerPrefs.SetFloat("MusicVolume", volume);
-    }
-
-    public void SetSFXVolume(float volume)
-    {
-        sfxMixer.audioMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
-        PlayerPrefs.SetFloat("SFXVolume", volume);
-    }
     // Cleanup appelé si une instance est détruite
     private void OnDestroy()
     {
