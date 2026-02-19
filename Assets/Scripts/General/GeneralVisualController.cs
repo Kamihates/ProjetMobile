@@ -45,7 +45,7 @@ public class GeneralVisualController : MonoBehaviour
         return center / allPieces.Count;
     }
 
-    public Vector2 GetCenterPosition(List<Vector2Int> allPieces)
+    public Vector2 GetCenterPositionFromPos(List<Vector2Int> allPieces)
     {
         List<RegionPiece> pieces = new List<RegionPiece>();
 

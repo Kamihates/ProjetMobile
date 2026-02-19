@@ -127,7 +127,7 @@ public class GridManager : MonoBehaviour
         return IsInGrid(new List<Vector2> { TL, TR, BL, BR }, ignoreTop);
     }
 
-    public bool IsInGrid(List<Vector2> positions, bool ignoreTop = true)
+    public bool IsInGrid(List<Vector2> positions, bool ignoreTop = true, bool forcontrl = false)
     {
         // limites de la grille
         float bottomMax = (_gridOrigin.position.y + _cellSize / 2) - (_row * _cellSize);
@@ -143,7 +143,21 @@ public class GridManager : MonoBehaviour
             if (p.x < LeftMax - gap) return false;
             if (p.y < bottomMax - gap) return false;
             if (!ignoreTop)
-                if (p.y > TopMax + gap) return false;
+            {
+                if (forcontrl) // si c'est pour les controles
+                {
+                    if (p.y > TopMax + GridManager.Instance.CellSize * 3) return false;
+                }
+                else
+                {
+
+                    if (p.y > TopMax + gap) return false;
+                    
+                }
+
+            }
+            
+
         }
 
         return true;

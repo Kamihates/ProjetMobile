@@ -107,7 +107,7 @@ public class DominoCombosPopup : MonoBehaviour
         {
             yield return new WaitForSeconds(0.3f);
 
-            Vector2 targetPos = GeneralVisualController.Instance.GetCenterPosition(regions);
+            Vector2 targetPos = GeneralVisualController.Instance.GetCenterPositionFromPos(regions);
             CanvasGroup popupTotal = GetPopupFromQueue();
 
             popupTotal.transform.position = targetPos;

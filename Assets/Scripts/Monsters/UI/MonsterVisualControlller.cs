@@ -62,7 +62,7 @@ public class MonsterVisualControlller : MonoBehaviour
             _time += Time.deltaTime;
             float t = _time / _duration;
 
-            _Score.fontSize = Mathf.Lerp(currentSize, currentSize + 50, Mathf.Sin(t)); 
+            _Score.fontSize = Mathf.Lerp(currentSize, currentSize + 50, Mathf.Sin(t * Mathf.PI)); 
 
             yield return null;
         }

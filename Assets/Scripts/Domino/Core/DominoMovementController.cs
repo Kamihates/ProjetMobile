@@ -67,7 +67,7 @@ public class DominoMovementController : MonoBehaviour
             _stoppingMousePos = _mousePos;
             if (GridManager.Instance != null)
             {
-                if (GridManager.Instance.IsInGrid(new List<Vector2> { _mousePos }, false))
+                if (GridManager.Instance.IsInGrid(new List<Vector2> { _mousePos }, false, true))
                 {
                     // est ce que je maintient ? 
                     _startLongTap = true;
