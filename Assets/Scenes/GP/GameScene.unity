@@ -3106,7 +3106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca66a6ec6f13c2c4495903a0465bac64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterHealth
-  maxHealth: 10
+  maxHealth: 850
   currentHealth: 0
   _visualController: {fileID: 707640565}
   dominoCombos: {fileID: 2001327692}
